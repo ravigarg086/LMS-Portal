@@ -23,7 +23,7 @@ function CoursesNavDropdown({ onNavigate }) {
       onMouseLeave={closeMenus}
     >
       <a
-        className="nav-link dropdown-toggle home-nav__link"
+        className="nav-link dropdown-toggle"
         href={`#${SECTION_IDS.course}`}
         role="button"
         aria-expanded={coursesOpen}
@@ -37,9 +37,7 @@ function CoursesNavDropdown({ onNavigate }) {
       </a>
 
       <ul
-        className={`dropdown-menu courses-nav-dropdown__menu glass-strong ${
-          coursesOpen ? 'show' : ''
-        }`}
+        className={`dropdown-menu shadow-sm ${coursesOpen ? 'show' : ''}`}
         aria-labelledby="coursesNavDropdown"
       >
         {courseStackKeys.map((stack) => (
@@ -50,7 +48,7 @@ function CoursesNavDropdown({ onNavigate }) {
             onMouseLeave={() => setActiveStack(null)}
           >
             <a
-              className="dropdown-item dropdown-toggle courses-nav-dropdown__stack"
+              className="dropdown-item dropdown-toggle"
               href={`#${SECTION_IDS.course}?stack=${stack.toLowerCase()}`}
               role="button"
               aria-expanded={activeStack === stack}
@@ -59,11 +57,7 @@ function CoursesNavDropdown({ onNavigate }) {
               {stack}
             </a>
 
-            <ul
-              className={`dropdown-menu courses-nav-dropdown__submenu glass-strong ${
-                activeStack === stack ? 'show' : ''
-              }`}
-            >
+            <ul className={`dropdown-menu shadow-sm ${activeStack === stack ? 'show' : ''}`}>
               {courseStacks[stack].map((course) => (
                 <li key={course.label}>
                   <a className="dropdown-item" href={course.href} onClick={handleLinkClick}>

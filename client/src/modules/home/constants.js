@@ -1,12 +1,11 @@
-export const SITE_NAME = 'Eduhive';
-export const SITE_TAGLINE = 'Premium LMS';
+export const SITE_NAME = 'LMS Portal';
+export const SITE_TAGLINE = 'Learn without limits';
 
-export const SIDEBAR_ID = 'eduhiveSidebar';
+export const NAVBAR_COLLAPSE_ID = 'homeNavbarCollapse';
 export const POPULAR_COURSES_CAROUSEL_ID = 'popularCoursesCarousel';
 
 export const SECTION_IDS = {
   home: 'home',
-  features: 'features',
   popularCourses: 'popular-courses',
   course: 'course',
   registration: 'registration',
@@ -15,7 +14,4 @@ export const SECTION_IDS = {
   subscription: 'subscription',
   signIn: 'sign-in',
   testimonials: 'testimonials',
-  assignment: 'assignment',
-  progress: 'progress',
-  calendar: 'calendar',
 };
