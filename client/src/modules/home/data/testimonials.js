@@ -2,7 +2,7 @@ export const testimonials = [
   {
     id: 't1',
     quote:
-      'The LMS portal made our faculty onboarding effortless. Progress tracking feels clear and intuitive.',
+      'The atmospheric dashboard made our faculty onboarding effortless. Progress tracking feels premium and intuitive.',
     name: 'Priya Sharma',
     handle: '@priya.teaches',
     initials: 'PS',
@@ -18,7 +18,7 @@ export const testimonials = [
   {
     id: 't3',
     quote:
-      'DevOps modules plus structured lessons gave us enterprise confidence. The responsive layout works great on mobile.',
+      'DevOps modules plus live analytics gave us enterprise confidence. The glass UI is a standout for stakeholders.',
     name: 'Elena Rodriguez',
     handle: '@elena.cloud',
     initials: 'ER',
