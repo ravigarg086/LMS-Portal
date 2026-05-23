@@ -154,14 +154,6 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
               Dark
             </button>
           </div>
-          <a
-            href={`#${SECTION_IDS.signIn}`}
-            className="sidebar-logout"
-            onClick={(event) => handleNav(event, `#${SECTION_IDS.signIn}`)}
-          >
-            <LucideIcon name="log-out" size={18} />
-            Sign In
-          </a>
         </div>
       </aside>
     </>
