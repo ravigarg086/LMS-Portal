@@ -5,6 +5,7 @@ export const POPULAR_COURSES_CAROUSEL_ID = 'popularCoursesCarousel';
 
 export const SECTION_IDS = {
   home: 'home',
+  features: 'features',
   popularCourses: 'popular-courses',
   course: 'course',
   registration: 'registration',
@@ -12,4 +13,5 @@ export const SECTION_IDS = {
   externalData: 'external-data',
   subscription: 'subscription',
   signIn: 'sign-in',
+  testimonials: 'testimonials',
 };

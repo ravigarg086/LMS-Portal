@@ -4,29 +4,21 @@ function CourseCardPlaceholder({ course }) {
   return (
     <article
       id={`course-card-${course.id}`}
-      className="card h-100 shadow-sm popular-course-card"
+      className="popular-course-card glass-soft h-100 w-100"
       data-track={course.id}
       aria-labelledby={titleId}
     >
-      <div
-        className="card-img-top popular-course-card__thumb bg-light d-flex align-items-center justify-content-center"
-        aria-hidden="true"
-      >
-        <span className="badge text-bg-primary">{course.id}</span>
+      <div className="popular-course-card__thumb" aria-hidden="true">
+        <span className="popular-course-card__id font-display">{course.id}</span>
       </div>
 
-      <div className="card-body d-flex flex-column">
-        <span className="badge text-bg-secondary align-self-start mb-2">{course.category}</span>
-        <h3 id={titleId} className="card-title h5 mb-2">
+      <div className="popular-course-card__body">
+        <span className="popular-course-card__category font-display">{course.category}</span>
+        <h3 id={titleId} className="popular-course-card__title font-serif">
           {course.title}
         </h3>
-        <p className="card-text text-muted flex-grow-1">{course.description}</p>
-        <p className="card-text mb-3">
-          <small className="text-muted">{course.duration}</small>
-        </p>
-        <button type="button" className="btn btn-outline-primary mt-auto" disabled aria-disabled="true">
-          View Course
-        </button>
+        <p className="popular-course-card__desc font-body">{course.description}</p>
+        <p className="popular-course-card__meta font-body">{course.duration}</p>
       </div>
     </article>
   );
