@@ -41,6 +41,7 @@ function DashboardContent() {
       />
 
       <div className="eduhive-main">
+        <span id={SECTION_IDS.home} className="dashboard-top-anchor" aria-hidden="true" />
         <div className="eduhive-main__glow" aria-hidden="true" />
 
         <DashboardHeader
@@ -49,7 +50,7 @@ function DashboardContent() {
         />
 
         <main id="main-content" tabIndex={-1}>
-          <div id={SECTION_IDS.home} className="dashboard-grid">
+          <div className="dashboard-grid">
             <section
               id={SECTION_IDS.assignment}
               className="dashboard-grid__featured"

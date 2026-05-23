@@ -3,6 +3,7 @@ import { courseStackKeys, courseStacks } from '../data/courseStacks';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
 import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS } from '../constants';
 import LucideIcon from './LucideIcon';
+import { handleSectionNavClick } from '../utils/scrollToSection';
 
 const COMING_SOON_NAV_IDS = new Set(['registration', 'external-data', 'subscription', 'settings']);
 
@@ -10,13 +11,18 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
   const isActive = activeId === item.id;
   const comingSoonTitle = COMING_SOON_NAV_IDS.has(item.id) ? 'Coming soon' : undefined;
 
+  const handleClick = (event, href = item.href) => {
+    handleSectionNavClick(event, href);
+    onNavigate?.();
+  };
+
   if (item.hasSubmenu) {
     return (
       <li className="sidebar-nav__group">
         <a
           href={item.href}
           className={`sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`}
-          onClick={onNavigate}
+          onClick={handleClick}
           aria-current={isActive ? 'page' : undefined}
         >
           <LucideIcon name={item.icon} size={20} />
@@ -32,7 +38,7 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
                     <a
                       href={course.href}
                       className="sidebar-nav__course-link"
-                      onClick={onNavigate}
+                      onClick={(event) => handleClick(event, course.href)}
                       title={course.title}
                     >
                       {course.label}
@@ -52,7 +58,7 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
       <a
         href={item.href}
         className={`sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`}
-        onClick={onNavigate}
+        onClick={handleClick}
         aria-current={isActive ? 'page' : undefined}
         title={comingSoonTitle}
       >
@@ -66,7 +72,10 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
 function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
   const [theme, setTheme] = useState('light');
 
-  const handleNav = () => {
+  const handleNav = (event, href) => {
+    if (event && href) {
+      handleSectionNavClick(event, href);
+    }
     onNavigate?.();
     onClose?.();
   };
@@ -94,7 +103,11 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
           <LucideIcon name="x" size={20} />
         </button>
 
-        <a href={`#${SECTION_IDS.home}`} className="sidebar-brand" onClick={handleNav}>
+        <a
+          href={`#${SECTION_IDS.home}`}
+          className="sidebar-brand"
+          onClick={(event) => handleNav(event, `#${SECTION_IDS.home}`)}
+        >
           <span className="sidebar-brand__icon" aria-hidden="true">
             <LucideIcon name="graduation-cap" size={22} />
           </span>
@@ -143,7 +156,11 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
               Dark
             </button>
           </div>
-          <a href={`#${SECTION_IDS.signIn}`} className="sidebar-logout" onClick={handleNav}>
+          <a
+            href={`#${SECTION_IDS.signIn}`}
+            className="sidebar-logout"
+            onClick={(event) => handleNav(event, `#${SECTION_IDS.signIn}`)}
+          >
             <LucideIcon name="log-out" size={18} />
             Sign In
           </a>

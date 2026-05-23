@@ -1012,13 +1012,17 @@ body {
   scroll-margin-top: 6rem;
 }
 
-[id='home'],
 [id='assignment'],
 [id='progress'],
 [id='calendar'],
 [id='popular-courses'],
 [id='faq'] {
   scroll-margin-top: 6rem;
+}
+
+.dashboard-top-anchor {
+  display: block;
+  height: 0;
 }
 
 a.btn-coral {
