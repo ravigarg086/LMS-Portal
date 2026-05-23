@@ -14,5 +14,5 @@ export const secondarySidebarNav = [
   { id: 'external-data', label: 'External Data', href: `#${SECTION_IDS.externalData}`, icon: 'trending-up' },
   { id: 'subscription', label: 'Subscription', href: `#${SECTION_IDS.subscription}`, icon: 'plus' },
   { id: 'settings', label: 'Settings', href: '#settings', icon: 'settings' },
-  { id: 'sign-in', label: 'Sign In', href: `#${SECTION_IDS.signIn}`, icon: 'log-out' },
+  { id: 'sign-in', label: 'Sign In', href: `#${SECTION_IDS.signIn}`, icon: 'log-in' },
 ];

@@ -336,6 +336,10 @@ body {
   font-weight: 600;
   font-size: 0.875rem;
   padding: 0.5rem 0;
+  border: none;
+  background: transparent;
+  font-family: var(--eh-font);
+  cursor: pointer;
   transition: color var(--eh-transition);
 }
 

@@ -21,6 +21,8 @@ test('renders dashboard header and sidebar navigation', () => {
   expect(screen.getByRole('link', { name: /^Dashboard$/i })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /^FAQ$/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /^Sign In$/i })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /^Logout$/i })).toBeInTheDocument();
 });
 
 test('renders course stack submenus in sidebar', () => {

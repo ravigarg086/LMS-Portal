@@ -3,6 +3,7 @@ import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
 import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS, THEMES } from '../constants';
 import LucideIcon from './LucideIcon';
 import { handleSectionNavClick } from '../utils/scrollToSection';
+import { logoutUser } from '../utils/logoutUser';
 import { useTheme } from '../context/ThemeProvider';
 
 const COMING_SOON_NAV_IDS = new Set(['registration', 'external-data', 'subscription', 'settings']);
@@ -80,6 +81,11 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
     onClose?.();
   };
 
+  const handleLogout = () => {
+    logoutUser();
+    onClose?.();
+  };
+
   return (
     <>
       <div
@@ -154,6 +160,10 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
               Dark
             </button>
           </div>
+          <button type="button" className="sidebar-logout" onClick={handleLogout}>
+            <LucideIcon name="log-out" size={18} />
+            Logout
+          </button>
         </div>
       </aside>
     </>
