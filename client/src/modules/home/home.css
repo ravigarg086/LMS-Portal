@@ -1,20 +1,28 @@
 /* Homepage module — layout stability and responsive guards */
 
+:root {
+  --home-nav-offset: 5.5rem;
+  --home-hero-min-height: 420px;
+  --home-hero-min-height-lg: 480px;
+  --home-course-card-min-height: 340px;
+  --home-course-thumb-height: 140px;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 .page-section {
-  scroll-margin-top: 5.5rem;
+  scroll-margin-top: var(--home-nav-offset);
 }
 
 .hero-section {
-  min-height: 420px;
+  min-height: var(--home-hero-min-height);
 }
 
 @media (min-width: 992px) {
   .hero-section {
-    min-height: 480px;
+    min-height: var(--home-hero-min-height-lg);
   }
 
   .py-lg-6 {
@@ -27,28 +35,20 @@ html {
   min-height: 220px;
 }
 
-.popular-courses__carousel {
-  min-height: 380px;
-}
-
-@media (min-width: 576px) {
-  .popular-courses__carousel {
-    min-height: 400px;
-  }
-}
-
+.popular-courses__carousel,
+.popular-courses__grid,
 .popular-course-card {
-  min-height: 340px;
+  min-height: var(--home-course-card-min-height);
 }
 
 .popular-course-card__thumb {
-  height: 140px;
-}
-
-.popular-courses__grid {
-  min-height: 340px;
+  height: var(--home-course-thumb-height);
 }
 
 .navbar-collapse.collapsing {
   transition-duration: 0.2s;
+}
+
+.home-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }

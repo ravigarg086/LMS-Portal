@@ -1,28 +1,31 @@
 import { render, screen, within } from '@testing-library/react';
 import App from './App';
+import { homeNavItems } from './modules/home/data/homeNavItems';
+import { popularCoursePlaceholders } from './modules/home/data/popularCourses';
+import { SITE_NAME } from './modules/home/constants';
 
-test('renders LearnHub branding', () => {
+test('renders LMS Portal branding', () => {
   render(<App />);
-  expect(screen.getByRole('link', { name: /LearnHub/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: SITE_NAME })).toBeInTheDocument();
 });
 
-test('renders main navigation menu items', () => {
+test('renders PRD navigation menu items', () => {
   render(<App />);
   const nav = screen.getByRole('navigation', { name: /main navigation/i });
-  expect(within(nav).getByRole('link', { name: /^Home$/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('button', { name: /^All Courses$/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('link', { name: /3rd Party Data/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('link', { name: /^Contact Us$/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('link', { name: /^Sign In$/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('link', { name: /^MEAN$/i })).toBeInTheDocument();
-  expect(within(nav).getByRole('link', { name: /React & Hooks/i })).toBeInTheDocument();
+
+  homeNavItems.forEach(({ label }) => {
+    expect(within(nav).getByRole('link', { name: new RegExp(`^${label}$`, 'i') })).toBeInTheDocument();
+  });
 });
 
-test('renders contact form fields', () => {
+test('renders hero and popular course placeholders', () => {
   render(<App />);
-  expect(screen.getByLabelText(/^Name \*$/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/^Designation \*$/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/^Email \*$/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/^Location \*$/i)).toBeInTheDocument();
+
+  expect(screen.getByRole('heading', { name: /learn smarter with the lms portal/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /popular courses/i })).toBeInTheDocument();
+
+  popularCoursePlaceholders.forEach(({ id, title }) => {
+    expect(screen.getByRole('heading', { name: title })).toBeInTheDocument();
+    expect(document.getElementById(`course-card-${id}`)).toBeInTheDocument();
+  });
 });
