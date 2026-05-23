@@ -91,7 +91,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
         id={SIDEBAR_ID}
         className={`eduhive-sidebar${mobileOpen ? ' eduhive-sidebar--open' : ''}`}
         aria-label="Sidebar navigation"
-        role="navigation"
+        role={mobileOpen ? 'dialog' : 'navigation'}
         aria-modal={mobileOpen ? 'true' : undefined}
       >
         <button
