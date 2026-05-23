@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const userStore = require('../store/userStore');
+const { createStudentDashboard } = require('../utils/studentDashboard');
 
 function signToken(user) {
   return jwt.sign(
-    { sub: user._id.toString(), role: user.role },
+    { sub: user.id, role: user.role },
     process.env.JWT_SECRET || 'dev-secret',
     { expiresIn: '8h' },
   );
@@ -25,38 +26,52 @@ async function register(req, res) {
       return res.status(400).json({ message: 'Validation failed.', errors });
     }
 
-    const { role, fullName, email, password, academicTrack, graduationYear, department, employeeId, accessLevel, inviteKey } =
-      req.body;
+    const {
+      role,
+      fullName,
+      email,
+      password,
+      academicTrack,
+      graduationYear,
+      department,
+      employeeId,
+      accessLevel,
+      inviteKey,
+    } = req.body;
 
-    if (role === 'admin' && inviteKey !== process.env.ADMIN_INVITE_KEY) {
+    if (role === 'admin' && inviteKey !== (process.env.ADMIN_INVITE_KEY || 'lms-admin-invite-2026')) {
       return res.status(403).json({ message: 'Invalid master access token.' });
     }
 
-    const existing = await User.findOne({ email: email.toLowerCase().trim() });
-    if (existing) {
-      return res.status(409).json({ message: 'An account with this email already exists.' });
+    const payload = {
+      role,
+      fullName: String(fullName || '').trim(),
+      email: String(email || '').trim(),
+      password,
+      academicTrack: role === 'student' ? String(academicTrack || '').trim() : '',
+      graduationYear: role === 'student' ? String(graduationYear || '').trim() : '',
+      department: role === 'faculty' ? String(department || '').trim() : '',
+      employeeId: role === 'faculty' ? String(employeeId || '').trim() : '',
+      accessLevel: role === 'admin' ? String(accessLevel || '').trim() : '',
+    };
+
+    if (role === 'student') {
+      payload.dashboard = createStudentDashboard({
+        email: payload.email.toLowerCase(),
+        academicTrack: payload.academicTrack,
+      });
     }
 
-    const user = await User.create({
-      role,
-      fullName: fullName.trim(),
-      email: email.toLowerCase().trim(),
-      password,
-      academicTrack: role === 'student' ? academicTrack.trim() : '',
-      graduationYear: role === 'student' ? graduationYear.trim() : '',
-      department: role === 'faculty' ? department.trim() : '',
-      employeeId: role === 'faculty' ? employeeId.trim() : '',
-      accessLevel: role === 'admin' ? accessLevel.trim() : '',
-    });
-
-    const token = signToken(user);
-    setAuthCookie(res, token);
+    const user = await userStore.createUser(payload);
 
     return res.status(201).json({
-      message: 'Registration successful.',
+      message: 'Registration successful. Please sign in with your new account.',
       user: user.toSafeJSON(),
     });
   } catch (error) {
+    if (error.status === 409) {
+      return res.status(409).json({ message: error.message });
+    }
     return res.status(500).json({ message: 'Registration failed. Please try again.' });
   }
 }
@@ -71,10 +86,7 @@ async function login(req, res) {
     const { role, userId, password } = req.body;
     const identifier = userId.toLowerCase().trim();
 
-    const user = await User.findOne({
-      role,
-      $or: [{ email: identifier }, { employeeId: identifier }],
-    });
+    const user = await userStore.findByCredentials(role, identifier);
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials for the selected persona.' });
@@ -83,6 +95,11 @@ async function login(req, res) {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials for the selected persona.' });
+    }
+
+    if (user.role === 'student' && !user.dashboard?.featuredCourse?.title) {
+      user.dashboard = createStudentDashboard(user);
+      await user.save();
     }
 
     const token = signToken(user);

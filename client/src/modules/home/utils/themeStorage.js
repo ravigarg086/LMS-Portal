@@ -1,8 +1,8 @@
 import { THEME_STORAGE_KEY, THEMES } from '../constants';
 
 const THEME_COLORS = {
-  [THEMES.light]: '#FDF8F7',
-  [THEMES.dark]: '#0F1218',
+  [THEMES.light]: '#FDF8F3',
+  [THEMES.dark]: '#1A1A1A',
 };
 
 export function normalizeTheme(value) {

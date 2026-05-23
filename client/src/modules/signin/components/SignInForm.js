@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PersonaTabs from './PersonaTabs';
 import { useAuth } from '../../../shared/auth/AuthContext';
@@ -11,15 +11,48 @@ const ROLE_MESSAGES = {
   [USER_ROLES.ADMIN]: 'You are signing in to the Admin Control Panel.',
 };
 
-function SignInForm() {
+const DEMO_ACCOUNTS = [
+  { role: 'Student', id: 'alex@campus.edu', password: 'password123456' },
+  { role: 'Faculty', id: 'pshah@campus.edu', password: 'password123456' },
+  { role: 'Admin', id: 'jlee@campus.edu', password: 'password123456' },
+];
+
+function SignInForm({ initialRole, initialUserId = '' }) {
   const navigate = useNavigate();
   const { login, getDashboardRoute } = useAuth();
-  const [role, setRole] = useState(USER_ROLES.STUDENT);
-  const [userId, setUserId] = useState('');
+  const [role, setRole] = useState(initialRole || USER_ROLES.STUDENT);
+  const [userId, setUserId] = useState(initialUserId);
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setRole(initialRole || USER_ROLES.STUDENT);
+    setUserId(initialUserId || '');
+    setPassword('');
+    setErrors({});
+    setSubmitError('');
+  }, [initialRole, initialUserId]);
+
+  const handleRoleChange = (nextRole) => {
+    if (nextRole === role) {
+      return;
+    }
+    setRole(nextRole);
+    setUserId('');
+    setPassword('');
+    setErrors({});
+    setSubmitError('');
+  };
+
+  const fillDemoAccount = (account) => {
+    setRole(account.role.toLowerCase());
+    setUserId(account.id);
+    setPassword(account.password);
+    setErrors({});
+    setSubmitError('');
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,11 +77,25 @@ function SignInForm() {
 
   return (
     <>
-      <PersonaTabs role={role} onChange={setRole} />
+      <PersonaTabs role={role} onChange={handleRoleChange} />
 
       <div className={`auth-role-banner auth-role-banner--${role}`} role="status">
         {ROLE_MESSAGES[role]}
       </div>
+
+      <details className="auth-demo-panel">
+        <summary>Try demo accounts</summary>
+        <ul className="auth-demo-panel__list list-unstyled mb-0">
+          {DEMO_ACCOUNTS.map((account) => (
+            <li key={account.role}>
+              <button type="button" className="auth-demo-panel__btn" onClick={() => fillDemoAccount(account)}>
+                Use {account.role} demo
+              </button>
+              <span className="auth-demo-panel__meta">{account.id}</span>
+            </li>
+          ))}
+        </ul>
+      </details>
 
       {submitError && (
         <div className="alert alert-danger auth-alert" role="alert">
@@ -56,33 +103,37 @@ function SignInForm() {
         </div>
       )}
 
-      <form className="auth-form" onSubmit={handleSubmit} noValidate>
+      <form className="auth-form" onSubmit={handleSubmit} noValidate autoComplete="off">
         <div className="mb-3">
-          <label htmlFor="signin-user-id" className="form-label">
+          <label htmlFor={`signin-user-id-${role}`} className="form-label">
             User ID or Email
           </label>
           <input
-            id="signin-user-id"
+            key={`signin-user-id-${role}`}
+            id={`signin-user-id-${role}`}
+            name={`signin-user-id-${role}`}
             type="text"
             className={`form-control${errors.userId ? ' is-invalid' : ''}`}
             value={userId}
             onChange={(event) => setUserId(event.target.value)}
-            autoComplete="username"
+            autoComplete="off"
           />
           {errors.userId && <div className="invalid-feedback">{errors.userId}</div>}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="signin-password" className="form-label">
+          <label htmlFor={`signin-password-${role}`} className="form-label">
             Password
           </label>
           <input
-            id="signin-password"
+            key={`signin-password-${role}`}
+            id={`signin-password-${role}`}
+            name={`signin-password-${role}`}
             type="password"
             className={`form-control${errors.password ? ' is-invalid' : ''}`}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            autoComplete="current-password"
+            autoComplete="new-password"
           />
           {errors.password && <div className="invalid-feedback">{errors.password}</div>}
         </div>
@@ -92,9 +143,13 @@ function SignInForm() {
         </button>
       </form>
 
-      <Link to="/register" className="auth-crosslink">
-        New User Sign Here
-      </Link>
+      <p className="auth-help-text">
+        New here?{' '}
+        <Link to="/register" className="auth-crosslink auth-crosslink--inline">
+          Sign up
+        </Link>{' '}
+        as a Student, Faculty member, or Admin.
+      </p>
     </>
   );
 }

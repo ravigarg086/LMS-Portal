@@ -7,20 +7,17 @@ alwaysApply: false
 # Registration Page Requirements
 
 ## 1. Multi-Persona Form Structures
-The registration system must accommodate three distinct user types, collecting specific, mandatory information for each:
+The registration page offers Student, Faculty, and Admin sign-up via persona tabs:
 
 *   **Student Registration:**
     *   Full Name, Email Address, and Password.
-    *   Academic Track Selection (e.g., Degree Program, Department).
-    *   Expected Graduation Year.
+    *   Academic Track Selection and Expected Graduation Year.
 *   **Faculty Registration:**
-    *   Full Name, Institutional Email Address, and Password.
-    *   Department/Faculty Affiliation (Dropdown selection).
-    *   Employee ID / Verification Number.
+    *   Full Name, Institutional Email, Password, Department, and Employee ID.
 *   **Admin Registration:**
-    *   Full Name, Official Organization Email, and Password.
-    *   Access Level Request Level (e.g., Department Admin, Super Admin).
-    *   Mandatory Master Access Token / System Invite Key field.
+    *   Full Name, Email, Password, Access Level, and mandatory Master Access Token / System Invite Key.
+
+Students cannot create Faculty or Admin accounts from the dashboard — only self-registration or admin provisioning applies.
 
 ## 2. Dynamic UX & Data Integrity
 - Form elements must temporarily cache step progress to **session storage** to avoid losing data on accidental page refreshes.

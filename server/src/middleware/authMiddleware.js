@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const userStore = require('../store/userStore');
 
 async function authMiddleware(req, res, next) {
   try {
@@ -9,7 +9,7 @@ async function authMiddleware(req, res, next) {
     }
 
     const payload = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
-    const user = await User.findById(payload.sub);
+    const user = await userStore.findById(payload.sub);
 
     if (!user) {
       return res.status(401).json({ message: 'Authentication required.' });

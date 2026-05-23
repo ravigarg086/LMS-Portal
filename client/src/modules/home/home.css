@@ -375,7 +375,16 @@ button.sidebar-nav__link {
   color: var(--eh-coral);
 }
 
-/* ========== HEADER ========== */
+.sidebar-logout--signin {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.dashboard-header__auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 .dashboard-header {
   display: flex;
   flex-wrap: wrap;
@@ -738,6 +747,80 @@ button.sidebar-nav__link {
 
 .stat-card__dot--goal {
   background: var(--eh-track);
+}
+
+/* ========== ENROLLMENT COMPARE CHART ========== */
+.compare-chart__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.compare-chart__filter {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--eh-text-secondary);
+  background: var(--eh-surface-muted);
+  border: 1px solid var(--eh-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background var(--eh-transition), color var(--eh-transition), border-color var(--eh-transition);
+}
+
+.compare-chart__filter:hover {
+  color: var(--eh-coral);
+  border-color: var(--eh-coral);
+}
+
+.compare-chart__filter--active {
+  color: var(--eh-on-primary);
+  background: var(--eh-gradient);
+  border-color: transparent;
+}
+
+.compare-chart__filter--clear {
+  color: var(--eh-coral);
+  background: transparent;
+}
+
+.compare-chart__container {
+  min-height: 340px;
+}
+
+.compare-chart__container .highcharts-container {
+  width: 100% !important;
+}
+
+.admin-dashboard__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--eh-text);
+  margin-bottom: 0.35rem;
+}
+
+.admin-dashboard__notice {
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.65rem;
+  font-size: 0.8rem;
+  color: var(--eh-coral);
+  background: var(--eh-coral-light);
+  border: 1px solid rgba(226, 108, 79, 0.2);
+}
+
+.admin-dashboard__loading {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-dashboard .row > [class*='col-'] {
+  display: flex;
+}
+
+.admin-dashboard .row > [class*='col-'] > .eduhive-card {
+  flex: 1;
 }
 
 /* ========== PROGRESS RING ========== */
@@ -1208,4 +1291,42 @@ a.btn-coral {
 
 .role-panel--admin .table td {
   border-color: var(--eh-border);
+}
+
+.role-panel__form .form-label {
+  color: var(--eh-text-secondary);
+  font-size: 0.85rem;
+}
+
+.role-panel__form .form-control,
+.role-panel__form .form-select {
+  background: var(--eh-surface);
+  border-color: var(--eh-border);
+  color: var(--eh-text);
+}
+
+.role-panel__editor {
+  padding-top: 1rem;
+  border-top: 1px solid var(--eh-border);
+}
+
+.role-stat-tile {
+  background: var(--eh-surface-muted, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--eh-border);
+  border-radius: 12px;
+  padding: 1rem;
+  height: 100%;
+}
+
+.role-stat-tile__label {
+  display: block;
+  color: var(--eh-text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+}
+
+.role-stat-tile__value {
+  color: var(--eh-text);
+  font-size: 1.35rem;
+  line-height: 1.2;
 }

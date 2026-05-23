@@ -3,8 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const { initUserStore } = require('./store/userStore');
 const authRoutes = require('./routes/authRoutes');
+const usersRoutes = require('./routes/usersRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,14 +20,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: 'ok', storage: 'json' });
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
 
 async function start() {
   try {
-    await connectDB();
+    await initUserStore();
     app.listen(PORT, () => {
       console.log(`LMS API running on http://localhost:${PORT}`);
     });

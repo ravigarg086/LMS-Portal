@@ -63,12 +63,7 @@ export function AuthProvider({ children }) {
     return signedInUser;
   }, []);
 
-  const register = useCallback(async (payload) => {
-    const { user: registeredUser } = await registerUser(payload);
-    setUser(registeredUser);
-    cacheUser(registeredUser);
-    return registeredUser;
-  }, []);
+  const signUp = useCallback(async (payload) => registerUser(payload), []);
 
   const logout = useCallback(async () => {
     try {
@@ -88,11 +83,12 @@ export function AuthProvider({ children }) {
       initializing,
       isAuthenticated: Boolean(user),
       login,
-      register,
+      signUp,
+      register: signUp,
       logout,
       getDashboardRoute,
     }),
-    [user, initializing, login, register, logout, getDashboardRoute],
+    [user, initializing, login, signUp, logout, getDashboardRoute],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

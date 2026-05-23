@@ -8,9 +8,9 @@ function RoleDashboardBanner({ role, fullName }) {
   };
 
   const descriptions = {
-    [USER_ROLES.STUDENT]: 'Assignment and progress views are read-only for your learning track.',
-    [USER_ROLES.FACULTY]: 'Manage assignments and monitor student progress for your courses.',
-    [USER_ROLES.ADMIN]: 'Manage users, roles, and portal-wide settings from this control panel.',
+    [USER_ROLES.STUDENT]: 'View your assignments, course progress, and learning activity (read-only).',
+    [USER_ROLES.FACULTY]: 'Add and edit student profiles, and monitor class progress analytics.',
+    [USER_ROLES.ADMIN]: 'Add and edit students and faculty, and review system health metrics.',
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { courseStackKeys, courseStacks } from '../data/courseStacks';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
@@ -104,11 +104,35 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
   );
 }
 
-function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
+function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user = null }) {
   const { theme, setTheme } = useTheme();
-  const { logout } = useAuth();
+  const { logout, getDashboardRoute } = useAuth();
   const navigate = useNavigate();
   const [openSubmenus, setOpenSubmenus] = useState(() => new Set());
+  const isAuthenticated = Boolean(user);
+
+  const portalNavItems = secondarySidebarNav.filter((item) => {
+    if (isAuthenticated && item.id === 'registration') {
+      return false;
+    }
+    return true;
+  });
+
+  const mainNavItems = useMemo(() => {
+    if (!isAuthenticated) {
+      return mainSidebarNav;
+    }
+
+    return mainSidebarNav.map((item) => {
+      if (item.id === 'dashboard') {
+        return {
+          ...item,
+          href: getDashboardRoute(user.role),
+        };
+      }
+      return item;
+    });
+  }, [isAuthenticated, user?.role, getDashboardRoute]);
 
   useEffect(() => {
     if (activeId === 'courses') {
@@ -170,7 +194,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
             <LucideIcon name="graduation-cap" size={22} />
           </span>
           <span className="sidebar-brand__text">
-            <strong>{SITE_NAME}</strong>
+            <strong className="sidebar-brand__name">{SITE_NAME.toUpperCase()}</strong>
             <small>{SITE_TAGLINE}</small>
           </span>
         </Link>
@@ -178,7 +202,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
         <nav className="sidebar-nav" aria-label="Primary">
           <p className="sidebar-nav__heading">Main Menu</p>
           <ul className="sidebar-nav__list list-unstyled mb-0">
-            {mainSidebarNav.map((item) => (
+            {mainNavItems.map((item) => (
               <SidebarNavItem
                 key={item.id}
                 item={item}
@@ -192,7 +216,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
 
           <p className="sidebar-nav__heading sidebar-nav__heading--secondary">Portal</p>
           <ul className="sidebar-nav__list list-unstyled mb-0">
-            {secondarySidebarNav.map((item) => (
+            {portalNavItems.map((item) => (
               <SidebarNavItem
                 key={item.id}
                 item={item}
@@ -226,10 +250,17 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
               Dark
             </button>
           </div>
-          <button type="button" className="sidebar-logout" onClick={handleLogout}>
-            <LucideIcon name="log-out" size={18} />
-            Logout
-          </button>
+          {isAuthenticated ? (
+            <button type="button" className="sidebar-logout" onClick={handleLogout}>
+              <LucideIcon name="log-out" size={18} />
+              Logout
+            </button>
+          ) : (
+            <Link to="/signin" className="sidebar-logout sidebar-logout--signin" onClick={() => onClose?.()}>
+              <LucideIcon name="log-in" size={18} />
+              Sign In
+            </Link>
+          )}
         </div>
       </aside>
     </>

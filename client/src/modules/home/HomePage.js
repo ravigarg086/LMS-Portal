@@ -1,5 +1,6 @@
 import DashboardContent from './components/DashboardContent';
 import './home.css';
+import './super-travel.css';
 
 function HomePage({ user = null }) {
   return (

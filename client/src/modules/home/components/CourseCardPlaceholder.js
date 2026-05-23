@@ -1,34 +1,49 @@
 import LucideIcon from './LucideIcon';
 
-function CourseCardPlaceholder({ course }) {
+function CourseCardPlaceholder({ course, staggered = false }) {
   const titleId = `course-title-${course.id}`;
 
   return (
     <article
       id={`course-card-${course.id}`}
-      className="course-card-eduhive h-100 w-100"
+      className={`portfolio-item${staggered ? ' portfolio-item--offset' : ''}`}
       data-track={course.id}
       aria-labelledby={titleId}
     >
-      <div className="course-card-eduhive__badge">{course.id}</div>
-      <span className="course-card-eduhive__category">{course.category}</span>
-      <h3 id={titleId} className="course-card-eduhive__title">
-        {course.title}
-      </h3>
-      <p className="course-card-eduhive__desc">{course.description}</p>
-      <div className="course-card-eduhive__footer">
-        <span>
-          <LucideIcon name="clock" size={14} aria-hidden="true" /> {course.duration}
-        </span>
-        <button
-          type="button"
-          className="course-card-eduhive__btn"
-          disabled
-          aria-disabled="true"
-          title="Course details coming soon"
-        >
-          View
-        </button>
+      <div className="portfolio-item__media">
+        <img
+          src={course.image}
+          alt=""
+          className="portfolio-item__image st-grayscale"
+          loading="lazy"
+        />
+        <div className="portfolio-item__overlay">
+          <span className="portfolio-item__view-btn">View Case</span>
+        </div>
+      </div>
+      <div className="portfolio-item__body">
+        <span className="st-label st-label--accent">{course.category}</span>
+        <h3 id={titleId} className="portfolio-item__title">
+          {course.title}
+        </h3>
+        <p className="portfolio-item__tags">
+          {(course.tags || []).join(' · ')}
+        </p>
+        <p className="portfolio-item__desc">{course.description}</p>
+        <div className="portfolio-item__footer">
+          <span>
+            <LucideIcon name="clock" size={14} aria-hidden="true" /> {course.duration}
+          </span>
+          <button
+            type="button"
+            className="portfolio-item__link"
+            disabled
+            aria-disabled="true"
+            title="Course details coming soon"
+          >
+            Details
+          </button>
+        </div>
       </div>
     </article>
   );

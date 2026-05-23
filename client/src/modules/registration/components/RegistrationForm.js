@@ -4,11 +4,18 @@ import PersonaTabs from '../../signin/components/PersonaTabs';
 import RoleFields from './RoleFields';
 import { useRegistrationDraft } from '../hooks/useRegistrationDraft';
 import { useAuth } from '../../../shared/auth/AuthContext';
+import { USER_ROLES } from '../../../shared/constants/roles';
 import { validateRegistrationForm } from '../../../shared/utils/validation';
+
+const ROLE_MESSAGES = {
+  [USER_ROLES.STUDENT]: 'Create a student account to enroll in courses and track your progress.',
+  [USER_ROLES.FACULTY]: 'Register as faculty to manage students and monitor class analytics.',
+  [USER_ROLES.ADMIN]: 'Admin registration requires invite key: lms-admin-invite-2026',
+};
 
 function RegistrationForm() {
   const navigate = useNavigate();
-  const { register, getDashboardRoute } = useAuth();
+  const { signUp } = useAuth();
   const { form, updateField, setRole, clearDraft } = useRegistrationDraft();
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
@@ -26,9 +33,16 @@ function RegistrationForm() {
 
     setIsSubmitting(true);
     try {
-      const registeredUser = await register(form);
+      await signUp(form);
       clearDraft();
-      navigate(getDashboardRoute(registeredUser.role), { replace: true });
+      navigate('/signin', {
+        replace: true,
+        state: {
+          registrationSuccess: true,
+          role: form.role,
+          email: form.email,
+        },
+      });
     } catch (error) {
       if (error.errors) {
         setErrors(error.errors);
@@ -42,6 +56,10 @@ function RegistrationForm() {
   return (
     <>
       <PersonaTabs role={form.role} onChange={setRole} />
+
+      <div className={`auth-role-banner auth-role-banner--${form.role}`} role="status">
+        {ROLE_MESSAGES[form.role]}
+      </div>
 
       {submitError && (
         <div className="alert alert-danger auth-alert" role="alert">
@@ -97,7 +115,7 @@ function RegistrationForm() {
         <RoleFields role={form.role} form={form} errors={errors} onChange={updateField} />
 
         <button type="submit" className="auth-submit-btn" disabled={isSubmitting}>
-          {isSubmitting ? 'Registering...' : 'Sign Up'}
+          {isSubmitting ? 'Registering...' : `Sign Up as ${form.role.charAt(0).toUpperCase()}${form.role.slice(1)}`}
         </button>
       </form>
 

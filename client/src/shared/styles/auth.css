@@ -28,8 +28,8 @@
 .auth-card__brand-icon {
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 0.85rem;
-  background: var(--eh-gradient);
+  border-radius: 50%;
+  background: var(--eh-coral);
   color: var(--eh-on-primary);
   display: inline-flex;
   align-items: center;
@@ -38,8 +38,10 @@
 
 .auth-card__title {
   margin: 0 0 0.35rem;
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
   color: var(--eh-text);
 }
 
@@ -64,10 +66,12 @@
   background: transparent;
   color: var(--eh-text-muted);
   font-family: var(--eh-font);
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 900;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   padding: 0.65rem 0.5rem;
-  border-radius: 0.65rem;
+  border-radius: 999px;
   cursor: pointer;
   transition: all var(--eh-transition);
 }
@@ -79,15 +83,15 @@
 }
 
 .auth-persona-tabs__btn--student.auth-persona-tabs__btn--active {
-  box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.35);
+  box-shadow: inset 0 0 0 2px rgba(228, 164, 189, 0.5);
 }
 
 .auth-persona-tabs__btn--faculty.auth-persona-tabs__btn--active {
-  box-shadow: inset 0 0 0 2px rgba(16, 185, 129, 0.35);
+  box-shadow: inset 0 0 0 2px rgba(228, 164, 189, 0.5);
 }
 
 .auth-persona-tabs__btn--admin.auth-persona-tabs__btn--active {
-  box-shadow: inset 0 0 0 2px rgba(245, 158, 11, 0.35);
+  box-shadow: inset 0 0 0 2px rgba(228, 164, 189, 0.5);
 }
 
 .auth-role-banner {
@@ -99,18 +103,18 @@
 }
 
 .auth-role-banner--student {
-  background: rgba(59, 130, 246, 0.12);
-  color: #2563eb;
+  background: rgba(228, 164, 189, 0.18);
+  color: #262626;
 }
 
 .auth-role-banner--faculty {
-  background: rgba(16, 185, 129, 0.12);
-  color: #059669;
+  background: rgba(228, 164, 189, 0.18);
+  color: #262626;
 }
 
 .auth-role-banner--admin {
-  background: rgba(245, 158, 11, 0.12);
-  color: #d97706;
+  background: rgba(228, 164, 189, 0.18);
+  color: #262626;
 }
 
 [data-theme='dark'] .auth-role-banner--student {
@@ -148,12 +152,15 @@
 .auth-submit-btn {
   width: 100%;
   border: none;
-  background: var(--eh-gradient);
+  background: var(--eh-coral);
   color: var(--eh-on-primary);
-  font-weight: 700;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 10px;
   padding: 0.85rem 1rem;
-  border-radius: 0.85rem;
-  box-shadow: var(--eh-shadow-coral);
+  border-radius: 999px;
+  box-shadow: none;
   transition: transform var(--eh-transition);
 }
 
@@ -182,4 +189,54 @@
 .auth-alert {
   border-radius: 0.85rem;
   font-size: 0.9rem;
+}
+
+.auth-help-text {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  color: var(--eh-text-secondary);
+  font-size: 0.9rem;
+}
+
+.auth-crosslink--inline {
+  display: inline;
+  margin-top: 0;
+}
+
+.auth-demo-panel {
+  margin-bottom: 1.25rem;
+  border: 1px dashed var(--eh-border);
+  border-radius: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--eh-surface-muted);
+}
+
+.auth-demo-panel summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--eh-text-secondary);
+  font-size: 0.875rem;
+}
+
+.auth-demo-panel__list {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.auth-demo-panel__btn {
+  border: none;
+  background: var(--eh-surface);
+  color: var(--eh-coral);
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.auth-demo-panel__meta {
+  font-size: 0.75rem;
+  color: var(--eh-text-muted);
 }

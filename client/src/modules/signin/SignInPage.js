@@ -1,11 +1,34 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../shared/auth/AuthContext';
 import { SITE_NAME, SITE_TAGLINE } from '../home/constants';
 import SignInForm from './components/SignInForm';
 import '../home/home.css';
+import '../home/super-travel.css';
 import '../../shared/styles/auth.css';
 import './signin.css';
 
 function SignInPage() {
+  const location = useLocation();
+  const { user, initializing, getDashboardRoute } = useAuth();
+  const registrationNotice = location.state?.registrationSuccess
+    ? {
+        role: location.state.role,
+        email: location.state.email,
+      }
+    : null;
+
+  if (initializing) {
+    return (
+      <div className="auth-page eduhive-app">
+        <p className="auth-card__subtitle">Loading...</p>
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to={getDashboardRoute(user.role)} replace />;
+  }
+
   return (
     <div className="auth-page eduhive-app">
       <div className="auth-card">
@@ -23,7 +46,19 @@ function SignInPage() {
         <h1 className="auth-card__title">Sign In</h1>
         <p className="auth-card__subtitle">Access your LMS Portal account by persona.</p>
 
-        <SignInForm />
+        {registrationNotice && (
+          <div className="alert alert-success auth-alert" role="status">
+            Account created for {registrationNotice.email}. Sign in as{' '}
+            {registrationNotice.role.charAt(0).toUpperCase()}
+            {registrationNotice.role.slice(1)} to continue.
+          </div>
+        )}
+
+        <SignInForm
+          key={registrationNotice ? `registered-${registrationNotice.email}` : location.key}
+          initialRole={registrationNotice?.role}
+          initialUserId={registrationNotice?.email || ''}
+        />
       </div>
     </div>
   );

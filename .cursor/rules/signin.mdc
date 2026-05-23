@@ -1,17 +1,17 @@
 ---
-description: Sign In module functional and business requirements
+description: Sign In module functional requirements and role-based data visibility rules
 globs: client/src/modules/signin/**/*
 alwaysApply: false
 ---
 
-# Sign In Page Requirements
+# Sign In Page & Data Visibility Requirements
 
 ## 1. User Interface & Layout
 - The Sign In screen must feature a clear option or selector (e.g., tabs, a dropdown, or distinct segmented controls) for the 3 user personas: **Student**, **Faculty**, and **Admin**.
 - Capturing **User ID** (or Email) and **Password** fields is mandatory across all 3 user types.
 - Include a highly visible cross-link anchor reading **"New User Sign Here"** that dynamically routes unauthenticated users to the registration module.
 
-## 2. Validation & Persona Logic
+## 2. Validation & Redirection Logic
 - Implement strict client-side form validation (e.g., verifying email formats, checking for empty fields, and meeting minimum password lengths) before allowing submission.
 - Ensure the interface visually reflects the active persona selected so the user knows exactly which dashboard context they are logging into.
 - After a successful login press, enforce role-based redirection:
@@ -19,5 +19,19 @@ alwaysApply: false
   - **Faculty** $\rightarrow$ Faculty Portal
   - **Admin** $\rightarrow$ Admin Control Panel
 
-## 3. Data & Session Security
+## 3. Data Visibility & Authorization Matrix
+Once a session is established, the application must enforce strict data isolation boundaries:
+
+*   **Student Permissions:** 
+    *   **Strict Isolation:** A student is permitted to view only their own personalized data and profile. 
+    *   They must be completely restricted from viewing or accessing other students' or faculties' records.
+*   **Faculty Permissions:** 
+    *   **Supervised Access:** Faculty members can view lists and profiles of all students.
+    *   **Modification Rights:** Faculty can add and edit student profiles and records.
+    *   **Role Restriction:** Faculty cannot create faculty or admin accounts.
+*   **Admin Permissions:** 
+    *   **User Management:** Admins can add and edit both student and faculty records.
+    *   **Full CRUD Authority:** Admins can also permanently delete student and faculty accounts.
+
+## 4. Session Security
 - Never store session tokens, raw passwords, or authorization payload details inside open, unencrypted `localStorage`.

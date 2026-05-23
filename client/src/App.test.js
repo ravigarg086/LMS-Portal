@@ -1,4 +1,4 @@
-import { render, screen, within, fireEvent } from '@testing-library/react';
+import { render, screen, within, fireEvent, waitFor } from '@testing-library/react';
 import App from './App';
 import { popularCoursePlaceholders } from './modules/home/data/popularCourses';
 import { courseStackKeys, courseStacks } from './modules/home/data/courseStacks';
@@ -17,25 +17,34 @@ beforeEach(() => {
     }),
   );
 });
-test('renders LMS Portal branding', () => {
+
+async function renderApp() {
   render(<App />);
+  await waitFor(() => {
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+  });
+}
+
+test('renders LMS Portal branding', async () => {
+  await renderApp();
   expect(screen.getByRole('link', { name: new RegExp(SITE_NAME, 'i') })).toBeInTheDocument();
 });
 
-test('renders dashboard header and sidebar navigation', () => {
-  render(<App />);
+test('renders dashboard header and sidebar navigation', async () => {
+  await renderApp();
 
-  expect(screen.getByRole('heading', { name: /welcome back, learner/i })).toBeInTheDocument();
-  expect(screen.getByRole('navigation', { name: /sidebar navigation/i })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /^Dashboard$/i })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /^FAQ$/i })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /^Sign In$/i })).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /^Logout$/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /learn smarter/i })).toBeInTheDocument();
+  const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
+  expect(within(nav).getByRole('link', { name: /^Dashboard$/i })).toBeInTheDocument();
+  expect(within(nav).getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
+  expect(within(nav).getByRole('link', { name: /^FAQ$/i })).toHaveAttribute('href', '/faq');
+  expect(screen.getAllByRole('link', { name: /^Sign In$/i }).length).toBeGreaterThan(0);
+  expect(screen.queryByRole('button', { name: /^Logout$/i })).not.toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /^Sign Up$/i })).toBeInTheDocument();
 });
 
-test('renders course stack submenus when Courses is expanded', () => {
-  render(<App />);
+test('renders course stack submenus when Courses is expanded', async () => {
+  await renderApp();
   const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
 
   fireEvent.click(screen.getByRole('button', { name: /^Courses$/i }));
@@ -48,8 +57,8 @@ test('renders course stack submenus when Courses is expanded', () => {
   });
 });
 
-test('courses submenu toggles expand and collapse', () => {
-  render(<App />);
+test('courses submenu toggles expand and collapse', async () => {
+  await renderApp();
 
   const coursesBtn = screen.getByRole('button', { name: /^Courses$/i });
   expect(coursesBtn).toHaveAttribute('aria-expanded', 'false');
@@ -63,22 +72,31 @@ test('courses submenu toggles expand and collapse', () => {
   expect(document.getElementById('submenu-courses')).toHaveAttribute('hidden');
 });
 
-test('renders dashboard widgets and popular course placeholders', () => {
-  render(<App />);
+test('renders dashboard widgets and popular course placeholders', async () => {
+  await renderApp();
 
-  expect(screen.getByRole('heading', { name: /full stack mern development/i })).toBeInTheDocument();
+  expect(document.getElementById('featured-course-title')).toHaveTextContent(/full stack mern development/i);
   expect(screen.getByRole('link', { name: /continue learning/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /popular courses/i })).toBeInTheDocument();
-  expect(screen.getByRole('heading', { name: /frequently asked questions/i })).toBeInTheDocument();
+  expect(screen.queryByRole('heading', { name: /frequently asked questions/i })).not.toBeInTheDocument();
 
   popularCoursePlaceholders.forEach(({ id, title }) => {
-    expect(screen.getByRole('heading', { name: title })).toBeInTheDocument();
+    expect(document.getElementById(`course-title-${id}`)).toHaveTextContent(title);
     expect(document.getElementById(`course-card-${id}`)).toBeInTheDocument();
   });
 });
 
-test('theme toggle switches between light and dark modes', () => {
-  render(<App />);
+test('renders FAQ on dedicated page', async () => {
+  window.history.pushState({}, '', '/faq');
+  await renderApp();
+
+  expect(screen.getByRole('heading', { name: /frequently asked questions/i })).toBeInTheDocument();
+  expect(within(screen.getByRole('navigation', { name: /sidebar navigation/i })).getByRole('link', { name: /^FAQ$/i })).toHaveAttribute('aria-current', 'page');
+});
+
+test('theme toggle switches between light and dark modes', async () => {
+  window.history.pushState({}, '', '/');
+  await renderApp();
 
   expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.light);
 

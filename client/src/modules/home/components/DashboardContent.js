@@ -6,10 +6,13 @@ import StatisticsCard from './StatisticsCard';
 import ProgressRing from './ProgressRing';
 import MentorList from './MentorList';
 import PopularCoursesGrid from './PopularCoursesGrid';
-import FaqSection from './FaqSection';
+import SiteFooter from './SiteFooter';
+import RevealUp from './RevealUp';
 import RoleDashboardBanner from '../../dashboard/components/RoleDashboardBanner';
 import FacultyControls from '../../dashboard/components/FacultyControls';
 import AdminUserPanel from '../../dashboard/components/AdminUserPanel';
+import AdminAnalyticsSection from '../../dashboard/components/AdminAnalyticsSection';
+import { useStudentDashboard } from '../../dashboard/hooks/useStudentDashboard';
 import { SECTION_IDS } from '../constants';
 import { USER_ROLES } from '../../../shared/constants/roles';
 import { NAV_SECTION_MAP, TRACKED_SECTION_IDS } from '../data/navSections';
@@ -19,6 +22,9 @@ import { useActiveSection } from '../hooks/useActiveSection';
 
 function DashboardContent({ user = null }) {
   const role = user?.role;
+  const isStudent = role === USER_ROLES.STUDENT;
+  const showPersonalWidgets = !role || isStudent;
+  const { dashboard, loading: dashboardLoading, error: dashboardError } = useStudentDashboard(isStudent);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const activeSectionId = useActiveSection(TRACKED_SECTION_IDS);
 
@@ -43,6 +49,7 @@ function DashboardContent({ user = null }) {
         activeId={activeNavId}
         mobileOpen={sidebarOpen}
         onClose={closeSidebar}
+        user={user}
       />
 
       <div className="eduhive-main">
@@ -56,59 +63,85 @@ function DashboardContent({ user = null }) {
         />
 
         <main id="main-content" tabIndex={-1}>
-          {role && <RoleDashboardBanner role={role} fullName={user.fullName} />}
+          {role && (
+            <RevealUp>
+              <RoleDashboardBanner role={role} fullName={user.fullName} />
+            </RevealUp>
+          )}
 
           {role === USER_ROLES.FACULTY && (
-            <div className="dashboard-role-panel mb-4">
+            <RevealUp className="dashboard-role-panel mb-4">
               <FacultyControls />
-            </div>
+            </RevealUp>
           )}
 
           {role === USER_ROLES.ADMIN && (
-            <div className="dashboard-role-panel mb-4">
+            <RevealUp className="dashboard-role-panel mb-4">
+              <AdminAnalyticsSection />
               <AdminUserPanel />
-            </div>
+            </RevealUp>
           )}
 
-          <div className="dashboard-grid">
-            <section
-              id={SECTION_IDS.assignment}
-              className="dashboard-grid__featured"
-              aria-labelledby="featured-course-title"
-            >
-              <FeaturedCourseCard />
-            </section>
+          {showPersonalWidgets && (
+            <>
+              {isStudent && dashboardLoading && (
+                <p className="auth-card__subtitle mb-4">Loading your learning data...</p>
+              )}
+              {isStudent && dashboardError && (
+                <p className="text-danger small mb-4" role="alert">
+                  {dashboardError}
+                </p>
+              )}
 
-            <section
-              id={SECTION_IDS.calendar}
-              className="dashboard-grid__stats"
-              aria-labelledby="learning-activity-title"
-            >
-              <StatisticsCard />
-            </section>
+              <section className="services-section">
+                <header className="services-section__header">
+                  <span className="st-label">Your Dashboard</span>
+                  <h2 className="services-section__title">Learning Services</h2>
+                </header>
+                <div className="services-grid">
+                  <RevealUp className="services-grid__item">
+                    <section
+                      id={SECTION_IDS.assignment}
+                      aria-labelledby="featured-course-title"
+                    >
+                      <FeaturedCourseCard course={dashboard?.featuredCourse} />
+                    </section>
+                  </RevealUp>
 
-            <section
-              id={SECTION_IDS.progress}
-              className="dashboard-grid__progress"
-              aria-labelledby="overall-progress-title"
-            >
-              <ProgressRing />
-            </section>
+                  <RevealUp className="services-grid__item">
+                    <section
+                      id={SECTION_IDS.calendar}
+                      aria-labelledby="learning-activity-title"
+                    >
+                      <StatisticsCard weeklyStats={dashboard?.weeklyStats} />
+                    </section>
+                  </RevealUp>
 
-            <section className="dashboard-grid__mentors" aria-labelledby="mentors-title">
-              <MentorList />
-            </section>
+                  <RevealUp className="services-grid__item">
+                    <section
+                      id={SECTION_IDS.progress}
+                      aria-labelledby="overall-progress-title"
+                    >
+                      <ProgressRing progress={dashboard?.overallProgress} />
+                    </section>
+                  </RevealUp>
+                </div>
+              </section>
 
-            <section
-              id={SECTION_IDS.popularCourses}
-              className="dashboard-grid__courses"
-              aria-labelledby="popular-courses-heading"
-            >
-              <PopularCoursesGrid />
-            </section>
-          </div>
+              <RevealUp className="dashboard-grid__mentors mb-4" aria-labelledby="mentors-title">
+                <MentorList />
+              </RevealUp>
 
-          <FaqSection />
+              <section
+                id={SECTION_IDS.popularCourses}
+                aria-labelledby="popular-courses-heading"
+              >
+                <PopularCoursesGrid />
+              </section>
+            </>
+          )}
+
+          <SiteFooter />
 
           <div className="portal-anchors" aria-hidden="true">
             <span id={SECTION_IDS.registration} className="portal-anchor" />

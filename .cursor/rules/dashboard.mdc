@@ -14,10 +14,10 @@ The dashboard layout must dynamically adapt to the authenticated user's role. Co
     *   **Assignment Tracker:** Displays upcoming deadlines and grade tracking (Strictly Read-Only).
     *   **Student Progress Tracker:** Visual breakdown of course completion percentages and attendance stats.
 *   **Faculty Dashboard View:**
-    *   **Assignment Manager:** Full management controls to create, update, delete, and grade student assignments.
-    *   **Student Progress Analytics:** Interactive dashboards showing class performance distribution, attendance logs, and student metrics.
+    *   **Student Management:** Add and edit student profiles.
+    *   **Student Progress Analytics:** Interactive dashboards showing class performance distribution and student metrics.
 *   **Admin Dashboard View:**
-    *   **User Management Panel:** Complete CRUD (Create, Read, Update, Delete) dashboard to manage Students, Faculty, and Admin accounts.
+    *   **User Management Panel:** Add and edit Students and Faculty; delete managed accounts when required.
     *   **System Health Audit:** Overview of platform metrics, active courses, and global configurations.
 
 ## 2. Layout Stability & Performance

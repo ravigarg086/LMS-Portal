@@ -1,0 +1,948 @@
+{
+  "users": [
+    {
+      "id": "seed-student-001",
+      "fullName": "Alex Morgan",
+      "email": "alex@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Computer Science",
+      "graduationYear": "2027",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Computer Science",
+          "progress": 55,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 17
+        },
+        "overallProgress": 70,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 40,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 65,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 50,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 75,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 60,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 30,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 20,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:51:48.712Z",
+      "updatedAt": "2026-05-23T12:51:48.713Z"
+    },
+    {
+      "id": "seed-faculty-001",
+      "fullName": "Dr. Priya Shah",
+      "email": "pshah@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "faculty",
+      "academicTrack": "",
+      "graduationYear": "",
+      "department": "Computer Science",
+      "employeeId": "FAC001",
+      "accessLevel": "",
+      "dashboard": null,
+      "createdAt": "2026-05-23T12:51:48.713Z",
+      "updatedAt": "2026-05-23T12:51:48.713Z"
+    },
+    {
+      "id": "seed-admin-001",
+      "fullName": "Jordan Lee",
+      "email": "jlee@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "admin",
+      "academicTrack": "",
+      "graduationYear": "",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "Super Admin",
+      "dashboard": null,
+      "createdAt": "2026-05-23T12:51:48.713Z",
+      "updatedAt": "2026-05-23T12:51:48.713Z"
+    },
+    {
+      "id": "f71de6a0-95e0-4676-b077-ce778f05c8e6",
+      "fullName": "Student1",
+      "email": "student1@gmail.com",
+      "password": "$2b$12$DWX3M8kGbuexoUWw9N4p0Ov3Zo5zhriVJiIe4i9AqtnUShfGLTO0m",
+      "role": "student",
+      "academicTrack": "Computer Science",
+      "graduationYear": "2027",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Computer Science",
+          "progress": 76,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 14
+        },
+        "overallProgress": 51,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 41,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 56,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 46,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 71,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 61,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 31,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 26,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:57:41.180Z",
+      "updatedAt": "2026-05-23T12:57:41.180Z"
+    },
+    {
+      "id": "e8c34b9d-cb1d-4d0f-bd8d-48f21534dcf3",
+      "fullName": "Test Faculty",
+      "email": "newfaculty@test.edu",
+      "password": "$2b$12$vYgK4MqHkmh3VqZ2nSIZ.egaDHM/ckXHOJBJZroZikX7S6bgY1qxm",
+      "role": "faculty",
+      "academicTrack": "",
+      "graduationYear": "",
+      "department": "Engineering",
+      "employeeId": "FAC999",
+      "accessLevel": "",
+      "dashboard": null,
+      "createdAt": "2026-05-23T13:02:21.586Z",
+      "updatedAt": "2026-05-23T13:02:21.586Z"
+    },
+    {
+      "id": "f227dbed-774f-4144-ba63-238f78a65a04",
+      "fullName": "Test Admin",
+      "email": "newadmin@test.edu",
+      "password": "$2b$12$ffpmEqf/TTRNipwEB78vseg9leLVUBXHB/X.zxCzlRCDt7hmLBrju",
+      "role": "admin",
+      "academicTrack": "",
+      "graduationYear": "",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "Super Admin",
+      "dashboard": null,
+      "createdAt": "2026-05-23T13:02:22.099Z",
+      "updatedAt": "2026-05-23T13:02:22.099Z"
+    },
+    {
+      "id": "9c22cc46-939c-4ba5-8024-7de9a5027d2f",
+      "fullName": "Faculty1",
+      "email": "faculty1@gmail.com",
+      "password": "$2b$12$rIKbvZIgksJ7GhRWrL/mDOp02wVN.ck3dyjS6CA9XpS.eLvLlpV/W",
+      "role": "faculty",
+      "academicTrack": "",
+      "graduationYear": "",
+      "department": "Computer Science",
+      "employeeId": "123456",
+      "accessLevel": "",
+      "dashboard": null,
+      "createdAt": "2026-05-23T13:04:57.099Z",
+      "updatedAt": "2026-05-23T13:04:57.099Z"
+    },
+    {
+      "id": "19705ea2-f2c7-4829-a770-2032ea3fd482",
+      "fullName": "Admin1",
+      "email": "admin1@gmail.com",
+      "password": "$2b$12$sVPChuPk4UlAynzcJufKYOIiH9s4iMS8bOD5EgRuEHrpjOn.PzMy6",
+      "role": "admin",
+      "academicTrack": "",
+      "graduationYear": "",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "Department Admin",
+      "dashboard": null,
+      "createdAt": "2026-05-23T13:07:37.713Z",
+      "updatedAt": "2026-05-23T13:07:37.713Z"
+    },
+    {
+      "id": "demo-student-001",
+      "fullName": "Mia Chen",
+      "email": "mia.chen@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Computer Science",
+      "graduationYear": "2027",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Computer Science",
+          "progress": 18,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 4
+        },
+        "overallProgress": 18,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 43,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 58,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 61,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 83,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 58,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 33,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 28,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-002",
+      "fullName": "Noah Patel",
+      "email": "noah.patel@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Computer Science",
+      "graduationYear": "2026",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Computer Science",
+          "progress": 84,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 20
+        },
+        "overallProgress": 84,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 57,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 47,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 62,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 27,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 27,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-003",
+      "fullName": "Sofia Rivera",
+      "email": "sofia.rivera@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Computer Science",
+      "graduationYear": "2028",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Computer Science",
+          "progress": 52,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 12
+        },
+        "overallProgress": 52,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 46,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 56,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 61,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 76,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 61,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 21,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 26,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-004",
+      "fullName": "Ethan Brooks",
+      "email": "ethan.brooks@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Information Technology",
+      "graduationYear": "2027",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Information Technology",
+          "progress": 24,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 6
+        },
+        "overallProgress": 24,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 46,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 56,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 61,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 76,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 61,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 21,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 26,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-005",
+      "fullName": "Ava Nguyen",
+      "email": "ava.nguyen@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Information Technology",
+      "graduationYear": "2026",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Information Technology",
+          "progress": 61,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 15
+        },
+        "overallProgress": 61,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 57,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 47,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 62,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 27,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 27,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-006",
+      "fullName": "Liam Okafor",
+      "email": "liam.okafor@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Information Technology",
+      "graduationYear": "2028",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Information Technology",
+          "progress": 79,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 19
+        },
+        "overallProgress": 79,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 39,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 49,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 54,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 69,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 54,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 34,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 19,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-007",
+      "fullName": "Emma Walsh",
+      "email": "emma.walsh@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Data Science",
+      "graduationYear": "2027",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Data Science",
+          "progress": 12,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 3
+        },
+        "overallProgress": 12,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 57,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 47,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 62,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 27,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 27,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-008",
+      "fullName": "James Liu",
+      "email": "james.liu@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Data Science",
+      "graduationYear": "2026",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Data Science",
+          "progress": 44,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 11
+        },
+        "overallProgress": 44,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 50,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 65,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 40,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 55,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 65,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 20,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 20,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-009",
+      "fullName": "Olivia Park",
+      "email": "olivia.park@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Data Science",
+      "graduationYear": "2028",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Data Science",
+          "progress": 92,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 22
+        },
+        "overallProgress": 92,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 39,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 49,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 54,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 69,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 54,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 34,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 19,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-010",
+      "fullName": "Lucas Meyer",
+      "email": "lucas.meyer@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Business Analytics",
+      "graduationYear": "2027",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Business Analytics",
+          "progress": 21,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 5
+        },
+        "overallProgress": 21,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 39,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 49,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 54,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 69,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 54,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 34,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 19,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-011",
+      "fullName": "Isabella Costa",
+      "email": "isabella.costa@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Business Analytics",
+      "graduationYear": "2026",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Business Analytics",
+          "progress": 58,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 14
+        },
+        "overallProgress": 58,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 35,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 70,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 47,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 55,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 50,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 35,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 25,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "demo-student-012",
+      "fullName": "Ben Carter",
+      "email": "ben.carter@campus.edu",
+      "password": "$2b$12$NLd1PU5cAX5.BgYr160h6eSgfc9r7dpUWkjugeI1bR5N2DGJu/UlW",
+      "role": "student",
+      "academicTrack": "Business Analytics",
+      "graduationYear": "2028",
+      "department": "",
+      "employeeId": "",
+      "accessLevel": "",
+      "dashboard": {
+        "featuredCourse": {
+          "title": "Business Analytics",
+          "progress": 88,
+          "duration": "12 weeks",
+          "chapters": 24,
+          "completedChapters": 21
+        },
+        "overallProgress": 88,
+        "weeklyStats": [
+          {
+            "day": "Mon",
+            "value": 57,
+            "isGoal": false
+          },
+          {
+            "day": "Tue",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Wed",
+            "value": 47,
+            "isGoal": false
+          },
+          {
+            "day": "Thu",
+            "value": 62,
+            "isGoal": false
+          },
+          {
+            "day": "Fri",
+            "value": 72,
+            "isGoal": false
+          },
+          {
+            "day": "Sat",
+            "value": 27,
+            "isGoal": true
+          },
+          {
+            "day": "Sun",
+            "value": 27,
+            "isGoal": true
+          }
+        ]
+      },
+      "createdAt": "2026-05-23T12:00:00.000Z",
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    }
+  ]
+}

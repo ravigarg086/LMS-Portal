@@ -1,6 +1,7 @@
-import { overallProgress } from '../data/dashboardStats';
+import { overallProgress as defaultOverallProgress } from '../data/dashboardStats';
 
-function ProgressRing() {
+function ProgressRing({ progress }) {
+  const overallProgress = progress ?? defaultOverallProgress;
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (overallProgress / 100) * circumference;

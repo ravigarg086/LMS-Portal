@@ -1,0 +1,16 @@
+export const DEMO_STUDENTS = [
+  { id: 'demo-student-001', fullName: 'Mia Chen', email: 'mia.chen@campus.edu', academicTrack: 'Computer Science', dashboard: { overallProgress: 18 } },
+  { id: 'demo-student-002', fullName: 'Noah Patel', email: 'noah.patel@campus.edu', academicTrack: 'Computer Science', dashboard: { overallProgress: 84 } },
+  { id: 'demo-student-003', fullName: 'Sofia Rivera', email: 'sofia.rivera@campus.edu', academicTrack: 'Computer Science', dashboard: { overallProgress: 52 } },
+  { id: 'demo-student-004', fullName: 'Ethan Brooks', email: 'ethan.brooks@campus.edu', academicTrack: 'Information Technology', dashboard: { overallProgress: 24 } },
+  { id: 'demo-student-005', fullName: 'Ava Nguyen', email: 'ava.nguyen@campus.edu', academicTrack: 'Information Technology', dashboard: { overallProgress: 61 } },
+  { id: 'demo-student-006', fullName: 'Liam Okafor', email: 'liam.okafor@campus.edu', academicTrack: 'Information Technology', dashboard: { overallProgress: 79 } },
+  { id: 'demo-student-007', fullName: 'Emma Walsh', email: 'emma.walsh@campus.edu', academicTrack: 'Data Science', dashboard: { overallProgress: 12 } },
+  { id: 'demo-student-008', fullName: 'James Liu', email: 'james.liu@campus.edu', academicTrack: 'Data Science', dashboard: { overallProgress: 44 } },
+  { id: 'demo-student-009', fullName: 'Olivia Park', email: 'olivia.park@campus.edu', academicTrack: 'Data Science', dashboard: { overallProgress: 92 } },
+  { id: 'demo-student-010', fullName: 'Lucas Meyer', email: 'lucas.meyer@campus.edu', academicTrack: 'Business Analytics', dashboard: { overallProgress: 21 } },
+  { id: 'demo-student-011', fullName: 'Isabella Costa', email: 'isabella.costa@campus.edu', academicTrack: 'Business Analytics', dashboard: { overallProgress: 58 } },
+  { id: 'demo-student-012', fullName: 'Ben Carter', email: 'ben.carter@campus.edu', academicTrack: 'Business Analytics', dashboard: { overallProgress: 88 } },
+  { id: 'seed-student-001', fullName: 'Alex Morgan', email: 'alex@campus.edu', academicTrack: 'Computer Science', dashboard: { overallProgress: 70 } },
+  { id: 'seed-student-002', fullName: 'Student1', email: 'student1@gmail.com', academicTrack: 'Computer Science', dashboard: { overallProgress: 51 } },
+];

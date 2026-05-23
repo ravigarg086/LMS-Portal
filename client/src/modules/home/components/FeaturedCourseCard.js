@@ -1,8 +1,10 @@
-import { featuredCourse } from '../data/dashboardStats';
+import { featuredCourse as defaultFeaturedCourse } from '../data/dashboardStats';
 import { SECTION_IDS } from '../constants';
 import LucideIcon from './LucideIcon';
 
-function FeaturedCourseCard() {
+function FeaturedCourseCard({ course }) {
+  const featuredCourse = course || defaultFeaturedCourse;
+
   return (
     <article className="eduhive-card eduhive-card--featured">
       <div className="featured-course__header">

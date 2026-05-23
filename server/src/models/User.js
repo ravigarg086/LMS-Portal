@@ -14,6 +14,23 @@ const userSchema = new mongoose.Schema(
     department: { type: String, default: '' },
     employeeId: { type: String, default: '' },
     accessLevel: { type: String, default: '' },
+    dashboard: {
+      featuredCourse: {
+        title: { type: String, default: '' },
+        progress: { type: Number, default: 0 },
+        duration: { type: String, default: '' },
+        chapters: { type: Number, default: 0 },
+        completedChapters: { type: Number, default: 0 },
+      },
+      overallProgress: { type: Number, default: 0 },
+      weeklyStats: [
+        {
+          day: String,
+          value: Number,
+          isGoal: Boolean,
+        },
+      ],
+    },
   },
   { timestamps: true },
 );
@@ -40,6 +57,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON() {
     department: this.department,
     employeeId: this.employeeId,
     accessLevel: this.accessLevel,
+    dashboard: this.role === 'student' ? this.dashboard : undefined,
   };
 };
 
