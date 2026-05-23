@@ -1,11 +1,11 @@
 ---
-alwaysApply: true
-Web portal for LMS using cursor
+description: External data and payment integration requirements
+globs: client/src/modules/external-data/**/*
+alwaysApply: false
 ---
 
 # External Data & Integrations
-- External data integrations inside the LMS application should be handled within REACT components
-- Use bootstrap elements for loading states, status badges, and integration forms
-- Wrap external interfaces (such as global PayPal and local RBI payment systems) within unified local service hooks
-- Never print or pass sensitive transactional tokens, card numbers, or PII into open tracking logs
-- Frequently accessed static matrices like help options must pull directly from a local static `FAQ.JSON` schema
+
+- Wrap external interfaces (such as global PayPal and local RBI payment systems) within unified local service hooks.
+- Never print or pass sensitive transactional tokens, card numbers, or PII into open tracking logs.
+- Frequently accessed static matrices like help options must pull directly from a local static `FAQ.JSON` schema.

@@ -1,11 +1,10 @@
 ---
-alwaysApply: true
-Web portal for LMS using cursor
+description: Registration onboarding module requirements
+globs: client/src/modules/registration/**/*
+alwaysApply: false
 ---
 
-# Registration Page Creation
-- Registration onboarding system of LMS application should be based on REACT
-- Registration page and intake wizard forms must be responsive
-- Use bootstrap forms, group containers, and validation styles
-- Form elements must temporarily cache step progress to session storage to avoid losing data on page refreshes
-- Intelligently disable submit buttons immediately upon click to prevent double form submissions or duplicate transactions
+# Registration Page Requirements
+
+- Form elements must temporarily cache step progress to **session storage** to avoid losing data on page refreshes.
+- Intelligently disable submit buttons immediately upon click to prevent double form submissions or duplicate transactions.

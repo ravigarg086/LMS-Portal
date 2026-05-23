@@ -1,14 +1,13 @@
 ---
-alwaysApply: true
-Web portal for LMS using cursor
+description: Dashboard module requirements for role-based LMS views
+globs: client/src/modules/dashboard/**/*
+alwaysApply: false
 ---
 
-# Dashboard Page Creation
-- Dashboard page of LMS application should be based on REACT
-- Dashboard page should be responsive
-- Use bootstrap to create the responsive grid system
+# Dashboard Page Requirements
+
 - Enforce dynamic role-based rendering views on components:
-  - Student View: Show Assignment & Student Progress modules (Read-Only)
-  - Faculty View: Show Assignment & Student Progress management controls
-  - Admin View: Show User Management panel with full CRUD capabilities
-- Ensure clean layout structures to completely eliminate component content shifts
+  - **Student View:** Show Assignment & Student Progress modules (Read-Only)
+  - **Faculty View:** Show Assignment & Student Progress management controls
+  - **Admin View:** Show User Management panel with full CRUD capabilities
+- Ensure clean layout structures to completely eliminate component content shifts.

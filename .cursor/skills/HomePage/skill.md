@@ -1,6 +1,6 @@
 ---
 description: Technical skills and stack guidelines for React and Bootstrap development
-globs: src/**/*
+globs: client/src/**/*
 alwaysApply: true
 ---
 
@@ -9,8 +9,6 @@ alwaysApply: true
 ## Project Initialization
 - When initializing a new React application, **always use `npx create-react-app`**.
 
-## Frontend Framework
-- All user interface components must be built using **React** (Functional components with Hooks).
-
-## Styling & Responsiveness
-- Use **Bootstrap** (or `react-bootstrap`) as the primary utility framework to handle responsiveness and grid layouts.
+## Module Structure
+- Place feature code under `client/src/modules/<feature>/` with co-located components, data, hooks, and styles.
+- Export module entry points from each module's `index.js`.
