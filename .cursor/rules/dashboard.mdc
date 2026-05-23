@@ -1,13 +1,25 @@
 ---
-description: Dashboard module requirements for role-based LMS views
+description: Dashboard module requirements for role-based LMS views and structural layouts
 globs: client/src/modules/dashboard/**/*
 alwaysApply: false
 ---
 
 # Dashboard Page Requirements
 
-- Enforce dynamic role-based rendering views on components:
-  - **Student View:** Show Assignment & Student Progress modules (Read-Only)
-  - **Faculty View:** Show Assignment & Student Progress management controls
-  - **Admin View:** Show User Management panel with full CRUD capabilities
-- Ensure clean layout structures to completely eliminate component content shifts.
+## 1. Role-Based Component Access Control
+The dashboard layout must dynamically adapt to the authenticated user's role. Components must be strictly isolated:
+
+*   **Student Dashboard View:**
+    *   Display a personalized welcome banner with current course enrollment stats.
+    *   **Assignment Tracker:** Displays upcoming deadlines and grade tracking (Strictly Read-Only).
+    *   **Student Progress Tracker:** Visual breakdown of course completion percentages and attendance stats.
+*   **Faculty Dashboard View:**
+    *   **Assignment Manager:** Full management controls to create, update, delete, and grade student assignments.
+    *   **Student Progress Analytics:** Interactive dashboards showing class performance distribution, attendance logs, and student metrics.
+*   **Admin Dashboard View:**
+    *   **User Management Panel:** Complete CRUD (Create, Read, Update, Delete) dashboard to manage Students, Faculty, and Admin accounts.
+    *   **System Health Audit:** Overview of platform metrics, active courses, and global configurations.
+
+## 2. Layout Stability & Performance
+- Ensure clean layout structures to completely eliminate Cumulative Layout Shift (CLS). Content must never pop or jump around during async API fetches.
+- Unauthorized roles must be securely blocked from rendering or injecting components meant for higher privilege levels.

@@ -1,14 +1,11 @@
 import DashboardContent from './components/DashboardContent';
-import { ThemeProvider } from './context/ThemeProvider';
 import './home.css';
 
-function HomePage() {
+function HomePage({ user = null }) {
   return (
-    <ThemeProvider>
-      <div className="home-page eduhive-app">
-        <DashboardContent />
-      </div>
-    </ThemeProvider>
+    <div className="home-page eduhive-app">
+      <DashboardContent user={user} />
+    </div>
   );
 }
 

@@ -1,6 +1,10 @@
 import LucideIcon from './LucideIcon';
 
-function DashboardHeader({ sidebarOpen, onMenuToggle }) {
+function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
+  const displayName = user?.fullName || 'Learner';
+  const displayRole = user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Guest';
+  const avatarSeed = user?.email || 'LMSPortalLearner';
+
   return (
     <header className="dashboard-header">
       <div className="dashboard-header__left">
@@ -15,7 +19,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle }) {
           <LucideIcon name="menu" size={22} />
         </button>
         <div>
-          <h1 className="dashboard-header__title">Welcome back, Learner 👋</h1>
+          <h1 className="dashboard-header__title">Welcome back, {displayName} 👋</h1>
           <p className="dashboard-header__subtitle">Track progress and continue your learning journey.</p>
         </div>
       </div>
@@ -28,15 +32,15 @@ function DashboardHeader({ sidebarOpen, onMenuToggle }) {
         <button type="button" className="icon-btn" aria-label="Notifications (coming soon)" disabled>
           <LucideIcon name="bell" size={20} />
         </button>
-        <div className="profile-card" role="group" aria-label="Signed in as Alex Morgan, Student">
+        <div className="profile-card" role="group" aria-label={`Signed in as ${displayName}, ${displayRole}`}>
           <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=LMSPortalLearner"
-            alt="Alex Morgan profile"
+            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(avatarSeed)}`}
+            alt={`${displayName} profile`}
             className="profile-card__avatar"
           />
           <div className="profile-card__info">
-            <span className="profile-card__name">Alex Morgan</span>
-            <span className="profile-card__role">Student</span>
+            <span className="profile-card__name">{displayName}</span>
+            <span className="profile-card__role">{displayRole}</span>
           </div>
         </div>
       </div>

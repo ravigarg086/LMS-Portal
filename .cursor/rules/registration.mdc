@@ -1,10 +1,28 @@
 ---
-description: Registration onboarding module requirements
+description: Registration and onboarding functional requirements for all user personas
 globs: client/src/modules/registration/**/*
 alwaysApply: false
 ---
 
 # Registration Page Requirements
 
-- Form elements must temporarily cache step progress to **session storage** to avoid losing data on page refreshes.
-- Intelligently disable submit buttons immediately upon click to prevent double form submissions or duplicate transactions.
+## 1. Multi-Persona Form Structures
+The registration system must accommodate three distinct user types, collecting specific, mandatory information for each:
+
+*   **Student Registration:**
+    *   Full Name, Email Address, and Password.
+    *   Academic Track Selection (e.g., Degree Program, Department).
+    *   Expected Graduation Year.
+*   **Faculty Registration:**
+    *   Full Name, Institutional Email Address, and Password.
+    *   Department/Faculty Affiliation (Dropdown selection).
+    *   Employee ID / Verification Number.
+*   **Admin Registration:**
+    *   Full Name, Official Organization Email, and Password.
+    *   Access Level Request Level (e.g., Department Admin, Super Admin).
+    *   Mandatory Master Access Token / System Invite Key field.
+
+## 2. Dynamic UX & Data Integrity
+- Form elements must temporarily cache step progress to **session storage** to avoid losing data on accidental page refreshes.
+- Intelligently disable submit buttons immediately upon click to prevent double form submissions or duplicate database entries.
+- Include a clear cross-link anchor reading **"Already have an account? Sign In"** that instantly routes the user back to the login screen.

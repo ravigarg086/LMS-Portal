@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { courseStackKeys, courseStacks } from '../data/courseStacks';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
-import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS, THEMES } from '../constants';
+import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, THEMES } from '../constants';
 import LucideIcon from './LucideIcon';
 import { handleSectionNavClick } from '../utils/scrollToSection';
-import { logoutUser } from '../utils/logoutUser';
 import { useTheme } from '../context/ThemeProvider';
+import { useAuth } from '../../../shared/auth/AuthContext';
 
-const COMING_SOON_NAV_IDS = new Set(['registration', 'external-data', 'subscription', 'settings']);
+const COMING_SOON_NAV_IDS = new Set(['external-data', 'subscription', 'settings']);
 
 function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuToggle }) {
-  const isActive = activeId === item.id;
+  const location = useLocation();
+  const isActive = item.href.startsWith('/') ? location.pathname === item.href : activeId === item.id;
   const comingSoonTitle = COMING_SOON_NAV_IDS.has(item.id) ? 'Coming soon' : undefined;
 
   const handleClick = (event, href = item.href) => {
     handleSectionNavClick(event, href);
     onNavigate?.();
   };
+
+  const linkClassName = `sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`;
 
   if (item.hasSubmenu) {
     const submenuId = `submenu-${item.id}`;
@@ -68,11 +72,27 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
     );
   }
 
+  if (item.href.startsWith('/')) {
+    return (
+      <li>
+        <Link
+          to={item.href}
+          className={linkClassName}
+          onClick={() => onNavigate?.()}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          <LucideIcon name={item.icon} size={20} />
+          <span>{item.label}</span>
+        </Link>
+      </li>
+    );
+  }
+
   return (
     <li>
       <a
         href={item.href}
-        className={`sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`}
+        className={linkClassName}
         onClick={handleClick}
         aria-current={isActive ? 'page' : undefined}
         title={comingSoonTitle}
@@ -86,6 +106,8 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
 
 function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
   const { theme, setTheme } = useTheme();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [openSubmenus, setOpenSubmenus] = useState(() => new Set());
 
   useEffect(() => {
@@ -114,9 +136,10 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
     onClose?.();
   };
 
-  const handleLogout = () => {
-    logoutUser();
+  const handleLogout = async () => {
+    await logout();
     onClose?.();
+    navigate('/signin');
   };
 
   return (
@@ -142,11 +165,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
           <LucideIcon name="x" size={20} />
         </button>
 
-        <a
-          href={`#${SECTION_IDS.home}`}
-          className="sidebar-brand"
-          onClick={(event) => handleNav(event, `#${SECTION_IDS.home}`)}
-        >
+        <Link to="/" className="sidebar-brand" onClick={() => onClose?.()}>
           <span className="sidebar-brand__icon" aria-hidden="true">
             <LucideIcon name="graduation-cap" size={22} />
           </span>
@@ -154,7 +173,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
             <strong>{SITE_NAME}</strong>
             <small>{SITE_TAGLINE}</small>
           </span>
-        </a>
+        </Link>
 
         <nav className="sidebar-nav" aria-label="Primary">
           <p className="sidebar-nav__heading">Main Menu</p>

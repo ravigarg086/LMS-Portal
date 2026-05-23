@@ -7,13 +7,18 @@ import ProgressRing from './ProgressRing';
 import MentorList from './MentorList';
 import PopularCoursesGrid from './PopularCoursesGrid';
 import FaqSection from './FaqSection';
+import RoleDashboardBanner from '../../dashboard/components/RoleDashboardBanner';
+import FacultyControls from '../../dashboard/components/FacultyControls';
+import AdminUserPanel from '../../dashboard/components/AdminUserPanel';
 import { SECTION_IDS } from '../constants';
+import { USER_ROLES } from '../../../shared/constants/roles';
 import { NAV_SECTION_MAP, TRACKED_SECTION_IDS } from '../data/navSections';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useActiveSection } from '../hooks/useActiveSection';
 
-function DashboardContent() {
+function DashboardContent({ user = null }) {
+  const role = user?.role;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const activeSectionId = useActiveSection(TRACKED_SECTION_IDS);
 
@@ -47,9 +52,24 @@ function DashboardContent() {
         <DashboardHeader
           sidebarOpen={sidebarOpen}
           onMenuToggle={() => (sidebarOpen ? closeSidebar() : openSidebar())}
+          user={user}
         />
 
         <main id="main-content" tabIndex={-1}>
+          {role && <RoleDashboardBanner role={role} fullName={user.fullName} />}
+
+          {role === USER_ROLES.FACULTY && (
+            <div className="dashboard-role-panel mb-4">
+              <FacultyControls />
+            </div>
+          )}
+
+          {role === USER_ROLES.ADMIN && (
+            <div className="dashboard-role-panel mb-4">
+              <AdminUserPanel />
+            </div>
+          )}
+
           <div className="dashboard-grid">
             <section
               id={SECTION_IDS.assignment}

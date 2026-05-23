@@ -6,7 +6,16 @@ import { SITE_NAME, THEMES, THEME_STORAGE_KEY } from './modules/home/constants';
 
 beforeEach(() => {
   localStorage.removeItem(THEME_STORAGE_KEY);
+  sessionStorage.clear();
   document.documentElement.removeAttribute('data-theme');
+
+  global.fetch = jest.fn((url) =>
+    Promise.resolve({
+      ok: false,
+      status: 401,
+      json: () => Promise.resolve({ message: 'Authentication required.' }),
+    }),
+  );
 });
 test('renders LMS Portal branding', () => {
   render(<App />);
