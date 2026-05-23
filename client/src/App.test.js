@@ -1,48 +1,42 @@
 import { render, screen, within } from '@testing-library/react';
 import App from './App';
-import { homeNavItems } from './modules/home/data/homeNavItems';
 import { popularCoursePlaceholders } from './modules/home/data/popularCourses';
 import { courseStackKeys, courseStacks } from './modules/home/data/courseStacks';
 import { SITE_NAME } from './modules/home/constants';
 
-test('renders LMS Portal branding', () => {
+test('renders Eduhive branding', () => {
   render(<App />);
   expect(screen.getByRole('link', { name: new RegExp(SITE_NAME, 'i') })).toBeInTheDocument();
 });
 
-test('renders PRD navigation menu items', () => {
+test('renders dashboard header and sidebar navigation', () => {
   render(<App />);
-  const nav = screen.getByRole('navigation', { name: /main navigation/i });
 
-  homeNavItems.forEach((item) => {
-    if (item.type === 'courses') {
-      expect(within(nav).getByRole('button', { name: /^Course$/i })).toBeInTheDocument();
-      return;
-    }
-
-    expect(within(nav).getByRole('link', { name: new RegExp(`^${item.label}$`, 'i') })).toBeInTheDocument();
-  });
-
-  expect(within(nav).getByRole('link', { name: /get started/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /welcome back, learner/i })).toBeInTheDocument();
+  expect(screen.getByRole('navigation', { name: /sidebar navigation/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /^Dashboard$/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /^FAQ$/i })).toBeInTheDocument();
 });
 
-test('renders course stack submenus with related courses', () => {
+test('renders course stack submenus in sidebar', () => {
   render(<App />);
-  const nav = screen.getByRole('navigation', { name: /main navigation/i });
+  const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
 
   courseStackKeys.forEach((stack) => {
-    expect(within(nav).getByRole('button', { name: new RegExp(`^${stack}$`, 'i') })).toBeInTheDocument();
+    expect(within(nav).getByText(stack)).toBeInTheDocument();
     courseStacks[stack].forEach(({ label }) => {
       expect(within(nav).getByRole('link', { name: label })).toBeInTheDocument();
     });
   });
 });
 
-test('renders superdesign hero, features, and popular course placeholders', () => {
+test('renders dashboard widgets and popular course placeholders', () => {
   render(<App />);
 
-  expect(screen.getByRole('heading', { name: /learn beyond/i })).toBeInTheDocument();
-  expect(screen.getByLabelText(/ask the lms assistant/i)).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /full stack mern development/i })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /continue learning/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /popular courses/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /frequently asked questions/i })).toBeInTheDocument();
 
   popularCoursePlaceholders.forEach(({ id, title }) => {
