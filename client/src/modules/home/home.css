@@ -12,12 +12,45 @@
   --eh-card: #ffffff;
   --eh-border: rgba(255, 237, 213, 0.5);
   --eh-dark: #2d2e42;
+  --eh-surface: #ffffff;
+  --eh-surface-muted: #f8fafc;
+  --eh-track: #e2e8f0;
+  --eh-on-primary: #ffffff;
+  --eh-faq-bg: #2d2e42;
+  --eh-faq-title: #ffffff;
+  --eh-faq-trigger: #ffffff;
+  --eh-faq-body: #cbd5e1;
+  --eh-faq-item-bg: rgba(255, 255, 255, 0.06);
+  --eh-faq-item-border: rgba(255, 255, 255, 0.08);
   --eh-sidebar-w: 288px;
   --eh-gradient: linear-gradient(135deg, var(--eh-coral-start) 0%, var(--eh-coral-end) 100%);
   --eh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --eh-shadow-coral: 0 10px 25px rgba(226, 108, 79, 0.25);
   --eh-transition: 300ms ease;
   --eh-font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --eh-coral-light: rgba(255, 141, 113, 0.14);
+  --eh-bg: #0f1218;
+  --eh-text: #f1f5f9;
+  --eh-text-secondary: #94a3b8;
+  --eh-text-muted: #64748b;
+  --eh-card: #1a2030;
+  --eh-border: rgba(255, 255, 255, 0.08);
+  --eh-dark: #12151f;
+  --eh-surface: #222838;
+  --eh-surface-muted: #161b28;
+  --eh-track: #334155;
+  --eh-faq-bg: #141824;
+  --eh-faq-title: #f1f5f9;
+  --eh-faq-trigger: #f1f5f9;
+  --eh-faq-body: #94a3b8;
+  --eh-faq-item-bg: rgba(255, 255, 255, 0.04);
+  --eh-faq-item-border: rgba(255, 255, 255, 0.06);
+  --eh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --eh-shadow-coral: 0 10px 25px rgba(226, 108, 79, 0.18);
 }
 
 * {
@@ -34,6 +67,19 @@ body {
   color: var(--eh-text);
   background: var(--eh-bg);
   -webkit-font-smoothing: antialiased;
+  transition: background-color var(--eh-transition), color var(--eh-transition);
+}
+
+.eduhive-sidebar,
+.eduhive-card,
+.dashboard-search,
+.icon-btn,
+.dashboard-header__menu-btn,
+.sidebar-close-btn,
+.theme-toggle__btn--active,
+.course-card-eduhive {
+  transition: background-color var(--eh-transition), border-color var(--eh-transition), color var(--eh-transition),
+    box-shadow var(--eh-transition);
 }
 
 .eduhive-app {
@@ -145,7 +191,7 @@ body {
   height: 2.75rem;
   border-radius: 0.85rem;
   background: var(--eh-gradient);
-  color: #fff;
+  color: var(--eh-on-primary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -208,7 +254,7 @@ body {
 
 .sidebar-nav__link--active {
   background: var(--eh-gradient);
-  color: #fff;
+  color: var(--eh-on-primary);
   box-shadow: var(--eh-shadow-coral);
 }
 
@@ -252,7 +298,7 @@ body {
 .theme-toggle {
   display: flex;
   gap: 0.25rem;
-  background: #f8fafc;
+  background: var(--eh-surface-muted);
   border-radius: 0.75rem;
   padding: 0.25rem;
 }
@@ -276,7 +322,7 @@ body {
 }
 
 .theme-toggle__btn--active {
-  background: #fff;
+  background: var(--eh-surface);
   color: var(--eh-text);
   box-shadow: var(--eh-shadow-sm);
 }
@@ -318,7 +364,7 @@ body {
 .dashboard-header__menu-btn {
   display: none;
   border: 1px solid var(--eh-border);
-  background: #fff;
+  background: var(--eh-surface);
   border-radius: 0.75rem;
   width: 2.75rem;
   height: 2.75rem;
@@ -358,7 +404,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #fff;
+  background: var(--eh-surface);
   border: 1px solid var(--eh-border);
   border-radius: 1rem;
   padding: 0.65rem 1rem;
@@ -381,7 +427,7 @@ body {
   height: 3rem;
   border-radius: 1rem;
   border: 1px solid var(--eh-border);
-  background: #fff;
+  background: var(--eh-surface);
   color: var(--eh-text-muted);
   display: inline-flex;
   align-items: center;
@@ -405,7 +451,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  background: #fff;
+  background: var(--eh-surface);
   border: 1px solid var(--eh-border);
   border-radius: 1rem;
   padding: 0.4rem 0.85rem 0.4rem 0.4rem;
@@ -549,7 +595,7 @@ body {
 
 .progress-bar {
   height: 8px;
-  background: #e2e8f0;
+  background: var(--eh-track);
   border-radius: 999px;
   overflow: hidden;
   margin-bottom: 1.5rem;
@@ -567,7 +613,7 @@ body {
   gap: 0.5rem;
   border: none;
   background: var(--eh-gradient);
-  color: #fff;
+  color: var(--eh-on-primary);
   font-family: var(--eh-font);
   font-weight: 700;
   font-size: 0.95rem;
@@ -630,7 +676,7 @@ body {
 }
 
 .stat-chart__bar--goal {
-  background: #e2e8f0;
+  background: var(--eh-track);
 }
 
 .stat-chart__day {
@@ -659,7 +705,7 @@ body {
 }
 
 .stat-card__dot--goal {
-  background: #e2e8f0;
+  background: var(--eh-track);
 }
 
 /* ========== PROGRESS RING ========== */
@@ -684,7 +730,7 @@ body {
 
 .progress-ring__track {
   fill: none;
-  stroke: #e2e8f0;
+  stroke: var(--eh-track);
   stroke-width: 12;
 }
 
@@ -800,7 +846,7 @@ body {
 .course-card-eduhive__badge {
   align-self: flex-start;
   background: var(--eh-gradient);
-  color: #fff;
+  color: var(--eh-on-primary);
   font-size: 0.7rem;
   font-weight: 700;
   padding: 0.25rem 0.6rem;
@@ -847,7 +893,7 @@ body {
 
 .course-card-eduhive__btn {
   border: 1px solid var(--eh-border);
-  background: #fff;
+  background: var(--eh-surface);
   color: var(--eh-coral);
   font-family: var(--eh-font);
   font-weight: 600;
@@ -860,7 +906,7 @@ body {
 /* ========== FAQ (dark contrast section) ========== */
 .faq-eduhive {
   margin-top: 2.5rem;
-  background: var(--eh-dark);
+  background: var(--eh-faq-bg);
   border-radius: 2rem;
   padding: 2.5rem 1.5rem;
   position: relative;
@@ -880,7 +926,7 @@ body {
   margin: 0.5rem 0 0;
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 800;
-  color: #fff;
+  color: var(--eh-faq-title);
 }
 
 .faq-eduhive .ui-label {
@@ -894,10 +940,10 @@ body {
 }
 
 .faq-eduhive__item {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--eh-faq-item-bg);
   border-radius: 1rem;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--eh-faq-item-border);
 }
 
 .faq-eduhive__trigger {
@@ -909,7 +955,7 @@ body {
   padding: 1rem 1.25rem;
   border: none;
   background: transparent;
-  color: #fff;
+  color: var(--eh-faq-trigger);
   font-family: var(--eh-font);
   font-weight: 600;
   font-size: 0.925rem;
@@ -941,7 +987,7 @@ body {
 .faq-eduhive__panel p {
   margin: 0;
   padding: 0 1.25rem 1rem;
-  color: #cbd5e1;
+  color: var(--eh-faq-body);
   font-size: 0.9rem;
   line-height: 1.65;
 }
@@ -959,7 +1005,7 @@ body {
   padding: 0.65rem 1rem;
   border-radius: 0.75rem;
   background: var(--eh-text);
-  color: #fff;
+  color: var(--eh-on-primary);
   font-family: var(--eh-font);
   font-size: 0.875rem;
   font-weight: 600;
@@ -982,7 +1028,7 @@ body {
   height: 2.5rem;
   border: 1px solid var(--eh-border);
   border-radius: 0.75rem;
-  background: #fff;
+  background: var(--eh-surface);
   color: var(--eh-text-muted);
   align-items: center;
   justify-content: center;
@@ -1027,7 +1073,7 @@ body {
 
 a.btn-coral {
   text-decoration: none;
-  color: #fff;
+  color: var(--eh-on-primary);
 }
 
 .icon-btn:disabled,
@@ -1037,7 +1083,7 @@ a.btn-coral {
   opacity: 0.55;
   cursor: not-allowed;
   color: var(--eh-text-muted);
-  background: #fff;
+  background: var(--eh-surface);
 }
 
 .faq-eduhive__panel[hidden] {

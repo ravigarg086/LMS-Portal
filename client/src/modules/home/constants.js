@@ -2,6 +2,12 @@ export const SITE_NAME = 'LMS Portal';
 export const SITE_TAGLINE = 'Learn smarter. Grow faster.';
 
 export const SIDEBAR_ID = 'eduhiveSidebar';
+export const THEME_STORAGE_KEY = 'lms-portal-theme';
+
+export const THEMES = {
+  light: 'light',
+  dark: 'dark',
+};
 
 export const SECTION_IDS = {
   home: 'home',

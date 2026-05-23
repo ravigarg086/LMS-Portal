@@ -1,9 +1,13 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, fireEvent } from '@testing-library/react';
 import App from './App';
 import { popularCoursePlaceholders } from './modules/home/data/popularCourses';
 import { courseStackKeys, courseStacks } from './modules/home/data/courseStacks';
-import { SITE_NAME } from './modules/home/constants';
+import { SITE_NAME, THEMES, THEME_STORAGE_KEY } from './modules/home/constants';
 
+beforeEach(() => {
+  localStorage.removeItem(THEME_STORAGE_KEY);
+  document.documentElement.removeAttribute('data-theme');
+});
 test('renders LMS Portal branding', () => {
   render(<App />);
   expect(screen.getByRole('link', { name: new RegExp(SITE_NAME, 'i') })).toBeInTheDocument();
@@ -43,4 +47,16 @@ test('renders dashboard widgets and popular course placeholders', () => {
     expect(screen.getByRole('heading', { name: title })).toBeInTheDocument();
     expect(document.getElementById(`course-card-${id}`)).toBeInTheDocument();
   });
+});
+
+test('theme toggle switches between light and dark modes', () => {
+  render(<App />);
+
+  expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.light);
+
+  fireEvent.click(screen.getByRole('button', { name: /dark/i }));
+  expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.dark);
+
+  fireEvent.click(screen.getByRole('button', { name: /light/i }));
+  expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.light);
 });

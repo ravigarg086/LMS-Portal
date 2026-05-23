@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { courseStackKeys, courseStacks } from '../data/courseStacks';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
-import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS } from '../constants';
+import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS, THEMES } from '../constants';
 import LucideIcon from './LucideIcon';
 import { handleSectionNavClick } from '../utils/scrollToSection';
+import { useTheme } from '../context/ThemeProvider';
 
 const COMING_SOON_NAV_IDS = new Set(['registration', 'external-data', 'subscription', 'settings']);
 
@@ -70,7 +70,7 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
 }
 
 function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
-  const [theme, setTheme] = useState('light');
+  const { theme, setTheme } = useTheme();
 
   const handleNav = (event, href) => {
     if (event && href) {
@@ -134,23 +134,21 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="theme-toggle" role="group" aria-label="Theme preference (coming soon)">
+          <div className="theme-toggle" role="group" aria-label="Theme preference">
             <button
               type="button"
-              className={`theme-toggle__btn${theme === 'light' ? ' theme-toggle__btn--active' : ''}`}
-              aria-pressed={theme === 'light'}
-              title="Theme switching coming soon"
-              onClick={() => setTheme('light')}
+              className={`theme-toggle__btn${theme === THEMES.light ? ' theme-toggle__btn--active' : ''}`}
+              aria-pressed={theme === THEMES.light}
+              onClick={() => setTheme(THEMES.light)}
             >
               <LucideIcon name="sun" size={16} />
               Light
             </button>
             <button
               type="button"
-              className={`theme-toggle__btn${theme === 'dark' ? ' theme-toggle__btn--active' : ''}`}
-              aria-pressed={theme === 'dark'}
-              title="Theme switching coming soon"
-              onClick={() => setTheme('dark')}
+              className={`theme-toggle__btn${theme === THEMES.dark ? ' theme-toggle__btn--active' : ''}`}
+              aria-pressed={theme === THEMES.dark}
+              onClick={() => setTheme(THEMES.dark)}
             >
               <LucideIcon name="moon" size={16} />
               Dark
