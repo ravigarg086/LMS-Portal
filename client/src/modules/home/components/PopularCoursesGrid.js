@@ -7,7 +7,9 @@ function PopularCoursesGrid() {
       <header className="popular-grid__header">
         <div>
           <span className="ui-label">Course Catalog</span>
-          <h2 className="popular-grid__title">Popular Courses</h2>
+          <h2 id="popular-courses-heading" className="popular-grid__title">
+            Popular Courses
+          </h2>
           <p className="popular-grid__desc">
             Featured placeholders C1, C2, and C3 — ready for central course API integration.
           </p>

@@ -949,3 +949,118 @@ body {
 .eduhive-icon {
   flex-shrink: 0;
 }
+
+/* ========== ACCESSIBILITY & UX (no visual redesign) ========== */
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--eh-text);
+  color: #fff;
+  font-family: var(--eh-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--eh-transition);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: none;
+}
+
+.sidebar-close-btn {
+  display: none;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--eh-border);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--eh-text-muted);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--eh-transition);
+}
+
+@media (max-width: 991.98px) {
+  .sidebar-close-btn {
+    display: inline-flex;
+  }
+}
+
+.sidebar-close-btn:hover {
+  color: var(--eh-coral);
+  background: var(--eh-coral-light);
+}
+
+.portal-anchors {
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.portal-anchor {
+  display: block;
+  scroll-margin-top: 6rem;
+}
+
+[id='home'],
+[id='assignment'],
+[id='progress'],
+[id='calendar'],
+[id='popular-courses'],
+[id='faq'] {
+  scroll-margin-top: 6rem;
+}
+
+a.btn-coral {
+  text-decoration: none;
+  color: #fff;
+}
+
+.icon-btn:disabled,
+.icon-btn:disabled:hover,
+.course-card-eduhive__btn:disabled,
+.course-card-eduhive__btn:disabled:hover {
+  opacity: 0.55;
+  cursor: not-allowed;
+  color: var(--eh-text-muted);
+  background: #fff;
+}
+
+.faq-eduhive__panel[hidden] {
+  display: none;
+}
+
+.sidebar-nav__link:focus-visible,
+.sidebar-nav__course-link:focus-visible,
+.sidebar-brand:focus-visible,
+.sidebar-logout:focus-visible,
+.dashboard-header__menu-btn:focus-visible,
+.icon-btn:focus-visible,
+.btn-coral:focus-visible,
+.faq-eduhive__trigger:focus-visible,
+.skip-link:focus-visible,
+.sidebar-close-btn:focus-visible,
+.theme-toggle__btn:focus-visible,
+.course-card-eduhive__btn:focus-visible {
+  outline: 2px solid var(--eh-coral);
+  outline-offset: 2px;
+}
+
+.dashboard-search input:focus-visible {
+  outline: none;
+}
+
+.dashboard-search:focus-within {
+  border-color: var(--eh-coral);
+  box-shadow: 0 0 0 2px rgba(255, 141, 113, 0.25);
+}

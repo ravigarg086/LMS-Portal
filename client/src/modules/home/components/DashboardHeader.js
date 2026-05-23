@@ -1,13 +1,15 @@
 import LucideIcon from './LucideIcon';
 
-function DashboardHeader({ onMenuToggle }) {
+function DashboardHeader({ sidebarOpen, onMenuToggle }) {
   return (
     <header className="dashboard-header">
       <div className="dashboard-header__left">
         <button
           type="button"
           className="dashboard-header__menu-btn"
-          aria-label="Open navigation menu"
+          aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={sidebarOpen}
+          aria-controls="eduhiveSidebar"
           onClick={onMenuToggle}
         >
           <LucideIcon name="menu" size={22} />
@@ -23,13 +25,13 @@ function DashboardHeader({ onMenuToggle }) {
           <LucideIcon name="search" size={18} />
           <input type="search" placeholder="Search courses..." aria-label="Search courses" />
         </label>
-        <button type="button" className="icon-btn" aria-label="Notifications">
+        <button type="button" className="icon-btn" aria-label="Notifications (coming soon)" disabled>
           <LucideIcon name="bell" size={20} />
         </button>
-        <div className="profile-card">
+        <div className="profile-card" role="group" aria-label="Signed in as Alex Morgan, Student">
           <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=EduhiveLearner"
-            alt=""
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=LMSPortalLearner"
+            alt="Alex Morgan profile"
             className="profile-card__avatar"
           />
           <div className="profile-card__info">

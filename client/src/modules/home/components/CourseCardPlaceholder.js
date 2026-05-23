@@ -18,9 +18,15 @@ function CourseCardPlaceholder({ course }) {
       <p className="course-card-eduhive__desc">{course.description}</p>
       <div className="course-card-eduhive__footer">
         <span>
-          <LucideIcon name="clock" size={14} /> {course.duration}
+          <LucideIcon name="clock" size={14} aria-hidden="true" /> {course.duration}
         </span>
-        <button type="button" className="course-card-eduhive__btn" disabled aria-disabled="true">
+        <button
+          type="button"
+          className="course-card-eduhive__btn"
+          disabled
+          aria-disabled="true"
+          title="Course details coming soon"
+        >
           View
         </button>
       </div>

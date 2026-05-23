@@ -22,6 +22,7 @@ const ICONS = {
   moon: 'M21 14.5A8.5 8.5 0 1112.5 6a6.5 6.5 0 009 8.5z',
   'graduation-cap': 'M12 3 2 8l10 5 10-5-10-5zm0 8.5L6 8v6.5l6 3 6-3V8l-6 3.5zM4 19v-2l8 4 8-4v2L12 23 4 19z',
   menu: 'M4 7h16M4 12h16M4 17h16',
+  x: 'M6 6l12 12M18 6L6 18',
 };
 
 function LucideIcon({ name, size = 20, className = '' }) {

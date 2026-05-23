@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { courseStackKeys, courseStacks } from '../data/courseStacks';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
-import { SIDEBAR_ID, SITE_NAME, SECTION_IDS } from '../constants';
+import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS } from '../constants';
 import LucideIcon from './LucideIcon';
+
+const COMING_SOON_NAV_IDS = new Set(['registration', 'external-data', 'subscription', 'settings']);
 
 function SidebarNavItem({ item, activeId, onNavigate }) {
   const isActive = activeId === item.id;
+  const comingSoonTitle = COMING_SOON_NAV_IDS.has(item.id) ? 'Coming soon' : undefined;
 
   if (item.hasSubmenu) {
     return (
@@ -14,18 +17,24 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
           href={item.href}
           className={`sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`}
           onClick={onNavigate}
+          aria-current={isActive ? 'page' : undefined}
         >
           <LucideIcon name={item.icon} size={20} />
           <span>{item.label}</span>
         </a>
-        <ul className="sidebar-nav__submenu list-unstyled mb-0">
+        <ul className="sidebar-nav__submenu list-unstyled mb-0" aria-label="Course stacks and related courses">
           {courseStackKeys.map((stack) => (
             <li key={stack}>
               <span className="sidebar-nav__stack-label">{stack}</span>
               <ul className="list-unstyled mb-0">
                 {courseStacks[stack].map((course) => (
                   <li key={course.label}>
-                    <a href={course.href} className="sidebar-nav__course-link" onClick={onNavigate}>
+                    <a
+                      href={course.href}
+                      className="sidebar-nav__course-link"
+                      onClick={onNavigate}
+                      title={course.title}
+                    >
                       {course.label}
                     </a>
                   </li>
@@ -44,6 +53,8 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
         href={item.href}
         className={`sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`}
         onClick={onNavigate}
+        aria-current={isActive ? 'page' : undefined}
+        title={comingSoonTitle}
       >
         <LucideIcon name={item.icon} size={20} />
         <span>{item.label}</span>
@@ -72,18 +83,28 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
         className={`eduhive-sidebar${mobileOpen ? ' eduhive-sidebar--open' : ''}`}
         aria-label="Sidebar navigation"
         role="navigation"
+        aria-modal={mobileOpen ? 'true' : undefined}
       >
+        <button
+          type="button"
+          className="sidebar-close-btn"
+          aria-label="Close navigation menu"
+          onClick={onClose}
+        >
+          <LucideIcon name="x" size={20} />
+        </button>
+
         <a href={`#${SECTION_IDS.home}`} className="sidebar-brand" onClick={handleNav}>
           <span className="sidebar-brand__icon" aria-hidden="true">
             <LucideIcon name="graduation-cap" size={22} />
           </span>
           <span className="sidebar-brand__text">
             <strong>{SITE_NAME}</strong>
-            <small>Premium LMS</small>
+            <small>{SITE_TAGLINE}</small>
           </span>
         </a>
 
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav" aria-label="Primary">
           <p className="sidebar-nav__heading">Main Menu</p>
           <ul className="sidebar-nav__list list-unstyled mb-0">
             {mainSidebarNav.map((item) => (
@@ -100,10 +121,12 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="theme-toggle" role="group" aria-label="Theme toggle">
+          <div className="theme-toggle" role="group" aria-label="Theme preference (coming soon)">
             <button
               type="button"
               className={`theme-toggle__btn${theme === 'light' ? ' theme-toggle__btn--active' : ''}`}
+              aria-pressed={theme === 'light'}
+              title="Theme switching coming soon"
               onClick={() => setTheme('light')}
             >
               <LucideIcon name="sun" size={16} />
@@ -112,15 +135,17 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
             <button
               type="button"
               className={`theme-toggle__btn${theme === 'dark' ? ' theme-toggle__btn--active' : ''}`}
+              aria-pressed={theme === 'dark'}
+              title="Theme switching coming soon"
               onClick={() => setTheme('dark')}
             >
               <LucideIcon name="moon" size={16} />
               Dark
             </button>
           </div>
-          <a href="#logout" className="sidebar-logout" onClick={handleNav}>
+          <a href={`#${SECTION_IDS.signIn}`} className="sidebar-logout" onClick={handleNav}>
             <LucideIcon name="log-out" size={18} />
-            Logout
+            Sign In
           </a>
         </div>
       </aside>

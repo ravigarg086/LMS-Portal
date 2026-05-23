@@ -7,8 +7,14 @@ function ProgressRing() {
 
   return (
     <article className="eduhive-card eduhive-card--stat progress-ring-card">
-      <h3 className="stat-card__title">Overall Progress</h3>
-      <div className="progress-ring">
+      <h3 id="overall-progress-title" className="stat-card__title">
+        Overall Progress
+      </h3>
+      <div
+        className="progress-ring"
+        role="img"
+        aria-label={`Overall learning progress ${overallProgress} percent complete`}
+      >
         <svg className="progress-ring__svg" viewBox="0 0 192 192" aria-hidden="true">
           <circle className="progress-ring__track" cx="96" cy="96" r={radius} />
           <circle
@@ -20,7 +26,7 @@ function ProgressRing() {
             strokeDashoffset={offset}
           />
         </svg>
-        <div className="progress-ring__center">
+        <div className="progress-ring__center" aria-hidden="true">
           <strong>{overallProgress}%</strong>
           <span>Complete</span>
         </div>

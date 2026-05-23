@@ -4,7 +4,7 @@ import { popularCoursePlaceholders } from './modules/home/data/popularCourses';
 import { courseStackKeys, courseStacks } from './modules/home/data/courseStacks';
 import { SITE_NAME } from './modules/home/constants';
 
-test('renders Eduhive branding', () => {
+test('renders LMS Portal branding', () => {
   render(<App />);
   expect(screen.getByRole('link', { name: new RegExp(SITE_NAME, 'i') })).toBeInTheDocument();
 });
@@ -35,7 +35,7 @@ test('renders dashboard widgets and popular course placeholders', () => {
   render(<App />);
 
   expect(screen.getByRole('heading', { name: /full stack mern development/i })).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /continue learning/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /continue learning/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /popular courses/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /frequently asked questions/i })).toBeInTheDocument();
 
