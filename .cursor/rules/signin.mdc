@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+Web portal for LMS using cursor
+---
+
+# Sign In Page Creation
+- Sign In page of LMS application should be based on REACT
+- Sign In page should be responsive
+- Use bootstrap to create the responsive website
+- Always capture User ID and Password fields with client-side form validation
+- Include an active cross-link anchor reading "New User Sign Here" to route users to registration
+- Never store session tokens or passwords inside open localStorage; manage states safely

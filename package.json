@@ -1,0 +1,9 @@
+{
+  "name": "lms-project-cursor",
+  "private": true,
+  "scripts": {
+    "start": "npm start --prefix client",
+    "build": "npm run build --prefix client",
+    "install:client": "npm install --prefix client"
+  }
+}

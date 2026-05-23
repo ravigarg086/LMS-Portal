@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+Web portal for LMS using cursor
+---
+
+# Course Page Creation
+- Course catalog page of LMS application should be based on REACT
+- Course catalog page should be responsive
+- Use bootstrap cards and grid layouts to display available courses
+- Dynamic course data must look for and consume a central 'course API' resource
+- Always render a prominent "Popular Courses" container tracking options C1, C2, and C3
+- Enforce debouncing logic on dynamic text search fields to throttle live backend API requests

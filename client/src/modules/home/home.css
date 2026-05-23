@@ -1,0 +1,54 @@
+/* Homepage module — layout stability and responsive guards */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.page-section {
+  scroll-margin-top: 5.5rem;
+}
+
+.hero-section {
+  min-height: 420px;
+}
+
+@media (min-width: 992px) {
+  .hero-section {
+    min-height: 480px;
+  }
+
+  .py-lg-6 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+}
+
+.hero-section__panel {
+  min-height: 220px;
+}
+
+.popular-courses__carousel {
+  min-height: 380px;
+}
+
+@media (min-width: 576px) {
+  .popular-courses__carousel {
+    min-height: 400px;
+  }
+}
+
+.popular-course-card {
+  min-height: 340px;
+}
+
+.popular-course-card__thumb {
+  height: 140px;
+}
+
+.popular-courses__grid {
+  min-height: 340px;
+}
+
+.navbar-collapse.collapsing {
+  transition-duration: 0.2s;
+}

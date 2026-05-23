@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+Web portal for LMS using cursor
+---
+
+# Home Page Creation
+- Home page of LMS application should be based on REACT
+- Home page should be responsive
+- Use bootstrap to create the responsive website
+- Always create the Single Page application
+- Always use npx to create REACT application
+
+
