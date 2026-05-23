@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { courseStackKeys, courseStacks } from '../data/courseStacks';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
 import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, SECTION_IDS, THEMES } from '../constants';
@@ -8,7 +9,7 @@ import { useTheme } from '../context/ThemeProvider';
 
 const COMING_SOON_NAV_IDS = new Set(['registration', 'external-data', 'subscription', 'settings']);
 
-function SidebarNavItem({ item, activeId, onNavigate }) {
+function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuToggle }) {
   const isActive = activeId === item.id;
   const comingSoonTitle = COMING_SOON_NAV_IDS.has(item.id) ? 'Coming soon' : undefined;
 
@@ -18,18 +19,31 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
   };
 
   if (item.hasSubmenu) {
+    const submenuId = `submenu-${item.id}`;
+
+    const handleToggle = () => {
+      onSubmenuToggle(item.id);
+    };
+
     return (
-      <li className="sidebar-nav__group">
-        <a
-          href={item.href}
-          className={`sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`}
-          onClick={handleClick}
-          aria-current={isActive ? 'page' : undefined}
+      <li className={`sidebar-nav__group${isSubmenuOpen ? ' sidebar-nav__group--open' : ''}`}>
+        <button
+          type="button"
+          className={`sidebar-nav__link sidebar-nav__link--toggle${isActive ? ' sidebar-nav__link--active' : ''}`}
+          aria-expanded={isSubmenuOpen}
+          aria-controls={submenuId}
+          onClick={handleToggle}
         >
           <LucideIcon name={item.icon} size={20} />
           <span>{item.label}</span>
-        </a>
-        <ul className="sidebar-nav__submenu list-unstyled mb-0" aria-label="Course stacks and related courses">
+          <LucideIcon name="chevron-down" size={18} className="sidebar-nav__chevron" />
+        </button>
+        <ul
+          id={submenuId}
+          className="sidebar-nav__submenu list-unstyled mb-0"
+          aria-label="Course stacks and related courses"
+          hidden={!isSubmenuOpen}
+        >
           {courseStackKeys.map((stack) => (
             <li key={stack}>
               <span className="sidebar-nav__stack-label">{stack}</span>
@@ -72,6 +86,25 @@ function SidebarNavItem({ item, activeId, onNavigate }) {
 
 function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
   const { theme, setTheme } = useTheme();
+  const [openSubmenus, setOpenSubmenus] = useState(() => new Set());
+
+  useEffect(() => {
+    if (activeId === 'courses') {
+      setOpenSubmenus((prev) => new Set(prev).add('courses'));
+    }
+  }, [activeId]);
+
+  const toggleSubmenu = (itemId) => {
+    setOpenSubmenus((prev) => {
+      const next = new Set(prev);
+      if (next.has(itemId)) {
+        next.delete(itemId);
+      } else {
+        next.add(itemId);
+      }
+      return next;
+    });
+  };
 
   const handleNav = (event, href) => {
     if (event && href) {
@@ -127,14 +160,28 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose }) {
           <p className="sidebar-nav__heading">Main Menu</p>
           <ul className="sidebar-nav__list list-unstyled mb-0">
             {mainSidebarNav.map((item) => (
-              <SidebarNavItem key={item.id} item={item} activeId={activeId} onNavigate={handleNav} />
+              <SidebarNavItem
+                key={item.id}
+                item={item}
+                activeId={activeId}
+                onNavigate={handleNav}
+                isSubmenuOpen={openSubmenus.has(item.id)}
+                onSubmenuToggle={toggleSubmenu}
+              />
             ))}
           </ul>
 
           <p className="sidebar-nav__heading sidebar-nav__heading--secondary">Portal</p>
           <ul className="sidebar-nav__list list-unstyled mb-0">
             {secondarySidebarNav.map((item) => (
-              <SidebarNavItem key={item.id} item={item} activeId={activeId} onNavigate={handleNav} />
+              <SidebarNavItem
+                key={item.id}
+                item={item}
+                activeId={activeId}
+                onNavigate={handleNav}
+                isSubmenuOpen={openSubmenus.has(item.id)}
+                onSubmenuToggle={toggleSubmenu}
+              />
             ))}
           </ul>
         </nav>

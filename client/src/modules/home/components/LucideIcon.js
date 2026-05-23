@@ -24,6 +24,7 @@ const ICONS = {
   'graduation-cap': 'M12 3 2 8l10 5 10-5-10-5zm0 8.5L6 8v6.5l6 3 6-3V8l-6 3.5zM4 19v-2l8 4 8-4v2L12 23 4 19z',
   menu: 'M4 7h16M4 12h16M4 17h16',
   x: 'M6 6l12 12M18 6L6 18',
+  'chevron-down': 'M6 9l6 6 6-6',
 };
 
 function LucideIcon({ name, size = 20, className = '' }) {

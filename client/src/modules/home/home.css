@@ -247,6 +247,33 @@ body {
   transition: background var(--eh-transition), color var(--eh-transition), box-shadow var(--eh-transition);
 }
 
+button.sidebar-nav__link {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--eh-font);
+  text-align: left;
+}
+
+.sidebar-nav__link--toggle {
+  justify-content: flex-start;
+}
+
+.sidebar-nav__chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform var(--eh-transition);
+}
+
+.sidebar-nav__group--open .sidebar-nav__chevron {
+  transform: rotate(180deg);
+}
+
+.sidebar-nav__submenu[hidden] {
+  display: none;
+}
+
 .sidebar-nav__link:hover {
   background: var(--eh-coral-light);
   color: var(--eh-coral);
@@ -1095,6 +1122,7 @@ a.btn-coral {
 }
 
 .sidebar-nav__link:focus-visible,
+.sidebar-nav__link--toggle:focus-visible,
 .sidebar-nav__course-link:focus-visible,
 .sidebar-brand:focus-visible,
 .sidebar-logout:focus-visible,

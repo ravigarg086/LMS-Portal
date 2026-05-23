@@ -25,9 +25,11 @@ test('renders dashboard header and sidebar navigation', () => {
   expect(screen.getByRole('button', { name: /^Logout$/i })).toBeInTheDocument();
 });
 
-test('renders course stack submenus in sidebar', () => {
+test('renders course stack submenus when Courses is expanded', () => {
   render(<App />);
   const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
+
+  fireEvent.click(screen.getByRole('button', { name: /^Courses$/i }));
 
   courseStackKeys.forEach((stack) => {
     expect(within(nav).getByText(stack)).toBeInTheDocument();
@@ -35,6 +37,21 @@ test('renders course stack submenus in sidebar', () => {
       expect(within(nav).getByRole('link', { name: label })).toBeInTheDocument();
     });
   });
+});
+
+test('courses submenu toggles expand and collapse', () => {
+  render(<App />);
+
+  const coursesBtn = screen.getByRole('button', { name: /^Courses$/i });
+  expect(coursesBtn).toHaveAttribute('aria-expanded', 'false');
+
+  fireEvent.click(coursesBtn);
+  expect(coursesBtn).toHaveAttribute('aria-expanded', 'true');
+  expect(screen.getByText('MEAN')).toBeInTheDocument();
+
+  fireEvent.click(coursesBtn);
+  expect(coursesBtn).toHaveAttribute('aria-expanded', 'false');
+  expect(document.getElementById('submenu-courses')).toHaveAttribute('hidden');
 });
 
 test('renders dashboard widgets and popular course placeholders', () => {
