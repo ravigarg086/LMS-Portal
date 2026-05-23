@@ -52,3 +52,71 @@ html {
 .home-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+/* Course menu — nested MEAN / MERN / DevOps submenus */
+.courses-nav-dropdown {
+  position: relative;
+}
+
+.courses-nav-dropdown__menu,
+.courses-nav-dropdown__submenu {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
+  min-width: 220px;
+}
+
+.courses-nav-dropdown__submenu {
+  min-width: 240px;
+}
+
+.courses-nav-dropdown__stack.dropdown-toggle::after {
+  margin-left: auto;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  .courses-nav-dropdown .navbar-nav {
+    overflow: visible;
+  }
+
+  .courses-nav-dropdown > .courses-nav-dropdown__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1050;
+  }
+
+  .dropdown-submenu > .courses-nav-dropdown__submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 0.15rem;
+    z-index: 1060;
+  }
+
+  .courses-nav-dropdown:hover > .courses-nav-dropdown__menu,
+  .dropdown-submenu:hover > .courses-nav-dropdown__submenu {
+    display: block;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .courses-nav-dropdown__menu,
+  .courses-nav-dropdown__submenu {
+    position: static !important;
+    float: none;
+    width: 100%;
+    margin: 0.25rem 0 0.5rem !important;
+    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+
+  .courses-nav-dropdown__submenu {
+    margin-left: 1rem !important;
+    padding-left: 0.25rem;
+  }
+}
