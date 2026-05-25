@@ -10,6 +10,20 @@ export function useRevealUp(threshold = 0.15) {
       return undefined;
     }
 
+    const revealIfVisible = () => {
+      const rect = node.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) {
+        setVisible(true);
+        return true;
+      }
+      return false;
+    };
+
+    if (revealIfVisible()) {
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

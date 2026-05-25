@@ -1,16 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../shared/auth/AuthContext';
+import AuthLoadingScreen from '../../shared/components/AuthLoadingScreen';
 import HomePage from '../home';
 
 function ProtectedDashboard({ role }) {
   const { user, initializing } = useAuth();
 
   if (initializing) {
-    return (
-      <div className="auth-page eduhive-app">
-        <p className="auth-card__subtitle">Loading your dashboard...</p>
-      </div>
-    );
+    return <AuthLoadingScreen message="Loading your dashboard..." />;
   }
 
   if (!user) {

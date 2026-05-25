@@ -4,18 +4,55 @@ import { popularCoursePlaceholders } from './modules/home/data/popularCourses';
 import { courseStackKeys, courseStacks } from './modules/home/data/courseStacks';
 import { SITE_NAME, THEMES, THEME_STORAGE_KEY } from './modules/home/constants';
 
+const mockExternalUser = {
+  id: 1,
+  name: 'Leanne Graham',
+  username: 'Bret',
+  email: 'Sincere@april.biz',
+  phone: '1-770-7368031',
+  address: { city: 'Gwenborough' },
+  company: { name: 'Romaguera-Crona' },
+};
+
+function createFetchMock() {
+  return jest.fn((url) => {
+    const urlString = typeof url === 'string' ? url : url.url;
+
+    if (urlString.includes('jsonplaceholder.typicode.com/users')) {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve([mockExternalUser]),
+      });
+    }
+
+    if (urlString.includes('/api/external/users')) {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            users: [mockExternalUser],
+            source: 'jsonplaceholder',
+          }),
+      });
+    }
+
+    return Promise.resolve({
+      ok: false,
+      status: 401,
+      json: () => Promise.resolve({ message: 'Authentication required.' }),
+    });
+  });
+}
+
 beforeEach(() => {
   localStorage.removeItem(THEME_STORAGE_KEY);
   sessionStorage.clear();
   document.documentElement.removeAttribute('data-theme');
+  document.documentElement.removeAttribute('data-bs-theme');
 
-  global.fetch = jest.fn((url) =>
-    Promise.resolve({
-      ok: false,
-      status: 401,
-      json: () => Promise.resolve({ message: 'Authentication required.' }),
-    }),
-  );
+  global.fetch = createFetchMock();
 });
 
 async function renderApp() {
@@ -94,15 +131,40 @@ test('renders FAQ on dedicated page', async () => {
   expect(within(screen.getByRole('navigation', { name: /sidebar navigation/i })).getByRole('link', { name: /^FAQ$/i })).toHaveAttribute('aria-current', 'page');
 });
 
+test('renders external users table on dedicated page', async () => {
+  window.history.pushState({}, '', '/external-data');
+  await renderApp();
+
+  expect(screen.getByRole('heading', { name: /external user directory/i })).toBeInTheDocument();
+  const table = document.getElementById('external-users-table');
+  const tbody = table.querySelector('tbody');
+  expect(await within(tbody).findByText('Leanne Graham')).toBeInTheDocument();
+  expect(within(tbody).getByText('Gwenborough')).toBeInTheDocument();
+  expect(within(tbody).getByText('Romaguera-Crona')).toBeInTheDocument();
+  expect(within(screen.getByRole('navigation', { name: /sidebar navigation/i })).getByRole('link', { name: /^External Data$/i })).toHaveAttribute('aria-current', 'page');
+});
+
+test('filters external users via global search', async () => {
+  window.history.pushState({}, '', '/external-data');
+  await renderApp();
+
+  expect(await screen.findByText('Leanne Graham')).toBeInTheDocument();
+  fireEvent.change(screen.getByLabelText(/search users/i), { target: { value: 'zzzznotfound' } });
+  expect(await screen.findByText(/no users found matching your criteria/i)).toBeInTheDocument();
+});
+
 test('theme toggle switches between light and dark modes', async () => {
   window.history.pushState({}, '', '/');
   await renderApp();
 
   expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.light);
+  expect(document.documentElement.getAttribute('data-bs-theme')).toBe(THEMES.light);
 
   fireEvent.click(screen.getByRole('button', { name: /dark/i }));
   expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.dark);
+  expect(document.documentElement.getAttribute('data-bs-theme')).toBe(THEMES.dark);
 
   fireEvent.click(screen.getByRole('button', { name: /light/i }));
   expect(document.documentElement.getAttribute('data-theme')).toBe(THEMES.light);
+  expect(document.documentElement.getAttribute('data-bs-theme')).toBe(THEMES.light);
 });

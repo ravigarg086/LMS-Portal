@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import Highcharts from 'highcharts';
-import { useTheme } from '../../home/context/ThemeProvider';
+import { useTheme } from '../../../shared/theme/ThemeProvider';
 import ChartPanel from './ChartPanel';
 import { TRACK_COLOR, baseChartOptions, getChartTheme } from '../utils/chartTheme';
 

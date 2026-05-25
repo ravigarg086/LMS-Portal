@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './index.css';
+import './shared/styles/eduhive-app.css';
+import './shared/styles/theme-overrides.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

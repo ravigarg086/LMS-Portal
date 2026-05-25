@@ -1,11 +1,23 @@
 ---
-description: External data and payment integration requirements
+description: Requirements for the external data module, user tables, global searching, and column-level filtering
 globs: client/src/modules/external-data/**/*
 alwaysApply: false
 ---
 
-# External Data & Integrations
+# External Data Module & Table Requirements
 
-- Wrap external interfaces (such as global PayPal and local RBI payment systems) within unified local service hooks.
-- Never print or pass sensitive transactional tokens, card numbers, or PII into open tracking logs.
-- Frequently accessed static matrices like help options must pull directly from a local static `FAQ.JSON` schema.
+## 1. Data Table Layout & Responsiveness
+- Render external user data in a clean, responsive layout structure that eliminates layout shifts during search updates or pagination switches.
+- The user table must handle high-volume text fields gracefully without breaking cell boundaries or forcing horizontal window scrolling on desktop views.
+
+## 2. Omnibox / Global Search Functionality
+- Provide a single, prominent global search input field positioned directly above the data table.
+- **Fuzzy Matching:** The global search must evaluate queries against all text-based attributes simultaneously (e.g., searching "John" scans First Name, Last Name, Email, and Department).
+- Provide instant visual feedback if a search yields zero results, displaying a clear "No users found matching your criteria" message within a responsive Bootstrap component container.
+
+## 3. Column-Level Filtering
+- Each searchable data column (e.g., Name, Email, Role, Status) must include its own individual, context-aware filter control located directly inside or immediately below the column header.
+- **Filter Mechanics:** 
+  - Text columns (Name/Email) must support partial match input text fields.
+  - Categorical columns (Role/Status) must utilize drop-down selectors listing unique values.
+- **Combined Search Logic:** Column-level filters must act as logical `AND` constraints alongside the global search field (e.g., Global search = "Smith" `AND` Column Role Filter = "Faculty").

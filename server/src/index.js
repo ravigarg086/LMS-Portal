@@ -6,6 +6,7 @@ const cors = require('cors');
 const { initUserStore } = require('./store/userStore');
 const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
+const externalDataRoutes = require('./routes/externalDataRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/external', externalDataRoutes);
 
 async function start() {
   try {

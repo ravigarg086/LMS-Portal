@@ -30,6 +30,8 @@
   --st-motion: 1s cubic-bezier(0.16, 1, 0.3, 1);
   --st-glass: rgba(253, 248, 243, 0.8);
   --st-nav-h: 80px;
+  --st-border-soft: rgba(38, 38, 38, 0.05);
+  --st-footer-muted: rgba(38, 38, 38, 0.3);
 }
 
 [data-theme='dark'] {
@@ -52,6 +54,8 @@
   --eh-faq-item-bg: #2a2a2a;
   --eh-faq-item-border: rgba(253, 248, 243, 0.08);
   --st-glass: rgba(26, 26, 26, 0.82);
+  --st-border-soft: rgba(253, 248, 243, 0.08);
+  --st-footer-muted: rgba(253, 248, 243, 0.35);
 }
 
 @keyframes bounce-slow {
@@ -136,7 +140,7 @@
   background: var(--st-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-right: 1px solid rgba(38, 38, 38, 0.05);
+  border-right: 1px solid var(--st-border-soft);
   padding-top: calc(var(--st-nav-h) / 2);
 }
 
@@ -319,7 +323,7 @@ a.sidebar-nav__link {
   background: var(--st-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(38, 38, 38, 0.05);
+  border: 1px solid var(--st-border-soft);
   border-radius: 999px;
 }
 
@@ -374,7 +378,7 @@ a.sidebar-nav__link {
 .services-grid {
   display: grid;
   grid-template-columns: 1fr;
-  border-top: 1px solid rgba(38, 38, 38, 0.08);
+  border-top: 1px solid var(--st-border-soft);
 }
 
 @media (min-width: 992px) {
@@ -384,8 +388,8 @@ a.sidebar-nav__link {
 }
 
 .services-grid__item {
-  border-right: 1px solid rgba(38, 38, 38, 0.08);
-  border-bottom: 1px solid rgba(38, 38, 38, 0.08);
+  border-right: 1px solid var(--st-border-soft);
+  border-bottom: 1px solid var(--st-border-soft);
 }
 
 .services-grid__item .eduhive-card {
@@ -713,9 +717,9 @@ a.sidebar-nav__link {
   justify-content: space-between;
   gap: 1rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(38, 38, 38, 0.08);
+  border-top: 1px solid var(--eh-border);
   font-size: 9px;
-  color: rgba(38, 38, 38, 0.3);
+  color: var(--st-footer-muted);
   letter-spacing: 0.08em;
 }
 
@@ -725,7 +729,7 @@ a.sidebar-nav__link {
 }
 
 .site-footer__legal a {
-  color: rgba(38, 38, 38, 0.3);
+  color: var(--st-footer-muted);
   text-decoration: none;
 }
 

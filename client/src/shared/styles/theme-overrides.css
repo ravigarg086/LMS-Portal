@@ -1,0 +1,206 @@
+/* Bootstrap + component sync for LMS dark mode (data-theme + data-bs-theme) */
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Bootstrap core tokens aligned to Super Travel palette */
+  --bs-body-bg: #1a1a1a;
+  --bs-body-color: #fdf8f3;
+  --bs-emphasis-color: #fdf8f3;
+  --bs-secondary-color: rgba(253, 248, 243, 0.72);
+  --bs-secondary-bg: #2a2a2a;
+  --bs-tertiary-color: rgba(253, 248, 243, 0.45);
+  --bs-tertiary-bg: #222222;
+  --bs-border-color: rgba(253, 248, 243, 0.08);
+  --bs-link-color: #e4a4bd;
+  --bs-link-hover-color: #f0b8cc;
+
+  /* Tables */
+  --bs-table-color: #fdf8f3;
+  --bs-table-bg: transparent;
+  --bs-table-border-color: rgba(253, 248, 243, 0.08);
+  --bs-table-striped-color: #fdf8f3;
+  --bs-table-striped-bg: rgba(253, 248, 243, 0.04);
+  --bs-table-active-color: #fdf8f3;
+  --bs-table-active-bg: rgba(228, 164, 189, 0.14);
+  --bs-table-hover-color: #fdf8f3;
+  --bs-table-hover-bg: rgba(228, 164, 189, 0.14);
+
+  /* Forms */
+  --bs-form-control-bg: #222222;
+  --bs-form-control-color: #fdf8f3;
+  --bs-form-control-border-color: rgba(253, 248, 243, 0.08);
+  --bs-form-select-bg: #222222;
+  --bs-form-select-color: #fdf8f3;
+  --bs-form-select-border-color: rgba(253, 248, 243, 0.08);
+  --bs-input-group-addon-bg: #2a2a2a;
+  --bs-input-group-addon-color: rgba(253, 248, 243, 0.72);
+  --bs-input-group-addon-border-color: rgba(253, 248, 243, 0.08);
+}
+
+[data-theme='dark'] .eduhive-app,
+[data-theme='dark'] .auth-page {
+  color: var(--eh-text);
+}
+
+[data-theme='dark'] .eduhive-app .table,
+[data-theme='dark'] .auth-page .table {
+  --bs-table-color: var(--eh-text);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--eh-border);
+  --bs-table-striped-color: var(--eh-text);
+  --bs-table-striped-bg: rgba(253, 248, 243, 0.04);
+  --bs-table-hover-color: var(--eh-text);
+  --bs-table-hover-bg: var(--eh-coral-light);
+  color: var(--eh-text);
+  border-color: var(--eh-border);
+}
+
+[data-theme='dark'] .eduhive-app .table > :not(caption) > * > *,
+[data-theme='dark'] .auth-page .table > :not(caption) > * > * {
+  color: var(--eh-text);
+  border-bottom-color: var(--eh-border);
+}
+
+[data-theme='dark'] .eduhive-app .table thead th,
+[data-theme='dark'] .eduhive-app .table tbody td,
+[data-theme='dark'] .auth-page .table thead th,
+[data-theme='dark'] .auth-page .table tbody td {
+  color: var(--eh-text);
+  background-color: transparent;
+}
+
+[data-theme='dark'] .eduhive-app .table-striped > tbody > tr:nth-of-type(odd) > *,
+[data-theme='dark'] .auth-page .table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-color-type: var(--eh-text);
+  --bs-table-bg-type: rgba(253, 248, 243, 0.04);
+  color: var(--eh-text);
+}
+
+[data-theme='dark'] .eduhive-app .form-control,
+[data-theme='dark'] .eduhive-app .form-select,
+[data-theme='dark'] .auth-page .form-control,
+[data-theme='dark'] .auth-page .form-select {
+  background-color: var(--eh-surface);
+  border-color: var(--eh-border);
+  color: var(--eh-text);
+}
+
+[data-theme='dark'] .eduhive-app .form-control::placeholder,
+[data-theme='dark'] .auth-page .form-control::placeholder {
+  color: var(--eh-text-muted);
+  opacity: 1;
+}
+
+[data-theme='dark'] .eduhive-app .form-control:focus,
+[data-theme='dark'] .eduhive-app .form-select:focus,
+[data-theme='dark'] .auth-page .form-control:focus,
+[data-theme='dark'] .auth-page .form-select:focus {
+  background-color: var(--eh-surface);
+  border-color: var(--eh-coral);
+  color: var(--eh-text);
+  box-shadow: 0 0 0 0.2rem rgba(228, 164, 189, 0.2);
+}
+
+[data-theme='dark'] .eduhive-app .form-select option,
+[data-theme='dark'] .auth-page .form-select option {
+  background-color: var(--eh-surface);
+  color: var(--eh-text);
+}
+
+[data-theme='dark'] .eduhive-app .alert-light,
+[data-theme='dark'] .auth-page .alert-light {
+  --bs-alert-color: var(--eh-text-secondary);
+  --bs-alert-bg: var(--eh-surface-muted);
+  --bs-alert-border-color: var(--eh-border);
+  color: var(--eh-text-secondary);
+  background-color: var(--eh-surface-muted);
+  border-color: var(--eh-border);
+}
+
+[data-theme='dark'] .eduhive-app .btn-outline-secondary,
+[data-theme='dark'] .auth-page .btn-outline-secondary {
+  --bs-btn-color: var(--eh-text-secondary);
+  --bs-btn-border-color: var(--eh-border);
+  --bs-btn-hover-bg: var(--eh-surface-muted);
+  --bs-btn-hover-border-color: var(--eh-border);
+  --bs-btn-hover-color: var(--eh-text);
+  --bs-btn-active-bg: var(--eh-surface-muted);
+  --bs-btn-active-border-color: var(--eh-border);
+  --bs-btn-active-color: var(--eh-text);
+}
+
+[data-theme='dark'] .eduhive-app .text-danger,
+[data-theme='dark'] .auth-page .text-danger {
+  color: #f4a3a3 !important;
+}
+
+[data-theme='dark'] .eduhive-app a:not(.btn):not(.sidebar-nav__link):not(.sidebar-brand),
+[data-theme='dark'] .auth-page a:not(.btn) {
+  color: var(--eh-coral);
+}
+
+[data-theme='dark'] .eduhive-app .btn-outline-primary,
+[data-theme='dark'] .auth-page .btn-outline-primary {
+  --bs-btn-color: var(--eh-text);
+  --bs-btn-border-color: var(--eh-border);
+  --bs-btn-hover-bg: var(--eh-coral);
+  --bs-btn-hover-border-color: var(--eh-coral);
+  --bs-btn-hover-color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app .btn-primary,
+[data-theme='dark'] .auth-page .btn-primary {
+  --bs-btn-bg: var(--eh-coral);
+  --bs-btn-border-color: var(--eh-coral);
+  --bs-btn-color: var(--eh-on-primary);
+  --bs-btn-hover-bg: #d994ad;
+  --bs-btn-hover-border-color: #d994ad;
+  --bs-btn-hover-color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-card,
+[data-theme='dark'] .role-panel,
+[data-theme='dark'] .external-data-panel {
+  background: var(--eh-card);
+  border-color: var(--eh-border);
+}
+
+[data-theme='dark'] .dashboard-search {
+  background: var(--eh-surface-muted);
+  color: var(--eh-text);
+  border-color: var(--eh-border);
+}
+
+[data-theme='dark'] .dashboard-search::placeholder {
+  color: var(--eh-text-muted);
+}
+
+[data-theme='dark'] .external-data-table__cell-text,
+[data-theme='dark'] .external-data-table tbody td,
+[data-theme='dark'] .external-data-table thead th {
+  color: var(--eh-text);
+}
+
+[data-theme='dark'] .external-data-table-wrap {
+  background: var(--eh-surface);
+}
+
+[data-theme='dark'] .external-data-table tbody tr {
+  background: transparent;
+}
+
+[data-theme='dark'] .external-data-table tbody tr:hover {
+  background: var(--eh-coral-light);
+}
+
+[data-theme='dark'] .highcharts-axis-labels text,
+[data-theme='dark'] .highcharts-legend-item text {
+  fill: rgba(253, 248, 243, 0.72) !important;
+}
+
+[data-theme='dark'] .highcharts-title,
+[data-theme='dark'] .highcharts-subtitle {
+  fill: #fdf8f3 !important;
+}
+

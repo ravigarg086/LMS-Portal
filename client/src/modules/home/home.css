@@ -1280,6 +1280,19 @@ a.btn-coral {
   margin-bottom: 1rem;
 }
 
+.role-panel .table {
+  color: var(--eh-text);
+}
+
+.role-panel .table thead th {
+  color: var(--eh-text-muted);
+  border-color: var(--eh-border);
+}
+
+.role-panel .table td {
+  border-color: var(--eh-border);
+}
+
 .role-panel--admin .table {
   color: var(--eh-text);
 }

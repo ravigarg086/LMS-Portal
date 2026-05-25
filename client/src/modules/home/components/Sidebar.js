@@ -5,10 +5,10 @@ import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
 import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, THEMES } from '../constants';
 import LucideIcon from './LucideIcon';
 import { handleSectionNavClick } from '../utils/scrollToSection';
-import { useTheme } from '../context/ThemeProvider';
+import { useTheme } from '../../../shared/theme/ThemeProvider';
 import { useAuth } from '../../../shared/auth/AuthContext';
 
-const COMING_SOON_NAV_IDS = new Set(['external-data', 'subscription', 'settings']);
+const COMING_SOON_NAV_IDS = new Set(['subscription', 'settings']);
 
 function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuToggle }) {
   const location = useLocation();

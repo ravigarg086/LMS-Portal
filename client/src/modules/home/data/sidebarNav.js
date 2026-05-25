@@ -11,7 +11,7 @@ export const mainSidebarNav = [
 export const secondarySidebarNav = [
   { id: 'registration', label: 'Registration', href: '/register', icon: 'check-circle' },
   { id: 'faq', label: 'FAQ', href: '/faq', icon: 'help-circle' },
-  { id: 'external-data', label: 'External Data', href: `#${SECTION_IDS.externalData}`, icon: 'trending-up' },
+  { id: 'external-data', label: 'External Data', href: '/external-data', icon: 'trending-up' },
   { id: 'subscription', label: 'Subscription', href: `#${SECTION_IDS.subscription}`, icon: 'plus' },
   { id: 'settings', label: 'Settings', href: '#settings', icon: 'settings' },
 ];

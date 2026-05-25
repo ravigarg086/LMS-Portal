@@ -102,30 +102,25 @@
   font-weight: 600;
 }
 
-.auth-role-banner--student {
-  background: rgba(228, 164, 189, 0.18);
-  color: #262626;
-}
-
-.auth-role-banner--faculty {
-  background: rgba(228, 164, 189, 0.18);
-  color: #262626;
-}
-
+.auth-role-banner--student,
+.auth-role-banner--faculty,
 .auth-role-banner--admin {
   background: rgba(228, 164, 189, 0.18);
-  color: #262626;
+  color: var(--eh-text);
 }
 
 [data-theme='dark'] .auth-role-banner--student {
+  background: rgba(147, 197, 253, 0.15);
   color: #93c5fd;
 }
 
 [data-theme='dark'] .auth-role-banner--faculty {
+  background: rgba(110, 231, 183, 0.15);
   color: #6ee7b7;
 }
 
 [data-theme='dark'] .auth-role-banner--admin {
+  background: rgba(252, 211, 77, 0.15);
   color: #fcd34d;
 }
 

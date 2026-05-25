@@ -1,9 +1,8 @@
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../shared/auth/AuthContext';
+import AuthLoadingScreen from '../../shared/components/AuthLoadingScreen';
 import { SITE_NAME, SITE_TAGLINE } from '../home/constants';
 import RegistrationForm from './components/RegistrationForm';
-import '../home/home.css';
-import '../home/super-travel.css';
 import '../../shared/styles/auth.css';
 import './registration.css';
 
@@ -11,11 +10,7 @@ function RegistrationPage() {
   const { user, initializing, getDashboardRoute } = useAuth();
 
   if (initializing) {
-    return (
-      <div className="auth-page eduhive-app">
-        <p className="auth-card__subtitle">Loading...</p>
-      </div>
-    );
+    return <AuthLoadingScreen />;
   }
 
   if (user) {
