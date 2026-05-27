@@ -4,6 +4,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { initUserStore } = require('./store/userStore');
+const { initContactDb } = require('./db/initContactDb');
 const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const externalDataRoutes = require('./routes/externalDataRoutes');
@@ -22,7 +23,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', storage: 'json' });
+  res.json({
+    status: 'ok',
+    storage: {
+      users: 'json',
+      contact: 'mysql',
+    },
+  });
 });
 
 app.use('/api/auth', authRoutes);
@@ -33,6 +40,7 @@ app.use('/api/contact', contactRoutes);
 async function start() {
   try {
     await initUserStore();
+    await initContactDb();
     app.listen(PORT, () => {
       console.log(`LMS API running on http://localhost:${PORT}`);
     });

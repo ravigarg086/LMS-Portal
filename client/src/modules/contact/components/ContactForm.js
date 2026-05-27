@@ -26,7 +26,7 @@ function ContactForm() {
 
       <form className="contact-form" onSubmit={handleSubmit} noValidate>
         <div className="row g-3">
-          <div className="col-md-6">
+          <div className="col-12 col-md-6">
             <label htmlFor="contact-full-name" className="form-label">
               Full Name
             </label>
@@ -41,7 +41,7 @@ function ContactForm() {
             {errors.fullName && <div className="invalid-feedback">{errors.fullName}</div>}
           </div>
 
-          <div className="col-md-6">
+          <div className="col-12 col-md-6">
             <label htmlFor="contact-email" className="form-label">
               Email
             </label>
@@ -56,7 +56,7 @@ function ContactForm() {
             {errors.email && <div className="invalid-feedback">{errors.email}</div>}
           </div>
 
-          <div className="col-md-4">
+          <div className="col-12 col-sm-6 col-lg-4">
             <label htmlFor="contact-designation" className="form-label">
               Designation
             </label>
@@ -76,7 +76,7 @@ function ContactForm() {
             {errors.designation && <div className="invalid-feedback">{errors.designation}</div>}
           </div>
 
-          <div className="col-md-4">
+          <div className="col-12 col-sm-6 col-lg-4">
             <label htmlFor="contact-location" className="form-label">
               Location
             </label>
@@ -92,7 +92,7 @@ function ContactForm() {
             {errors.location && <div className="invalid-feedback">{errors.location}</div>}
           </div>
 
-          <div className="col-md-4">
+          <div className="col-12 col-lg-4">
             <label htmlFor="contact-phone" className="form-label">
               Phone Number
             </label>
@@ -137,9 +137,11 @@ function ContactForm() {
           </div>
 
           <div className="col-12">
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </button>
+            <div className="d-grid d-md-flex justify-content-md-end">
+              <button type="submit" className="btn btn-primary contact-form__submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
+            </div>
           </div>
         </div>
       </form>

@@ -81,7 +81,7 @@ test('renders dashboard header and sidebar navigation', async () => {
 
   expect(screen.getByRole('heading', { name: /learn smarter/i })).toBeInTheDocument();
   const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
-  expect(within(nav).getByRole('link', { name: /^Dashboard$/i })).toBeInTheDocument();
+  expect(within(nav).getByRole('link', { name: /^Dashboard$/i })).toHaveAttribute('href', '/');
   expect(within(nav).getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
   expect(within(nav).getByRole('link', { name: /^Photo Gallery$/i })).toHaveAttribute('href', '/photo-gallery');
   expect(within(nav).getByRole('link', { name: /^FAQ$/i })).toHaveAttribute('href', '/faq');
@@ -120,11 +120,13 @@ test('courses submenu toggles expand and collapse', async () => {
   expect(document.getElementById('submenu-courses')).toHaveAttribute('hidden');
 });
 
-test('renders dashboard widgets and popular course placeholders', async () => {
+test('renders guest dashboard and popular course placeholders', async () => {
   await renderApp();
 
-  expect(document.getElementById('featured-course-title')).toHaveTextContent(/full stack mern development/i);
-  expect(screen.getByRole('link', { name: /continue learning/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /explore the lms portal/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /portal services/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /built for every role/i })).toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: /continue learning/i })).not.toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /popular courses/i })).toBeInTheDocument();
   expect(screen.queryByRole('heading', { name: /frequently asked questions/i })).not.toBeInTheDocument();
 
@@ -132,6 +134,21 @@ test('renders dashboard widgets and popular course placeholders', async () => {
     expect(document.getElementById(`course-title-${id}`)).toHaveTextContent(title);
     expect(document.getElementById(`course-card-${id}`)).toBeInTheDocument();
   });
+});
+
+test('navigates from contact page to guest dashboard', async () => {
+  window.history.pushState({}, '', '/contact');
+  await renderApp();
+
+  expect(screen.getByRole('heading', { name: /^Contact Form$/i })).toBeInTheDocument();
+
+  const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
+  fireEvent.click(within(nav).getByRole('link', { name: /^Dashboard$/i }));
+
+  await waitFor(() => {
+    expect(screen.getByRole('heading', { name: /explore the lms portal/i })).toBeInTheDocument();
+  });
+  expect(screen.queryByRole('heading', { name: /^Contact Form$/i })).not.toBeInTheDocument();
 });
 
 test('renders FAQ on dedicated page', async () => {

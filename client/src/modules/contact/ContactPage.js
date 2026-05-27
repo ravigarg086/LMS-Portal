@@ -10,10 +10,10 @@ function ContactPage() {
     <DashboardShell activeId="contact" pageClassName="contact-page" mainClassName="contact-page__main">
       <RevealUp>
         <div className="row g-4 contact-page__grid">
-          <div className="col-lg-4">
+          <div className="col-12 col-lg-4">
             <ContactDetails />
           </div>
-          <div className="col-lg-8">
+          <div className="col-12 col-lg-8">
             <ContactForm />
             <ContactMap />
           </div>

@@ -1,6 +1,6 @@
 ---
-description: Contact Us module — details, validated form, and Google Map
-globs: client/src/modules/contact/**/*
+description: Contact Us module — details, validated form, Google Map, and MySQL persistence
+globs: client/src/modules/contact/**/*,server/src/**/contact*
 alwaysApply: false
 ---
 
@@ -12,20 +12,25 @@ alwaysApply: false
   1. **Contact Details** — address, phone, email, office hours.
   2. **Contact Form** — name, email, designation (Student/Faculty/Admin), location, phone, subject, message.
   3. **Google Map** — embedded map iframe for the campus location (Chicago).
+- Form fields use Bootstrap 12-column responsive grid (`col-12`, `col-md-6`, `col-lg-4`).
 
 ## 2. Form Validation (Client-Side JS)
 - Validate on submit with inline field errors (no native browser-only validation).
 - Rules: name required; email required + valid format; designation required (Student, Faculty, Admin); location required; phone required + valid format; subject required; message min 10 characters.
 - Disable submit while posting; show success or server error feedback.
 
-## 3. Server Integration
-- POST ` /api/contact` persists messages via JSON file store on the Express server.
+## 3. Server Integration (MySQL)
+- `POST /api/contact` validates the payload and inserts a row into MySQL table `contact_messages` in database `lms-portal-db`.
+- `GET /api/contact` (admin only, authenticated) returns contact submissions for the admin dashboard inbox.
+- Database credentials live in `server/.env` (`MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`). Never commit `.env`.
+- On server startup, ensure the database and `contact_messages` table exist (`initContactDb`).
+- Return `{ message: 'Thank you — we received your inquiry.' }` on success; return `400` with field errors on validation failure.
 - Never log full message bodies to the browser console in production code.
 
 ## 4. Module Structure
-- Keep UI under `client/src/modules/contact/`.
-- Separate: `data/contactInfo.js`, `utils/validateContactForm.js`, `hooks/useContactForm.js`, `components/ContactDetails.js`, `components/ContactForm.js`, `components/ContactMap.js`, `ContactPage.js`.
-- API client: `client/src/shared/api/contactApi.js`.
+- **Client:** `client/src/modules/contact/` — `data/contactInfo.js`, `utils/validateContactForm.js`, `hooks/useContactForm.js`, `components/ContactDetails.js`, `components/ContactForm.js`, `components/ContactMap.js`, `ContactPage.js`.
+- **API client:** `client/src/shared/api/contactApi.js`.
+- **Server:** `server/src/config/mysql.js`, `server/src/db/initContactDb.js`, `server/src/store/contactStore.js`, `server/src/controllers/contactController.js`, `server/src/routes/contactRoutes.js`.
 
 ## 5. UX & Accessibility
 - Use semantic headings, labels linked to inputs, and `role="alert"` for errors.

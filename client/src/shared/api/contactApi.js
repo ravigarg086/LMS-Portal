@@ -6,3 +6,8 @@ export async function submitContactMessage(payload) {
     body: JSON.stringify(payload),
   });
 }
+
+export function fetchContactMessages(search = '') {
+  const query = search ? `?search=${encodeURIComponent(search)}` : '';
+  return apiRequest(`/contact${query}`);
+}

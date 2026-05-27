@@ -58,6 +58,10 @@
   color: var(--eh-text-secondary);
 }
 
+.contact-form__submit {
+  min-width: 10rem;
+}
+
 .contact-map__frame-wrap {
   border-radius: 16px;
   overflow: hidden;

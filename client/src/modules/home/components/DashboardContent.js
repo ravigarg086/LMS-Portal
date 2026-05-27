@@ -1,4 +1,5 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import DashboardHeader from './DashboardHeader';
 import Sidebar from './Sidebar';
 import FeaturedCourseCard from './FeaturedCourseCard';
@@ -6,32 +7,47 @@ import StatisticsCard from './StatisticsCard';
 import ProgressRing from './ProgressRing';
 import MentorList from './MentorList';
 import PopularCoursesGrid from './PopularCoursesGrid';
+import GuestDashboard from './GuestDashboard';
 import SiteFooter from './SiteFooter';
 import RevealUp from './RevealUp';
 import RoleDashboardBanner from '../../dashboard/components/RoleDashboardBanner';
 import FacultyControls from '../../dashboard/components/FacultyControls';
 import AdminUserPanel from '../../dashboard/components/AdminUserPanel';
+import AdminContactMessagesPanel from '../../dashboard/components/AdminContactMessagesPanel';
 import AdminAnalyticsSection from '../../dashboard/components/AdminAnalyticsSection';
 import { useStudentDashboard } from '../../dashboard/hooks/useStudentDashboard';
 import { SECTION_IDS } from '../constants';
 import { USER_ROLES } from '../../../shared/constants/roles';
-import { NAV_SECTION_MAP, TRACKED_SECTION_IDS } from '../data/navSections';
+import { GUEST_NAV_SECTION_MAP, NAV_SECTION_MAP, TRACKED_SECTION_IDS } from '../data/navSections';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useActiveSection } from '../hooks/useActiveSection';
+import { scrollToSection } from '../utils/scrollToSection';
+import { isHomeDashboardRoute } from '../utils/homeRoutes';
 
 function DashboardContent({ user = null }) {
+  const location = useLocation();
   const role = user?.role;
+  const isGuest = !role;
   const isStudent = role === USER_ROLES.STUDENT;
-  const showPersonalWidgets = !role || isStudent;
+  const showPersonalWidgets = isStudent;
   const { dashboard, loading: dashboardLoading, error: dashboardError } = useStudentDashboard(isStudent);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const activeSectionId = useActiveSection(TRACKED_SECTION_IDS);
+  const navSectionMap = isGuest ? GUEST_NAV_SECTION_MAP : NAV_SECTION_MAP;
 
   const activeNavId = useMemo(() => {
-    const match = Object.entries(NAV_SECTION_MAP).find(([, sectionId]) => sectionId === activeSectionId);
+    const match = Object.entries(navSectionMap).find(([, sectionId]) => sectionId === activeSectionId);
     return match?.[0] ?? 'dashboard';
-  }, [activeSectionId]);
+  }, [activeSectionId, navSectionMap]);
+
+  useEffect(() => {
+    if (!location.hash || !isHomeDashboardRoute(location.pathname)) {
+      return;
+    }
+
+    scrollToSection(location.hash);
+  }, [location.pathname, location.hash]);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
@@ -78,9 +94,12 @@ function DashboardContent({ user = null }) {
           {role === USER_ROLES.ADMIN && (
             <RevealUp className="dashboard-role-panel mb-4">
               <AdminAnalyticsSection />
+              <AdminContactMessagesPanel />
               <AdminUserPanel />
             </RevealUp>
           )}
+
+          {isGuest && <GuestDashboard />}
 
           {showPersonalWidgets && (
             <>
@@ -143,6 +162,7 @@ function DashboardContent({ user = null }) {
 
           <SiteFooter />
 
+          {!isGuest && (
           <div className="portal-anchors" aria-hidden="true">
             <span id={SECTION_IDS.registration} className="portal-anchor" />
             <span id={SECTION_IDS.externalData} className="portal-anchor" />
@@ -150,6 +170,7 @@ function DashboardContent({ user = null }) {
             <span id={SECTION_IDS.signIn} className="portal-anchor" />
             <span id="settings" className="portal-anchor" />
           </div>
+          )}
         </main>
       </div>
     </div>

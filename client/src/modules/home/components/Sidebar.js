@@ -5,14 +5,17 @@ import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
 import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, THEMES } from '../constants';
 import LucideIcon from './LucideIcon';
 import { handleSectionNavClick } from '../utils/scrollToSection';
+import { getDashboardRootPath, isHomeDashboardRoute } from '../utils/homeRoutes';
 import { useTheme } from '../../../shared/theme/ThemeProvider';
 import { useAuth } from '../../../shared/auth/AuthContext';
 
 const COMING_SOON_NAV_IDS = new Set(['subscription', 'settings']);
 
-function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuToggle }) {
+function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuToggle, dashboardRootPath }) {
   const location = useLocation();
-  const isActive = item.href.startsWith('/') ? location.pathname === item.href : activeId === item.id;
+  const isRouteLink = item.href.startsWith('/');
+  const isActive = isRouteLink ? location.pathname === item.href : activeId === item.id;
+  const isOnHomeDashboard = isHomeDashboardRoute(location.pathname);
   const comingSoonTitle = COMING_SOON_NAV_IDS.has(item.id) ? 'Coming soon' : undefined;
 
   const handleClick = (event, href = item.href) => {
@@ -54,14 +57,25 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
               <ul className="list-unstyled mb-0">
                 {courseStacks[stack].map((course) => (
                   <li key={course.label}>
-                    <a
-                      href={course.href}
-                      className="sidebar-nav__course-link"
-                      onClick={(event) => handleClick(event, course.href)}
-                      title={course.title}
-                    >
-                      {course.label}
-                    </a>
+                    {isOnHomeDashboard ? (
+                      <a
+                        href={course.href}
+                        className="sidebar-nav__course-link"
+                        onClick={(event) => handleClick(event, course.href)}
+                        title={course.title}
+                      >
+                        {course.label}
+                      </a>
+                    ) : (
+                      <Link
+                        to={{ pathname: dashboardRootPath, hash: course.href }}
+                        className="sidebar-nav__course-link"
+                        onClick={() => onNavigate?.()}
+                        title={course.title}
+                      >
+                        {course.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -80,6 +94,23 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
           className={linkClassName}
           onClick={() => onNavigate?.()}
           aria-current={isActive ? 'page' : undefined}
+        >
+          <LucideIcon name={item.icon} size={20} />
+          <span>{item.label}</span>
+        </Link>
+      </li>
+    );
+  }
+
+  if (!isOnHomeDashboard) {
+    return (
+      <li>
+        <Link
+          to={{ pathname: dashboardRootPath, hash: item.href }}
+          className={linkClassName}
+          onClick={() => onNavigate?.()}
+          aria-current={isActive ? 'page' : undefined}
+          title={comingSoonTitle}
         >
           <LucideIcon name={item.icon} size={20} />
           <span>{item.label}</span>
@@ -118,6 +149,8 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
     return true;
   });
 
+  const dashboardRootPath = getDashboardRootPath(isAuthenticated, user?.role, getDashboardRoute);
+
   const mainNavItems = useMemo(() => {
     if (!isAuthenticated) {
       return mainSidebarNav;
@@ -127,12 +160,12 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
       if (item.id === 'dashboard') {
         return {
           ...item,
-          href: getDashboardRoute(user.role),
+          href: dashboardRootPath,
         };
       }
       return item;
     });
-  }, [isAuthenticated, user?.role, getDashboardRoute]);
+  }, [isAuthenticated, dashboardRootPath]);
 
   useEffect(() => {
     if (activeId === 'courses') {
@@ -210,6 +243,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
                 onNavigate={handleNav}
                 isSubmenuOpen={openSubmenus.has(item.id)}
                 onSubmenuToggle={toggleSubmenu}
+                dashboardRootPath={dashboardRootPath}
               />
             ))}
           </ul>
@@ -224,6 +258,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
                 onNavigate={handleNav}
                 isSubmenuOpen={openSubmenus.has(item.id)}
                 onSubmenuToggle={toggleSubmenu}
+                dashboardRootPath={dashboardRootPath}
               />
             ))}
           </ul>

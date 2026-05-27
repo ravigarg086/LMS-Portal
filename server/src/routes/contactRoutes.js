@@ -1,8 +1,11 @@
 const express = require('express');
-const { submitContact } = require('../controllers/contactController');
+const authMiddleware = require('../middleware/authMiddleware');
+const requireRole = require('../middleware/requireRole');
+const { submitContact, getContactMessages } = require('../controllers/contactController');
 
 const router = express.Router();
 
 router.post('/', submitContact);
+router.get('/', authMiddleware, requireRole('admin'), getContactMessages);
 
 module.exports = router;

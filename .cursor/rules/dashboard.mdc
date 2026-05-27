@@ -19,7 +19,14 @@ The dashboard layout must dynamically adapt to the authenticated user's role. Co
 *   **Admin Dashboard View:**
     *   **User Management Panel:** Add and edit Students and Faculty; delete managed accounts when required.
     *   **System Health Audit:** Overview of platform metrics, active courses, and global configurations.
+    *   **Contact Messages Inbox:** Fetch and display Contact Us submissions from MySQL (`contact_messages`). Admin-only; secured via authenticated `GET /api/contact`.
 
-## 2. Layout Stability & Performance
+## 2. Admin Contact Inbox UX
+- Render only when `user.role === 'admin'`.
+- Responsive Bootstrap layout: searchable table on desktop (`table-responsive`), stacked message cards on mobile.
+- Show loading, empty, and error states without layout shift.
+- Match portal Super Travel styling (`eduhive-card`, `role-panel--admin`, designation badges).
+
+## 3. Layout Stability & Performance
 - Ensure clean layout structures to completely eliminate Cumulative Layout Shift (CLS). Content must never pop or jump around during async API fetches.
 - Unauthorized roles must be securely blocked from rendering or injecting components meant for higher privilege levels.

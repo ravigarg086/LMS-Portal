@@ -12,10 +12,22 @@ export const NAV_SECTION_MAP = {
   subscription: SECTION_IDS.subscription,
 };
 
+export const GUEST_NAV_SECTION_MAP = {
+  ...NAV_SECTION_MAP,
+  dashboard: 'guest-portal',
+  courses: SECTION_IDS.popularCourses,
+  assignment: 'guest-roles',
+  progress: 'guest-portal',
+  calendar: 'guest-overview',
+};
+
 export const TRACKED_SECTION_IDS = [
   SECTION_IDS.home,
   SECTION_IDS.assignment,
   SECTION_IDS.progress,
   SECTION_IDS.calendar,
   SECTION_IDS.popularCourses,
+  'guest-overview',
+  'guest-portal',
+  'guest-roles',
 ];

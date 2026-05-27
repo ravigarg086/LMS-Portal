@@ -1,29 +1,8 @@
-const fs = require('fs/promises');
-const path = require('path');
 const crypto = require('crypto');
+const { getPool } = require('../config/mysql');
 
-const DATA_DIR = path.join(__dirname, '../../data');
-const CONTACT_FILE = path.join(DATA_DIR, 'contact-messages.json');
 const ALLOWED_DESIGNATIONS = new Set(['student', 'faculty', 'admin']);
 const PHONE_REGEX = /^[+]?[\d\s().-]{10,}$/;
-
-async function readStore() {
-  try {
-    const raw = await fs.readFile(CONTACT_FILE, 'utf8');
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed.messages) ? parsed : { messages: [] };
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      return { messages: [] };
-    }
-    throw error;
-  }
-}
-
-async function writeStore(store) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(CONTACT_FILE, JSON.stringify(store, null, 2), 'utf8');
-}
 
 function validateContactPayload(body) {
   const errors = {};
@@ -62,19 +41,33 @@ function validateContactPayload(body) {
   return { errors, fullName, email, designation, location, phone, subject, message };
 }
 
+function createValidationError(errors) {
+  const error = new Error('Validation failed.');
+  error.status = 400;
+  error.errors = errors;
+  return error;
+}
+
 async function saveContactMessage(payload) {
   const { errors, fullName, email, designation, location, phone, subject, message } =
     validateContactPayload(payload);
+
   if (Object.keys(errors).length) {
-    const error = new Error('Validation failed.');
-    error.status = 400;
-    error.errors = errors;
-    throw error;
+    throw createValidationError(errors);
   }
 
-  const store = await readStore();
-  const record = {
-    id: crypto.randomUUID(),
+  const id = crypto.randomUUID();
+  const pool = await getPool();
+
+  await pool.execute(
+    `INSERT INTO contact_messages
+      (id, full_name, email, designation, location, phone, subject, message)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [id, fullName, email, designation, location, phone, subject, message],
+  );
+
+  return {
+    id,
     fullName,
     email,
     designation,
@@ -84,10 +77,49 @@ async function saveContactMessage(payload) {
     message,
     createdAt: new Date().toISOString(),
   };
-
-  store.messages.push(record);
-  await writeStore(store);
-  return record;
 }
 
-module.exports = { saveContactMessage };
+function mapContactRow(row) {
+  return {
+    id: row.id,
+    fullName: row.full_name,
+    email: row.email,
+    designation: row.designation,
+    location: row.location,
+    phone: row.phone,
+    subject: row.subject,
+    message: row.message,
+    createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : row.created_at,
+  };
+}
+
+async function listContactMessages({ search = '', limit = 100 } = {}) {
+  const pool = await getPool();
+  const safeLimit = Math.min(Math.max(Number(limit) || 100, 1), 200);
+  const trimmedSearch = String(search || '').trim();
+  let query = `
+    SELECT id, full_name, email, designation, location, phone, subject, message, created_at
+    FROM contact_messages
+  `;
+  const params = [];
+
+  if (trimmedSearch) {
+    query += `
+      WHERE full_name LIKE ?
+         OR email LIKE ?
+         OR subject LIKE ?
+         OR location LIKE ?
+         OR phone LIKE ?
+    `;
+    const term = `%${trimmedSearch}%`;
+    params.push(term, term, term, term, term);
+  }
+
+  query += ' ORDER BY created_at DESC LIMIT ?';
+  params.push(safeLimit);
+
+  const [rows] = await pool.execute(query, params);
+  return rows.map(mapContactRow);
+}
+
+module.exports = { saveContactMessage, validateContactPayload, listContactMessages };
