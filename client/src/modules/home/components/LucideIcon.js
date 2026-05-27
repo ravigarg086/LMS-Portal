@@ -25,6 +25,8 @@ const ICONS = {
   menu: 'M4 7h16M4 12h16M4 17h16',
   x: 'M6 6l12 12M18 6L6 18',
   'chevron-down': 'M6 9l6 6 6-6',
+  image: 'M4 5h16v14H4V5zm0 0l5 5 3-3 4 4 4-5v4H4V5z',
+  mail: 'M4 6h16v12H4V6zm0 0 8 6 8-6',
 };
 
 function LucideIcon({ name, size = 20, className = '' }) {

@@ -1,0 +1,26 @@
+---
+description: Photo Gallery module — dynamic course lightbox gallery
+globs: client/src/modules/photo-gallery/**/*
+alwaysApply: false
+---
+
+# Photo Gallery Requirements
+
+## 1. Dynamic Course Gallery
+- The **Photo Gallery** sidebar link must route to `/photo-gallery`.
+- Gallery items must be built **dynamically** from the existing course catalog (`courseStacks`, `popularCoursePlaceholders`) — never hard-code a static-only grid.
+- Each item displays course title, stack/track label, and a representative image.
+
+## 2. Lightbox UX
+- Clicking a gallery thumbnail opens a **Lightbox** modal overlay (focused image, dimmed backdrop).
+- Lightbox must support **Close**, **Previous**, and **Next** controls plus keyboard (`Escape`, arrow keys).
+- Trap focus inside the modal while open; restore scroll when closed.
+
+## 3. Layout & Accessibility
+- Responsive Bootstrap grid (`row` / `col-*`) inside an `eduhive-card`.
+- Images use meaningful `alt` text derived from course labels.
+- Match Super Travel tokens (`--eh-*`, `st-label`, `eduhive-card`) and dark-mode overrides.
+
+## 4. Module Structure
+- Keep UI under `client/src/modules/photo-gallery/`.
+- Separate: `utils/buildGalleryItems.js`, `hooks/usePhotoGallery.js`, `components/PhotoGalleryGrid.js`, `components/LightboxModal.js`, `PhotoGalleryPage.js`.

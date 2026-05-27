@@ -15,8 +15,9 @@ const mockExternalUser = {
 };
 
 function createFetchMock() {
-  return jest.fn((url) => {
+  return jest.fn((url, options = {}) => {
     const urlString = typeof url === 'string' ? url : url.url;
+    const method = (options.method || 'GET').toUpperCase();
 
     if (urlString.includes('jsonplaceholder.typicode.com/users')) {
       return Promise.resolve({
@@ -35,6 +36,14 @@ function createFetchMock() {
             users: [mockExternalUser],
             source: 'jsonplaceholder',
           }),
+      });
+    }
+
+    if (urlString.includes('/api/contact') && method === 'POST') {
+      return Promise.resolve({
+        ok: true,
+        status: 201,
+        json: () => Promise.resolve({ message: 'Thank you — we received your inquiry.' }),
       });
     }
 
@@ -74,7 +83,9 @@ test('renders dashboard header and sidebar navigation', async () => {
   const nav = screen.getByRole('navigation', { name: /sidebar navigation/i });
   expect(within(nav).getByRole('link', { name: /^Dashboard$/i })).toBeInTheDocument();
   expect(within(nav).getByRole('link', { name: /^Registration$/i })).toBeInTheDocument();
+  expect(within(nav).getByRole('link', { name: /^Photo Gallery$/i })).toHaveAttribute('href', '/photo-gallery');
   expect(within(nav).getByRole('link', { name: /^FAQ$/i })).toHaveAttribute('href', '/faq');
+  expect(within(nav).getByRole('link', { name: /^Contact Us$/i })).toHaveAttribute('href', '/contact');
   expect(screen.getAllByRole('link', { name: /^Sign In$/i }).length).toBeGreaterThan(0);
   expect(screen.queryByRole('button', { name: /^Logout$/i })).not.toBeInTheDocument();
   expect(screen.getByRole('link', { name: /^Sign Up$/i })).toBeInTheDocument();
@@ -151,6 +162,40 @@ test('filters external users via global search', async () => {
   expect(await screen.findByText('Leanne Graham')).toBeInTheDocument();
   fireEvent.change(screen.getByLabelText(/search users/i), { target: { value: 'zzzznotfound' } });
   expect(await screen.findByText(/no users found matching your criteria/i)).toBeInTheDocument();
+});
+
+test('renders photo gallery with lightbox on dedicated page', async () => {
+  window.history.pushState({}, '', '/photo-gallery');
+  await renderApp();
+
+  expect(screen.getByRole('heading', { name: /course photo gallery/i })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /open react & hooks in lightbox/i })).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('button', { name: /open react & hooks in lightbox/i }));
+  expect(screen.getByRole('dialog', { name: /react & hooks photo preview/i })).toBeInTheDocument();
+});
+
+test('renders contact page and submits validated form', async () => {
+  window.history.pushState({}, '', '/contact');
+  await renderApp();
+
+  expect(screen.getByRole('heading', { name: /^Contact Details$/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /^Contact Form$/i })).toBeInTheDocument();
+  expect(screen.getByTitle(/lms portal campus/i)).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+  expect(await screen.findByText(/full name is required/i)).toBeInTheDocument();
+
+  fireEvent.change(screen.getByLabelText(/^Full Name$/i), { target: { value: 'Alex Morgan' } });
+  fireEvent.change(screen.getByLabelText(/^Email$/i), { target: { value: 'alex@campus.edu' } });
+  fireEvent.change(screen.getByLabelText(/^Designation$/i), { target: { value: 'student' } });
+  fireEvent.change(screen.getByLabelText(/^Location$/i), { target: { value: 'Chicago, IL' } });
+  fireEvent.change(screen.getByLabelText(/^Phone Number$/i), { target: { value: '+1 (312) 555-0199' } });
+  fireEvent.change(screen.getByLabelText(/^Subject$/i), { target: { value: 'Course inquiry' } });
+  fireEvent.change(screen.getByLabelText(/^Message$/i), { target: { value: 'I would like more details about MERN courses.' } });
+  fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+
+  expect(await screen.findByText(/thank you — we received your inquiry/i)).toBeInTheDocument();
 });
 
 test('theme toggle switches between light and dark modes', async () => {

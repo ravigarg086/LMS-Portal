@@ -22,6 +22,7 @@ alwaysApply: true
 - **Bootstrap First:** Always leverage Bootstrap utility classes or React-Bootstrap components for structural layout, spacing (padding/margins), and alignment before writing custom CSS.
 - **Mobile-First Approach:** Ensure all layout implementations look perfect on mobile screens ($<576\text{px}$) first, then scale up using Bootstrap's responsive breakpoints (`sm`, `md`, `lg`, `xl`).
 - **Consistent Theming:** Maintain color scheme consistency by using Bootstrap's theme colors (`primary`, `secondary`, `dark`, etc.) or global CSS variables defined in the main stylesheet.
+- Always make all the components and forms inside the web portal responsive.
 
 ## 4. Error Handling & Security
 - **Defensive Coding:** Always implement error boundaries or try/catch blocks when dealing with async operations, API fetches, or local storage parsing.

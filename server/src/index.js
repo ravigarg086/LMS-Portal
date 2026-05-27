@@ -7,6 +7,7 @@ const { initUserStore } = require('./store/userStore');
 const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const externalDataRoutes = require('./routes/externalDataRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,6 +28,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/external', externalDataRoutes);
+app.use('/api/contact', contactRoutes);
 
 async function start() {
   try {

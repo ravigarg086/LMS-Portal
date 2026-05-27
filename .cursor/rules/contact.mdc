@@ -1,0 +1,33 @@
+---
+description: Contact Us module — details, validated form, and Google Map
+globs: client/src/modules/contact/**/*
+alwaysApply: false
+---
+
+# Contact Us Requirements
+
+## 1. Page Layout
+- The **Contact Us** sidebar link must route to `/contact`.
+- Page contains three PRD sections on one responsive layout:
+  1. **Contact Details** — address, phone, email, office hours.
+  2. **Contact Form** — name, email, designation (Student/Faculty/Admin), location, phone, subject, message.
+  3. **Google Map** — embedded map iframe for the campus location (Chicago).
+
+## 2. Form Validation (Client-Side JS)
+- Validate on submit with inline field errors (no native browser-only validation).
+- Rules: name required; email required + valid format; designation required (Student, Faculty, Admin); location required; phone required + valid format; subject required; message min 10 characters.
+- Disable submit while posting; show success or server error feedback.
+
+## 3. Server Integration
+- POST ` /api/contact` persists messages via JSON file store on the Express server.
+- Never log full message bodies to the browser console in production code.
+
+## 4. Module Structure
+- Keep UI under `client/src/modules/contact/`.
+- Separate: `data/contactInfo.js`, `utils/validateContactForm.js`, `hooks/useContactForm.js`, `components/ContactDetails.js`, `components/ContactForm.js`, `components/ContactMap.js`, `ContactPage.js`.
+- API client: `client/src/shared/api/contactApi.js`.
+
+## 5. UX & Accessibility
+- Use semantic headings, labels linked to inputs, and `role="alert"` for errors.
+- Map iframe requires a descriptive `title` attribute.
+- Match Super Travel styling and dark-mode theme overrides.
