@@ -226,15 +226,43 @@ a.sidebar-nav__link {
 }
 
 .dashboard-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+  padding: 0.875rem 1.6rem;
+  border-radius: 999px;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--eh-primary);
-  border-bottom-color: var(--eh-primary);
-  border-bottom-width: 2px;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--eh-on-primary);
+  background: var(--eh-gradient);
+  border: 1px solid transparent;
+  box-shadow: var(--eh-shadow-coral);
+  transition: transform var(--eh-transition), box-shadow var(--eh-transition), filter var(--eh-transition);
 }
 
-.dashboard-hero__cta:hover {
-  color: var(--eh-primary-dark);
+.dashboard-hero__cta-arrow {
+  display: inline-flex;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform var(--eh-transition);
+}
+
+.dashboard-hero__cta:hover,
+.dashboard-hero__cta:focus-visible {
+  color: var(--eh-on-primary);
+  text-decoration: none;
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.32);
+}
+
+.dashboard-hero__cta:hover .dashboard-hero__cta-arrow,
+.dashboard-hero__cta:focus-visible .dashboard-hero__cta-arrow {
+  transform: translateX(4px);
 }
 
 .dashboard-hero__card {

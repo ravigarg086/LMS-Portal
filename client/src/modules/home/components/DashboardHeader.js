@@ -124,7 +124,9 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
               </p>
               <Link to="/register" className="dashboard-hero__cta">
                 Start Learning
-                <span aria-hidden="true">→</span>
+                <span className="dashboard-hero__cta-arrow" aria-hidden="true">
+                  →
+                </span>
               </Link>
             </div>
           </div>
