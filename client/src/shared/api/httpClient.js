@@ -1,6 +1,6 @@
 const API_BASE = process.env.REACT_APP_API_URL || '/api';
 
-function getHttpErrorMessage(status, data) {
+function getHttpErrorMessage(status, data, path = '') {
   if (data?.message) {
     return data.message;
   }
@@ -14,6 +14,10 @@ function getHttpErrorMessage(status, data) {
   }
 
   if (status === 404) {
+    if (path.includes('/auth/profile')) {
+      return 'Profile update is unavailable. Restart the LMS server (cd server && npm run dev) to load the latest API routes.';
+    }
+
     return 'Service not found. Restart the LMS server to load the latest API routes.';
   }
 
@@ -49,11 +53,11 @@ async function readResponseBody(response) {
   return {};
 }
 
-async function parseResponse(response) {
+async function parseResponse(response, path = '') {
   const data = await readResponseBody(response);
 
   if (!response.ok) {
-    const error = new Error(getHttpErrorMessage(response.status, data));
+    const error = new Error(getHttpErrorMessage(response.status, data, path));
     error.status = response.status;
     error.errors = data.errors;
     throw error;
@@ -78,5 +82,5 @@ export async function apiRequest(path, options = {}) {
     throw new Error('Unable to reach the LMS server. Start the API on port 5000 and try again.');
   }
 
-  return parseResponse(response);
+  return parseResponse(response, path);
 }

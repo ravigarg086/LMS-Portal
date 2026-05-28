@@ -113,9 +113,8 @@ function ProfileModal({ open, onClose, user }) {
     setSuccess(false);
 
     try {
-      const { message } = await updateProfile(form);
-      setStatus(message || 'Profile updated successfully.');
-      setSuccess(true);
+      await updateProfile(form);
+      onClose();
     } catch (err) {
       setStatus(err.message || 'Unable to update profile.');
       setSuccess(false);

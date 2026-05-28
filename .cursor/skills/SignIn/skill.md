@@ -21,7 +21,7 @@ alwaysApply: false
 ## 2. MySQL User Persistence
 - Auth reads/writes go through `server/src/store/userStore.js` backed by the MySQL `users` table.
 - Schema: `server/src/db/schema/users.sql`; bootstrap: `initUsersDb()` migrates legacy `users.json` on first run.
-- Profile updates: `PUT /api/auth/profile` (JWT cookie); password changes: `POST /api/auth/change-password`.
+- Profile updates: `POST /api/auth/profile` (JWT cookie); password changes: `POST /api/auth/change-password`.
 
 ## 3. Profile UI
 - `ProfileMenu.js` — dropdown with **My profile**, **Change password**, **Sign out**.

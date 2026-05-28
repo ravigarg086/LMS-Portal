@@ -30,6 +30,9 @@ app.get('/api/health', (req, res) => {
       users: 'mysql',
       contact: 'mysql',
     },
+    features: {
+      profileUpdate: true,
+    },
   });
 });
 

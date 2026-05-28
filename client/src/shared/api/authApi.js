@@ -31,7 +31,7 @@ export function changePassword(payload) {
 
 export function updateProfile(payload) {
   return apiRequest('/auth/profile', {
-    method: 'PUT',
+    method: 'POST',
     body: JSON.stringify(payload),
   });
 }
