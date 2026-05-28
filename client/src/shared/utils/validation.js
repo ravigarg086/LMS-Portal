@@ -115,3 +115,18 @@ export function validateProfileForm(form, role) {
 
   return errors;
 }
+
+export function validateResetPasswordForm({ newPassword, confirmPassword }) {
+  const errors = {};
+  const newError = validatePassword(newPassword);
+  const confirmError = validatePassword(confirmPassword);
+
+  if (newError) errors.newPassword = newError;
+  if (confirmError) errors.confirmPassword = confirmError;
+
+  if (!errors.confirmPassword && newPassword !== confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match.';
+  }
+
+  return errors;
+}

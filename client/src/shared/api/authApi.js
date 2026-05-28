@@ -35,3 +35,22 @@ export function updateProfile(payload) {
     body: JSON.stringify(payload),
   });
 }
+
+export function requestPasswordReset(payload) {
+  return apiRequest('/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+export function validateResetToken(token) {
+  const query = encodeURIComponent(token);
+  return apiRequest(`/auth/reset-password/validate?token=${query}`);
+}
+
+export function resetPassword(payload) {
+  return apiRequest('/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}

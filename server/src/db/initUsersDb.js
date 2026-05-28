@@ -4,6 +4,7 @@ const { getPool } = require('../config/mysql');
 const { ensureDatabaseExists } = require('./initContactDb');
 const { createStudentDashboard } = require('../utils/studentDashboard');
 const { getSeedUsers } = require('./seedUsers');
+const { ensurePasswordResetTable } = require('../store/passwordResetStore');
 
 const USERS_FILE = path.join(__dirname, '../../data/users.json');
 
@@ -133,6 +134,7 @@ async function ensureUsersTable() {
 async function initUsersDb() {
   await ensureDatabaseExists();
   await ensureUsersTable();
+  await ensurePasswordResetTable();
   await seedUsersIfEmpty();
 }
 

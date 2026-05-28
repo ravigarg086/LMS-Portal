@@ -236,3 +236,43 @@
   font-size: 0.75rem;
   color: var(--eh-text-muted);
 }
+
+.auth-forgot-link-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.45rem;
+}
+
+.auth-forgot-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: var(--eh-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-forgot-link:hover,
+.auth-forgot-link:focus-visible {
+  text-decoration: underline;
+}
+
+.auth-forgot-modal__intro {
+  margin: 0 0 1rem;
+  color: var(--eh-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.auth-forgot-modal__hint {
+  margin: 0 0 1rem;
+  color: var(--eh-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.auth-forgot-modal__success .auth-submit-btn {
+  margin-top: 0.5rem;
+}

@@ -1,7 +1,12 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userStore = require('../store/userStore');
+const passwordResetStore = require('../store/passwordResetStore');
+const { sendPasswordResetEmail } = require('../utils/emailService');
 const { createStudentDashboard } = require('../utils/studentDashboard');
+
+const GENERIC_RESET_MESSAGE =
+  'If an account exists for that email and persona, password reset instructions have been sent.';
 
 function signToken(user) {
   return jwt.sign(
@@ -207,6 +212,87 @@ async function updateProfile(req, res) {
   }
 }
 
+async function forgotPassword(req, res) {
+  try {
+    const errors = require('../utils/validation').validateForgotPasswordPayload(req.body);
+    if (Object.keys(errors).length) {
+      return res.status(400).json({ message: 'Validation failed.', errors });
+    }
+
+    const { role, email } = req.body;
+    const normalizedEmail = String(email).toLowerCase().trim();
+    const user = await userStore.findByCredentials(role, normalizedEmail);
+
+    if (user) {
+      const rawToken = await passwordResetStore.createResetToken(user.id);
+      const clientUrl = (process.env.CLIENT_URL || 'http://localhost:3000').replace(/\/$/, '');
+      const resetUrl = `${clientUrl}/reset-password?token=${rawToken}`;
+
+      await sendPasswordResetEmail({
+        email: user.email,
+        fullName: user.fullName,
+        resetUrl,
+      });
+    }
+
+    return res.json({ message: GENERIC_RESET_MESSAGE });
+  } catch (error) {
+    return res.status(500).json({ message: 'Unable to process password reset request. Please try again.' });
+  }
+}
+
+async function resetPassword(req, res) {
+  try {
+    const errors = require('../utils/validation').validateResetPasswordPayload(req.body);
+    if (Object.keys(errors).length) {
+      return res.status(400).json({ message: 'Validation failed.', errors });
+    }
+
+    const { token, newPassword } = req.body;
+    const record = await passwordResetStore.findValidTokenRecord(token);
+
+    if (!record) {
+      return res.status(400).json({ message: 'This reset link is invalid or has expired.' });
+    }
+
+    const user = await userStore.findById(record.user_id);
+    if (!user) {
+      return res.status(400).json({ message: 'This reset link is invalid or has expired.' });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 12);
+    await user.save();
+    await passwordResetStore.markTokenUsed(record.id);
+    await passwordResetStore.invalidateUserTokens(user.id);
+
+    return res.json({ message: 'Password reset successfully. You can sign in with your new password.' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Unable to reset password. Please try again.' });
+  }
+}
+
+async function validateResetToken(req, res) {
+  try {
+    const token = String(req.query.token || '').trim();
+    if (!token) {
+      return res.status(400).json({ message: 'Reset token is required.', valid: false });
+    }
+
+    const record = await passwordResetStore.findValidTokenRecord(token);
+    if (!record) {
+      return res.status(400).json({ message: 'This reset link is invalid or has expired.', valid: false });
+    }
+
+    return res.json({
+      valid: true,
+      role: record.role,
+      email: record.email,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: 'Unable to validate reset link.', valid: false });
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -214,6 +300,9 @@ module.exports = {
   getCurrentUser,
   changePassword,
   updateProfile,
+  forgotPassword,
+  resetPassword,
+  validateResetToken,
   signToken,
   setAuthCookie,
 };

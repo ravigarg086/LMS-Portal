@@ -34,12 +34,21 @@ alwaysApply: false
 
 ## 4. Client API
 ```js
-export function changePassword(payload) {
-  return apiRequest('/auth/change-password', { method: 'POST', body: JSON.stringify(payload) });
+export function requestPasswordReset(payload) {
+  return apiRequest('/auth/forgot-password', { method: 'POST', body: JSON.stringify(payload) });
 }
 
-export function updateProfile(payload) {
-  return apiRequest('/auth/profile', { method: 'POST', body: JSON.stringify(payload) });
+export function validateResetToken(token) {
+  return apiRequest(`/auth/reset-password/validate?token=${encodeURIComponent(token)}`);
+}
+
+export function resetPassword(payload) {
+  return apiRequest('/auth/reset-password', { method: 'POST', body: JSON.stringify(payload) });
 }
 ```
 - `AuthContext.updateProfile` returns the full API response `{ message, user }` and updates cached session state.
+
+## 5. Forgot Password UI
+- `SignInForm.js` — **Forgot password?** opens `ForgotPasswordModal.js` (persona tabs + email).
+- `ResetPasswordPage.js` — route `/reset-password?token=`; validates token, sets new password, redirects to `/signin`.
+- Server store: `passwordResetStore.js`; email: `emailService.js` (nodemailer + console fallback).

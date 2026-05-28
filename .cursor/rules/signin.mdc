@@ -9,7 +9,9 @@ alwaysApply: false
 ## 1. User Interface & Layout
 - The Sign In screen must feature a clear option or selector (e.g., tabs, a dropdown, or distinct segmented controls) for the 3 user personas: **Student**, **Faculty**, and **Admin**.
 - Capturing **User ID** (or Email) and **Password** fields is mandatory across all 3 user types.
+- Include a **Forgot password?** action on the sign-in form for all personas; it opens a modal to request a reset link by persona + email.
 - Include a highly visible cross-link anchor reading **"New User Sign Here"** that dynamically routes unauthenticated users to the registration module.
+- Password reset completion happens on `/reset-password?token=...` with new password + confirm fields.
 
 ## 2. Validation & Redirection Logic
 - Implement strict client-side form validation (e.g., verifying email formats, checking for empty fields, and meeting minimum password lengths) before allowing submission.
@@ -48,3 +50,10 @@ Once a session is established, the application must enforce strict data isolatio
 ## 6. Authentication Storage
 - User accounts (hashed passwords, roles, profile fields, student dashboard JSON) live in MySQL (`lms-portal-db.users`).
 - On first startup with an empty `users` table, seed from `server/data/users.json` if present, otherwise use built-in demo accounts.
+
+## 7. Forgot Password Flow
+- Request: `POST /api/auth/forgot-password` with `{ role, email }` — always returns a generic success message (no account enumeration).
+- Reset tokens stored hashed (SHA-256) in `password_reset_tokens` with expiry (default 60 minutes) and one-time use.
+- Email sent via SMTP when configured; otherwise reset link is logged to the server console in development.
+- Reset: user opens `/reset-password?token=...`, validates via `GET /api/auth/reset-password/validate`, then `POST /api/auth/reset-password`.
+- Successful reset updates `password_hash` in MySQL and redirects to sign-in with success notice.

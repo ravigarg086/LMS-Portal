@@ -49,6 +49,12 @@ function SignInPage() {
           </div>
         )}
 
+        {location.state?.passwordResetSuccess && (
+          <div className="alert alert-success auth-alert" role="status">
+            Your password was updated. Sign in with your new password.
+          </div>
+        )}
+
         <SignInForm
           key={registrationNotice ? `registered-${registrationNotice.email}` : location.key}
           initialRole={registrationNotice?.role}

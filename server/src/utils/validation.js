@@ -135,6 +135,38 @@ function validateProfileUpdatePayload(body, role) {
   return errors;
 }
 
+function validateForgotPasswordPayload(body) {
+  const errors = {};
+
+  if (!['student', 'faculty', 'admin'].includes(body.role)) {
+    errors.role = 'Select a user persona.';
+  }
+
+  if (!validateEmail(body.email)) {
+    errors.email = 'Enter a valid email address.';
+  }
+
+  return errors;
+}
+
+function validateResetPasswordPayload(body) {
+  const errors = {};
+
+  if (!String(body.token || '').trim()) {
+    errors.token = 'Reset token is required.';
+  }
+
+  if (!validatePassword(body.newPassword)) {
+    errors.newPassword = 'New password must be at least 8 characters.';
+  }
+
+  if (String(body.newPassword || '') !== String(body.confirmPassword || '')) {
+    errors.confirmPassword = 'Passwords do not match.';
+  }
+
+  return errors;
+}
+
 module.exports = {
   validateEmail,
   validatePassword,
@@ -142,4 +174,6 @@ module.exports = {
   validateLoginPayload,
   validateChangePasswordPayload,
   validateProfileUpdatePayload,
+  validateForgotPasswordPayload,
+  validateResetPasswordPayload,
 };

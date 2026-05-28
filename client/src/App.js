@@ -5,6 +5,7 @@ import AuthLoadingScreen from './shared/components/AuthLoadingScreen';
 import ScrollToTop from './shared/components/ScrollToTop';
 import HomePage from './modules/home';
 import SignInPage from './modules/signin';
+import ResetPasswordPage from './modules/signin/ResetPasswordPage';
 import RegistrationPage from './modules/registration';
 import FaqPage from './modules/faq/FaqPage';
 import ExternalDataPage from './modules/external-data';
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PublicHomeRoute />} />
             <Route path="/signin" element={<SignInPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/photo-gallery" element={<PhotoGalleryPage />} />

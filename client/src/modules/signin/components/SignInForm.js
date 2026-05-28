@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PersonaTabs from './PersonaTabs';
+import ForgotPasswordModal from './ForgotPasswordModal';
 import { useAuth } from '../../../shared/auth/AuthContext';
 import { USER_ROLES } from '../../../shared/constants/roles';
 import { validateSignInForm } from '../../../shared/utils/validation';
@@ -26,6 +27,7 @@ function SignInForm({ initialRole, initialUserId = '' }) {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [forgotOpen, setForgotOpen] = useState(false);
 
   useEffect(() => {
     setRole(initialRole || USER_ROLES.STUDENT);
@@ -136,6 +138,15 @@ function SignInForm({ initialRole, initialUserId = '' }) {
             autoComplete="new-password"
           />
           {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+          <div className="auth-forgot-link-wrap">
+            <button
+              type="button"
+              className="auth-forgot-link"
+              onClick={() => setForgotOpen(true)}
+            >
+              Forgot password?
+            </button>
+          </div>
         </div>
 
         <button type="submit" className="auth-submit-btn" disabled={isSubmitting}>
@@ -150,6 +161,13 @@ function SignInForm({ initialRole, initialUserId = '' }) {
         </Link>{' '}
         as a Student, Faculty member, or Admin.
       </p>
+
+      <ForgotPasswordModal
+        open={forgotOpen}
+        onClose={() => setForgotOpen(false)}
+        initialRole={role}
+        initialEmail={userId.includes('@') ? userId : ''}
+      />
     </>
   );
 }

@@ -32,6 +32,7 @@ app.get('/api/health', (req, res) => {
     },
     features: {
       profileUpdate: true,
+      passwordReset: true,
     },
   });
 });
@@ -48,7 +49,7 @@ async function start() {
     await initContactDb();
     app.listen(PORT, () => {
       console.log(`LMS API running on http://localhost:${PORT}`);
-      console.log('Auth API: POST /api/auth/login, GET /api/auth/me, PUT /api/auth/profile');
+      console.log('Auth API: POST /api/auth/login, POST /api/auth/forgot-password, POST /api/auth/reset-password');
       console.log('Contact API: POST /api/contact, GET /api/contact (admin)');
     });
   } catch (error) {
