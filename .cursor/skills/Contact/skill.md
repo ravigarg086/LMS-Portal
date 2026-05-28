@@ -83,9 +83,10 @@ async function deleteContactMessage(id) { /* DELETE */ }
 ## 7. Admin Dashboard Inbox
 - Component: `client/src/modules/dashboard/components/AdminContactMessagesPanel.js`
 - Edit form: `client/src/modules/dashboard/components/ContactMessageEditForm.js`
+- Edit shell: `client/src/shared/components/EditFormModal.js` (wide modal, scrollable body)
 - Hook: `client/src/modules/dashboard/hooks/useContactMessages.js` — `reload`, `updateMessage`, `deleteMessage`
-- Render on admin dashboard only; responsive table + mobile cards.
-- Each row/card: **Edit** opens inline editor; **Delete** confirms then removes from UI and MySQL.
+- Render on admin dashboard only; responsive table + mobile cards with filters and pagination.
+- Each row/card: **Edit** opens modal editor; **Delete** confirms then removes from UI and MySQL.
 
 ## 8. Environment (`.env.example`)
 ```

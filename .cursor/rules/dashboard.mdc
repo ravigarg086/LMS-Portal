@@ -16,11 +16,11 @@ The dashboard layout must dynamically adapt to the authenticated user's role. Co
     *   **Student Progress Tracker:** Visual breakdown of course completion percentages and attendance stats — Learning Overview tab.
 *   **Faculty Dashboard View:**
     *   **Section navigation:** Tabbed faculty shell (`FacultyDashboard`) with separate views — Progress Analytics, Student Management.
-    *   **Student Management:** Add and edit student profiles.
+    *   **Student Management:** Add and edit student profiles; edit opens `EditFormModal`.
     *   **Student Progress Analytics:** Interactive dashboards showing class performance distribution and student metrics.
 *   **Admin Dashboard View:**
     *   **Section navigation:** Tabbed admin shell (`AdminDashboard`) with separate views — Platform Analytics, Contact Messages, User Management — instead of stacking all panels on one scrollable page.
-    *   **User Management Panel:** Add and edit Students and Faculty; delete managed accounts when required.
+    *   **User Management Panel:** Add and edit Students and Faculty in `EditFormModal`; delete managed accounts when required.
     *   **System Health Audit:** Overview of platform metrics, active courses, and global configurations (Platform Analytics tab).
     *   **Contact Messages Inbox:** Fetch, edit, and delete Contact Us submissions from MySQL (`contact_messages`). Admin-only; secured via authenticated `GET`, `PUT`, and `DELETE /api/contact`.
 
@@ -33,13 +33,19 @@ The dashboard layout must dynamically adapt to the authenticated user's role. Co
 
 ## 3. Admin Contact Inbox UX
 - Render only when `user.role === 'admin'`.
-- Responsive Bootstrap layout: searchable table on desktop (`table-responsive`), stacked message cards on mobile.
+- Responsive Bootstrap layout: searchable, filterable, paginated table on desktop (`table-responsive`), stacked message cards on mobile.
 - Each message row/card includes **Edit** and **Delete** actions.
-- Edit opens an inline form (`ContactMessageEditForm`); save persists via `PUT /api/contact/:id`.
+- **Edit** opens `EditFormModal` with `ContactMessageEditForm` (not an inline panel below the table); save persists via `PUT /api/contact/:id` and closes the modal on success.
 - Delete confirms with the user, then calls `DELETE /api/contact/:id` and updates the inbox.
 - Show loading, empty, and error states without layout shift.
 - Match portal Scholar LMS styling (`eduhive-card`, `role-panel--admin`, designation badges).
 
-## 4. Layout Stability & Performance
+## 4. Table Edit Pattern (All Dashboard Tables)
+- **Edit** on any management table (admin users, faculty students, contact messages) must open a **modal dialog** via shared `EditFormModal` — never an inline form below the table.
+- Modal supports backdrop click, close button, and Escape to dismiss; body scroll is locked while open.
+- **Add/Create** flows may remain inline above the table where already implemented.
+- Shared styles: `client/src/shared/styles/form-modal.css`; component: `client/src/shared/components/EditFormModal.js`.
+
+## 5. Layout Stability & Performance
 - Ensure clean layout structures to completely eliminate Cumulative Layout Shift (CLS). Content must never pop or jump around during async API fetches.
 - Unauthorized roles must be securely blocked from rendering or injecting components meant for higher privilege levels.

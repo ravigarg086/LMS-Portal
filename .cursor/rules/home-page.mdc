@@ -8,8 +8,22 @@ alwaysApply: false
 
 ## Core Architecture
 - The LMS Home Page must be part of a **Single Page Application (SPA)** architecture with no full browser refreshes between sections.
+- Route changes must scroll to the top via shared `ScrollToTop` (`client/src/shared/components/ScrollToTop.js`) mounted in `App.js`.
+
+## Guest Dashboard Header
+- When unauthenticated, show a **top-right guest action bar** (`guest-top-bar` + `guest-action-bar`) above the hero — not full-width below the hero.
+- Bar contains: course search input, **Sign In** (ghost), **Sign Up** (primary gradient pill).
+- Mobile: hamburger menu stays top-left; action bar stays compact on the right (search may hide on very small screens).
+- Hero **Start Learning** CTA links to `/register` as a gradient primary pill button (`dashboard-hero__cta`), not an underlined text link.
+
+## Authenticated Dashboard Header
+- Role-aware welcome panel with avatar (`getUserAvatarUrl`), search, notifications placeholder, and `ProfileMenu` (My profile, Change password, Sign out).
 
 ## Dashboard Content
-- Render a dashboard shell with sidebar navigation aligned to PRD routes (Dashboard, Courses, Registration, FAQ, External Data, Subscription, Sign In).
-- Include a **Featured Course** widget, **Popular Courses** placeholders (C1, C2, C3), and an **FAQ** section on the home view.
-- Preserve scroll-aware sidebar highlighting and accessible in-page navigation anchors.
+- Render a dashboard shell with sidebar navigation aligned to PRD routes (Dashboard, Courses, Registration, FAQ, External Data, Photo Gallery, Contact Us, Sign In).
+- Include a **Featured Course** widget, **Popular Courses** placeholders (C1, C2, C3), and guest portal cards on the home view.
+- Preserve scroll-aware sidebar highlighting and accessible in-page navigation anchors (hash section links on home dashboard only — do not conflict with `ScrollToTop` on pathname change).
+
+## Theming
+- Scholar LMS design tokens live in `client/src/shared/styles/tokens.css` — use CSS variables (`--eh-primary`, `--eh-gradient`, etc.) instead of hardcoded colors.
+- Light/dark theme via `ThemeProvider` and `data-theme` attribute.

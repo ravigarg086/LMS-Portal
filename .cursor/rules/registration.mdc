@@ -23,3 +23,7 @@ Students cannot create Faculty or Admin accounts from the dashboard — only sel
 - Form elements must temporarily cache step progress to **session storage** to avoid losing data on accidental page refreshes.
 - Intelligently disable submit buttons immediately upon click to prevent double form submissions or duplicate database entries.
 - Include a clear cross-link anchor reading **"Already have an account? Sign In"** that instantly routes the user back to the login screen.
+
+## 3. Server Persistence
+- Successful registration inserts the new account into the MySQL `users` table via `userStore.createUser()` (bcrypt password hash).
+- Demo/seed accounts are not written back to `users.json`.

@@ -32,12 +32,13 @@ alwaysApply: false
 ## 4. Module Structure
 - **Client:** `client/src/modules/contact/` — `data/contactInfo.js`, `utils/validateContactForm.js`, `hooks/useContactForm.js`, `components/ContactDetails.js`, `components/ContactForm.js`, `components/ContactMap.js`, `ContactPage.js`.
 - **API client:** `client/src/shared/api/contactApi.js` — `submitContactMessage`, `fetchContactMessages`, `updateContactMessage`, `deleteContactMessage`.
-- **Admin inbox:** `client/src/modules/dashboard/components/AdminContactMessagesPanel.js`, `ContactMessageEditForm.js`, `hooks/useContactMessages.js`.
+- **Admin inbox:** `AdminContactMessagesPanel.js`, `ContactMessageEditForm.js`, `hooks/useContactMessages.js`.
+- **Shared edit modal:** `client/src/shared/components/EditFormModal.js`, `client/src/shared/styles/form-modal.css`.
 - **Server:** `server/src/config/mysql.js`, `server/src/db/initContactDb.js`, `server/src/store/contactStore.js`, `server/src/controllers/contactController.js`, `server/src/routes/contactRoutes.js`.
 
 ## 5. Admin Contact Inbox Actions
 - Each contact message row (table) and card (mobile) must expose **Edit** and **Delete** actions.
-- Edit opens an inline form below the inbox with the same field validation as the public contact form; save calls `PUT /api/contact/:id` and refreshes local state.
+- Edit opens `EditFormModal` with `ContactMessageEditForm` (same field validation as the public contact form); save calls `PUT /api/contact/:id`, refreshes local state, and closes the modal.
 - Delete requires browser confirmation, calls `DELETE /api/contact/:id`, and removes the row from the table and MySQL.
 - Show loading/disabled states while saving or deleting; surface API errors without layout shift.
 

@@ -17,14 +17,24 @@ alwaysApply: true
 - **State Management:** Keep state local where possible. Lift state up or use Context API/Redux only when state needs to be shared across deeply nested components.
 - **No Hardcoded Values:** Extract API endpoints, environment variables, configuration strings, and secret keys into `.env` files. Never commit secrets to version control.
 - **Clean Code:** Remove dead code, unused imports, and `console.log` statements before finalizing a task. Leftover debugging logs are prohibited in production-ready files.
+- **Design Tokens:** Use CSS variables from `client/src/shared/styles/tokens.css` for colors, shadows, and gradients — do not duplicate `:root` token blocks in module CSS.
+- **Shared Modals:** Reuse `EditFormModal` for table edit flows and `form-modal.css` for dialog styling (profile, change password, dashboard edits).
 
 ## 3. CSS & Responsive Design
 - **Bootstrap First:** Always leverage Bootstrap utility classes or React-Bootstrap components for structural layout, spacing (padding/margins), and alignment before writing custom CSS.
 - **Mobile-First Approach:** Ensure all layout implementations look perfect on mobile screens ($<576\text{px}$) first, then scale up using Bootstrap's responsive breakpoints (`sm`, `md`, `lg`, `xl`).
-- **Consistent Theming:** Maintain color scheme consistency by using Bootstrap's theme colors (`primary`, `secondary`, `dark`, etc.) or global CSS variables defined in the main stylesheet.
+- **Consistent Theming:** Maintain color scheme consistency using Scholar LMS tokens (`--eh-primary`, `--eh-gradient`, role accent variables) and Bootstrap theme utilities.
 - Always make all the components and forms inside the web portal responsive.
 
-## 4. Error Handling & Security
+## 4. Navigation & UX
+- **Scroll on route change:** Mount `ScrollToTop` in `App.js` so every pathname navigation opens the new page from the top.
+- **Table edit UX:** Opening **Edit** on portal tables must use a modal dialog, not an inline form below the table.
+
+## 5. Data Persistence
+- **Users:** MySQL `users` table via `userStore.js` (passwords bcrypt-hashed); legacy `users.json` migrated on first startup.
+- **Contact:** MySQL `contact_messages` table via `contactStore.js`.
+
+## 6. Error Handling & Security
 - **Defensive Coding:** Always implement error boundaries or try/catch blocks when dealing with async operations, API fetches, or local storage parsing.
 - **User Feedback:** Never fail silently. Provide clear, user-friendly feedback (e.g., Bootstrap Alert components or toasts) when an operation fails or succeeds.
 - **Data Sanitization:** Treat all user inputs as untrusted. Ensure data forms have front-end validation implemented before sending payloads to any backend.

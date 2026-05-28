@@ -54,13 +54,24 @@ export function useContactMessages(enabled = true) {
 ```
 
 **Component:** `AdminContactMessagesPanel.js`
-- Search input filters by name, email, subject, or location.
+- Search, column filters, and pagination via shared table hooks/components.
 - Desktop: responsive table with Actions column (Edit / Delete).
 - Mobile: card list (`d-md-none`) with Edit / Delete below each message.
-- Edit panel: `ContactMessageEditForm.js` reuses contact validation rules.
+- Edit: `EditFormModal` + `ContactMessageEditForm.js` (reuses `ContactFormFields` and contact validation).
 - Designation badges: student / faculty / admin.
 
-## 4. Responsive Role Dashboard Layout
+## 4. Shared Table Edit Modal
+```jsx
+import EditFormModal from '../../../shared/components/EditFormModal';
+
+<EditFormModal open title="..." subtitle="Edit student" wide onClose={handleCancel}>
+  <StudentManageForm mode="edit" ... />
+</EditFormModal>
+```
+- Used by: `AdminUserPanel.js`, `FacultyStudentManagementPanel.js`, `AdminContactMessagesPanel.js`.
+- Styles imported via `form-modal.css` (also used by profile/change-password modals).
+
+## 5. Responsive Role Dashboard Layout
 - Use Bootstrap 12-column grid (`row g-3`, `col-12 col-lg-*`).
 - Reserve fixed min-heights for loading placeholders to prevent CLS.
 - Keep admin panels inside `eduhive-card role-panel role-panel--admin`.
