@@ -1,3 +1,5 @@
+@import '../../shared/styles/form-modal.css';
+
 .dashboard-header--authenticated {
   margin-bottom: 1.75rem;
 }
@@ -276,36 +278,6 @@
   color: #dc2626;
 }
 
-.account-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.account-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  border: none;
-  background: rgba(10, 10, 10, 0.55);
-  cursor: pointer;
-}
-
-.account-modal__panel {
-  position: relative;
-  width: min(480px, 100%);
-  padding: 1.35rem;
-  border-radius: 1.25rem;
-  z-index: 1;
-}
-
-.account-modal__panel--wide {
-  width: min(640px, 100%);
-}
-
 .profile-modal__avatar-row {
   display: flex;
   align-items: center;
@@ -329,49 +301,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-.account-modal__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.account-modal__title {
-  margin: 0.35rem 0 0;
-  font-size: 1.45rem;
-  font-weight: 800;
-  color: var(--eh-text);
-}
-
-.account-modal__close {
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 1px solid var(--eh-border);
-  border-radius: 999px;
-  background: var(--eh-surface);
-  color: var(--eh-text-muted);
-  font-size: 1.35rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.account-modal__status {
-  margin: 0 0 1rem;
-  font-size: 0.88rem;
-  color: #dc2626;
-}
-
-.account-modal__status--success {
-  color: #059669;
-}
-
-.account-modal__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.65rem;
 }
 
 @media (max-width: 767.98px) {

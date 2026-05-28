@@ -3,6 +3,7 @@ import { createManagedUser, updateManagedUser } from '../../../shared/api/usersA
 import { USER_ROLES } from '../../../shared/constants/roles';
 import StudentManageForm from './StudentManageForm';
 import ManagedUsersTable from './ManagedUsersTable';
+import EditFormModal from '../../../shared/components/EditFormModal';
 import { FACULTY_STUDENT_COLUMNS, FACULTY_STUDENT_SEARCH_FIELDS } from '../data/tableColumns';
 import { getColumnValue } from '../../../shared/utils/tableFilterUtils';
 
@@ -122,8 +123,12 @@ function FacultyStudentManagementPanel({ students, loading, error, reload }) {
       )}
 
       {editingStudent && (
-        <div className="role-panel__editor mt-4">
-          <h4 className="h6 mb-3">Edit {editingStudent.fullName}</h4>
+        <EditFormModal
+          open
+          title={editingStudent.fullName}
+          subtitle="Edit student"
+          onClose={() => setEditingId(null)}
+        >
           <StudentManageForm
             mode="edit"
             user={editingStudent}
@@ -133,7 +138,7 @@ function FacultyStudentManagementPanel({ students, loading, error, reload }) {
             submitting={submitting}
             error={formError}
           />
-        </div>
+        </EditFormModal>
       )}
     </article>
   );

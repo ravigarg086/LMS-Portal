@@ -12,6 +12,7 @@ import {
 import { useManagedUsers } from '../hooks/useManagedUsers';
 import StudentManageForm from './StudentManageForm';
 import ManagedUsersTable from './ManagedUsersTable';
+import EditFormModal from '../../../shared/components/EditFormModal';
 import {
   FACULTY_USER_COLUMNS,
   FACULTY_USER_SEARCH_FIELDS,
@@ -383,8 +384,12 @@ function AdminUserPanel() {
       )}
 
       {editingUser && activeTab === USER_ROLES.STUDENT && (
-        <div className="role-panel__editor mt-4">
-          <h4 className="h6 mb-3">Edit {editingUser.fullName}</h4>
+        <EditFormModal
+          open
+          title={editingUser.fullName}
+          subtitle="Edit student"
+          onClose={() => setEditingUser(null)}
+        >
           <StudentManageForm
             mode="edit"
             user={editingUser}
@@ -394,12 +399,16 @@ function AdminUserPanel() {
             submitting={submitting}
             error={formError}
           />
-        </div>
+        </EditFormModal>
       )}
 
       {editingUser && activeTab === USER_ROLES.FACULTY && (
-        <div className="role-panel__editor mt-4">
-          <h4 className="h6 mb-3">Edit {editingUser.fullName}</h4>
+        <EditFormModal
+          open
+          title={editingUser.fullName}
+          subtitle="Edit faculty"
+          onClose={() => setEditingUser(null)}
+        >
           <form onSubmit={handleFacultyUpdate} className="role-panel__form">
             <div className="mb-3">
               <label className="form-label" htmlFor="edit-faculty-name">
@@ -473,7 +482,7 @@ function AdminUserPanel() {
               </button>
             </div>
           </form>
-        </div>
+        </EditFormModal>
       )}
       </article>
   );

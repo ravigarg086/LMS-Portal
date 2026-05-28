@@ -13,11 +13,10 @@ import ColumnFilterControl from '../../../shared/components/ColumnFilterControl'
 import TableToolbar from '../../../shared/components/TableToolbar';
 import TablePagination from '../../../shared/components/TablePagination';
 import ContactMessageEditForm from './ContactMessageEditForm';
+import EditFormModal from '../../../shared/components/EditFormModal';
 import '../admin-contact-messages.css';
 
-function ContactMessageActions({ message, onEdit, onDelete, submitting, editingId }) {
-  const isEditing = editingId === message.id;
-
+function ContactMessageActions({ message, onEdit, onDelete, submitting }) {
   return (
     <div className="admin-contact-actions">
       <button
@@ -25,7 +24,6 @@ function ContactMessageActions({ message, onEdit, onDelete, submitting, editingI
         className="btn btn-link btn-sm p-0 admin-contact-actions__btn"
         onClick={() => onEdit(message)}
         disabled={submitting}
-        aria-pressed={isEditing}
       >
         Edit
       </button>
@@ -41,7 +39,7 @@ function ContactMessageActions({ message, onEdit, onDelete, submitting, editingI
   );
 }
 
-function ContactMessageCard({ message, onEdit, onDelete, submitting, editingId }) {
+function ContactMessageCard({ message, onEdit, onDelete, submitting }) {
   return (
     <article className="admin-contact-card">
       <div className="admin-contact-card__top">
@@ -76,7 +74,6 @@ function ContactMessageCard({ message, onEdit, onDelete, submitting, editingId }
         onEdit={onEdit}
         onDelete={onDelete}
         submitting={submitting}
-        editingId={editingId}
       />
     </article>
   );
@@ -304,7 +301,6 @@ function AdminContactMessagesPanel() {
                             onEdit={handleEdit}
                             onDelete={handleDelete}
                             submitting={submitting}
-                            editingId={editingMessage?.id}
                           />
                         </td>
                       </tr>
@@ -321,7 +317,6 @@ function AdminContactMessagesPanel() {
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     submitting={submitting}
-                    editingId={editingMessage?.id}
                   />
                 ))}
               </div>
@@ -347,8 +342,13 @@ function AdminContactMessagesPanel() {
       )}
 
       {editingMessage && (
-        <div className="role-panel__editor mt-4">
-          <h4 className="h6 mb-3">Edit message from {editingMessage.fullName}</h4>
+        <EditFormModal
+          open
+          title={editingMessage.fullName}
+          subtitle="Edit contact message"
+          wide
+          onClose={handleCancelEdit}
+        >
           <ContactMessageEditForm
             key={editingMessage.id}
             message={editingMessage}
@@ -358,7 +358,7 @@ function AdminContactMessagesPanel() {
             submitting={submitting}
             error={actionError}
           />
-        </div>
+        </EditFormModal>
       )}
     </article>
   );
