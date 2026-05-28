@@ -94,10 +94,52 @@ function validateChangePasswordPayload(body) {
   return errors;
 }
 
+function validateProfileUpdatePayload(body, role) {
+  const errors = {};
+
+  if (!String(body.fullName || '').trim()) {
+    errors.fullName = 'Full name is required.';
+  }
+
+  if (!validateEmail(body.email)) {
+    errors.email = 'Enter a valid email address.';
+  }
+
+  if (body.profilePictureUrl !== undefined && body.profilePictureUrl !== null && body.profilePictureUrl !== '') {
+    const picture = String(body.profilePictureUrl);
+    if (picture.length > 500000) {
+      errors.profilePictureUrl = 'Profile picture is too large (max 500 KB).';
+    } else if (!picture.startsWith('data:image/') && !/^https?:\/\//i.test(picture)) {
+      errors.profilePictureUrl = 'Profile picture must be an image URL or uploaded file.';
+    }
+  }
+
+  if (role === 'student') {
+    if (body.academicTrack !== undefined && !String(body.academicTrack || '').trim()) {
+      errors.academicTrack = 'Academic track is required.';
+    }
+    if (body.graduationYear !== undefined && !String(body.graduationYear || '').trim()) {
+      errors.graduationYear = 'Graduation year is required.';
+    }
+  }
+
+  if (role === 'faculty') {
+    if (body.department !== undefined && !String(body.department || '').trim()) {
+      errors.department = 'Department is required.';
+    }
+    if (body.employeeId !== undefined && !String(body.employeeId || '').trim()) {
+      errors.employeeId = 'Employee ID is required.';
+    }
+  }
+
+  return errors;
+}
+
 module.exports = {
   validateEmail,
   validatePassword,
   validateRegistrationPayload,
   validateLoginPayload,
   validateChangePasswordPayload,
+  validateProfileUpdatePayload,
 };

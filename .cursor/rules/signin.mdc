@@ -35,3 +35,13 @@ Once a session is established, the application must enforce strict data isolatio
 
 ## 4. Session Security
 - Never store session tokens, raw passwords, or authorization payload details inside open, unencrypted `localStorage`.
+
+## 5. User Profile & Account Menu
+- After login, the header account dropdown must include **My profile** (above Change password) and **Sign out**.
+- **My profile** opens a modal where the signed-in user can view and edit their own details and upload a profile picture (max 500 KB).
+- Users may only edit their own profile through this flow; role-specific fields (track, department, etc.) remain editable only for the matching persona.
+- Profile pictures and login credentials are persisted in the MySQL `users` table (not `users.json`).
+
+## 6. Authentication Storage
+- User accounts (hashed passwords, roles, profile fields, student dashboard JSON) live in MySQL (`lms-portal-db.users`).
+- On first startup with an empty `users` table, seed from `server/data/users.json` if present, otherwise use built-in demo accounts.

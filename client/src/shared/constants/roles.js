@@ -10,6 +10,8 @@ export const ROLE_OPTIONS = [
   { value: USER_ROLES.ADMIN, label: 'Admin' },
 ];
 
+export const ROLE_LABELS = Object.fromEntries(ROLE_OPTIONS.map(({ value, label }) => [value, label]));
+
 export const ROLE_DASHBOARD_ROUTES = {
   [USER_ROLES.STUDENT]: '/dashboard/student',
   [USER_ROLES.FACULTY]: '/dashboard/faculty',

@@ -86,3 +86,32 @@ export function validateChangePasswordForm({ currentPassword, newPassword, confi
 
   return errors;
 }
+
+export function validateProfileForm(form, role) {
+  const errors = {};
+  const fullNameError = validateRequired(form.fullName, 'Full name');
+  const emailError = validateEmail(form.email);
+
+  if (fullNameError) errors.fullName = fullNameError;
+  if (emailError) errors.email = emailError;
+
+  if (form.profilePictureUrl && form.profilePictureUrl.length > 500000) {
+    errors.profilePictureUrl = 'Profile picture is too large (max 500 KB).';
+  }
+
+  if (role === 'student') {
+    const trackError = validateRequired(form.academicTrack, 'Academic track');
+    const yearError = validateRequired(form.graduationYear, 'Graduation year');
+    if (trackError) errors.academicTrack = trackError;
+    if (yearError) errors.graduationYear = yearError;
+  }
+
+  if (role === 'faculty') {
+    const deptError = validateRequired(form.department, 'Department');
+    const empError = validateRequired(form.employeeId, 'Employee ID');
+    if (deptError) errors.department = deptError;
+    if (empError) errors.employeeId = empError;
+  }
+
+  return errors;
+}

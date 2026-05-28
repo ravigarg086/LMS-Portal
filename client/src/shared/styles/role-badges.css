@@ -1,0 +1,60 @@
+/* Shared role accent styles — student, faculty, admin */
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.role-badge--student {
+  color: var(--eh-role-student);
+  background: var(--eh-role-student-soft);
+  border: 1px solid var(--eh-role-student-border);
+}
+
+.role-badge--faculty {
+  color: var(--eh-role-faculty);
+  background: var(--eh-role-faculty-soft);
+  border: 1px solid var(--eh-role-faculty-border);
+}
+
+.role-badge--admin {
+  color: var(--eh-role-admin);
+  background: var(--eh-role-admin-soft);
+  border: 1px solid var(--eh-role-admin-border);
+}
+
+.role-accent--student {
+  border-left: 4px solid var(--eh-role-student);
+}
+
+.role-accent--faculty {
+  border-left: 4px solid var(--eh-role-faculty);
+}
+
+.role-accent--admin {
+  border-left: 4px solid var(--eh-role-admin);
+}
+
+.role-panel-badge--student {
+  color: var(--eh-role-student);
+  background: var(--eh-role-student-soft);
+  border-color: var(--eh-role-student-border);
+}
+
+.role-panel-badge--faculty {
+  color: var(--eh-role-faculty);
+  background: var(--eh-role-faculty-soft);
+  border-color: var(--eh-role-faculty-border);
+}
+
+.role-panel-badge--admin {
+  color: var(--eh-role-admin);
+  background: var(--eh-role-admin-soft);
+  border-color: var(--eh-role-admin-border);
+}

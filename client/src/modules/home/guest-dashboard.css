@@ -148,13 +148,13 @@
 }
 
 .guest-role-card--student {
-  border-top: 3px solid var(--eh-coral);
+  border-top: 3px solid var(--eh-role-student);
 }
 
 .guest-role-card--faculty {
-  border-top: 3px solid #6366f1;
+  border-top: 3px solid var(--eh-role-faculty);
 }
 
 .guest-role-card--admin {
-  border-top: 3px solid #0ea5e9;
+  border-top: 3px solid var(--eh-role-admin);
 }

@@ -1,61 +1,5 @@
 /* Eduhive Premium LMS Dashboard */
 
-:root {
-  --eh-primary: #2563eb;
-  --eh-primary-dark: #1d4ed8;
-  --eh-primary-light: #dbeafe;
-  --eh-coral-start: #2563eb;
-  --eh-coral-end: #4338ca;
-  --eh-coral: #2563eb;
-  --eh-coral-light: #dce8ff;
-  --eh-bg: #e6edf6;
-  --eh-text: #111827;
-  --eh-text-secondary: #334155;
-  --eh-text-muted: #536179;
-  --eh-card: #ffffff;
-  --eh-border: #bcc9da;
-  --eh-dark: #1e293b;
-  --eh-surface: #ffffff;
-  --eh-surface-muted: #eef3fa;
-  --eh-track: #d4deea;
-  --eh-on-primary: #ffffff;
-  --eh-faq-bg: #ffffff;
-  --eh-faq-title: #111827;
-  --eh-faq-trigger: #1f2937;
-  --eh-faq-body: #4b5563;
-  --eh-faq-item-bg: #eef3fa;
-  --eh-faq-item-border: #d4deea;
-  --eh-sidebar-w: 280px;
-  --eh-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-  --eh-shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.04), 0 2px 4px rgba(17, 24, 39, 0.04);
-  --eh-shadow-coral: 0 6px 20px rgba(37, 99, 235, 0.2);
-  --eh-transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
-  --eh-font: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
-
-[data-theme='dark'] {
-  color-scheme: dark;
-  --eh-coral-light: rgba(37, 99, 235, 0.16);
-  --eh-bg: #0f172a;
-  --eh-text: #f1f5f9;
-  --eh-text-secondary: #94a3b8;
-  --eh-text-muted: #64748b;
-  --eh-card: #1e293b;
-  --eh-border: rgba(148, 163, 184, 0.16);
-  --eh-dark: #0f172a;
-  --eh-surface: #1e293b;
-  --eh-surface-muted: #334155;
-  --eh-track: #475569;
-  --eh-faq-bg: #1e293b;
-  --eh-faq-title: #f1f5f9;
-  --eh-faq-trigger: #f1f5f9;
-  --eh-faq-body: #94a3b8;
-  --eh-faq-item-bg: rgba(255, 255, 255, 0.04);
-  --eh-faq-item-border: rgba(255, 255, 255, 0.08);
-  --eh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
-  --eh-shadow-coral: 0 8px 24px rgba(37, 99, 235, 0.18);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -87,15 +31,6 @@ body {
 
 .eduhive-app {
   min-height: 100vh;
-}
-
-.ui-label {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--eh-text-muted);
 }
 
 /* ========== SHELL ========== */
@@ -580,15 +515,6 @@ button.sidebar-nav__link {
 }
 
 /* ========== CARDS ========== */
-.eduhive-card {
-  background: var(--eh-card);
-  border: 1px solid var(--eh-border);
-  border-radius: 2rem;
-  padding: 2rem;
-  box-shadow: var(--eh-shadow-sm);
-  height: 100%;
-}
-
 .eduhive-card--stat {
   border-radius: 1.5rem;
   padding: 1.5rem;
@@ -1244,15 +1170,15 @@ a.btn-coral {
 }
 
 .role-banner--student {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--eh-role-student);
 }
 
 .role-banner--faculty {
-  border-left: 4px solid #10b981;
+  border-left: 4px solid var(--eh-role-faculty);
 }
 
 .role-banner--admin {
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid var(--eh-role-admin);
 }
 
 .role-banner__label {

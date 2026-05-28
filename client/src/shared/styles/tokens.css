@@ -1,0 +1,128 @@
+/* Scholar LMS — design tokens (single source of truth) */
+
+:root {
+  /* Brand */
+  --eh-primary: #2563eb;
+  --eh-primary-dark: #1d4ed8;
+  --eh-primary-light: #dbeafe;
+  --eh-accent: #0d9488;
+  --eh-accent-light: #ccfbf1;
+  --eh-warm: #d97706;
+
+  --eh-coral-start: #2563eb;
+  --eh-coral-end: #4338ca;
+  --eh-coral: #2563eb;
+  --eh-coral-light: #dce8ff;
+
+  /* Role accents */
+  --eh-role-student: #2563eb;
+  --eh-role-student-soft: rgba(37, 99, 235, 0.12);
+  --eh-role-student-border: rgba(37, 99, 235, 0.28);
+  --eh-role-faculty: #10b981;
+  --eh-role-faculty-soft: rgba(16, 185, 129, 0.12);
+  --eh-role-faculty-border: rgba(16, 185, 129, 0.28);
+  --eh-role-admin: #f59e0b;
+  --eh-role-admin-soft: rgba(245, 158, 11, 0.12);
+  --eh-role-admin-border: rgba(245, 158, 11, 0.28);
+
+  /* Canvas & surfaces */
+  --eh-bg: #e6edf6;
+  --eh-bg-subtle: #f4f8fc;
+  --eh-text: #111827;
+  --eh-text-secondary: #334155;
+  --eh-text-muted: #536179;
+  --eh-card: #ffffff;
+  --eh-border: #bcc9da;
+  --eh-border-subtle: #d4deea;
+  --eh-dark: #1e293b;
+  --eh-surface: #ffffff;
+  --eh-surface-muted: #eef3fa;
+  --eh-surface-hover: #e3ebf6;
+  --eh-track: #d4deea;
+  --eh-on-primary: #ffffff;
+  --eh-primary-soft: #eff6ff;
+  --eh-accent-soft: #ecfdf8;
+
+  /* Sidebar */
+  --eh-sidebar-bg: #1e293b;
+  --eh-sidebar-border: rgba(255, 255, 255, 0.06);
+  --eh-sidebar-text: #cbd5e1;
+  --eh-sidebar-muted: #64748b;
+  --eh-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --eh-sidebar-brand: #f8fafc;
+
+  /* FAQ */
+  --eh-faq-bg: #ffffff;
+  --eh-faq-title: #111827;
+  --eh-faq-trigger: #1f2937;
+  --eh-faq-body: #4b5563;
+  --eh-faq-item-bg: #eef3fa;
+  --eh-faq-item-border: #d4deea;
+
+  /* Layout */
+  --eh-sidebar-w: 280px;
+  --eh-gradient: linear-gradient(135deg, #2563eb 0%, #4338ca 100%);
+  --eh-gradient-accent: linear-gradient(135deg, #0d9488 0%, #2563eb 100%);
+  --eh-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --eh-shadow-md: 0 4px 20px rgba(15, 23, 42, 0.07), 0 2px 6px rgba(15, 23, 42, 0.04);
+  --eh-shadow-coral: 0 6px 20px rgba(37, 99, 235, 0.2);
+  --eh-transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --eh-font: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --st-motion: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --st-glass: rgba(255, 255, 255, 0.96);
+  --st-nav-h: 72px;
+  --st-border-soft: #d4deea;
+  --st-footer-muted: #64748b;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --eh-coral-light: rgba(37, 99, 235, 0.16);
+  --eh-bg: #0f172a;
+  --eh-bg-subtle: #1e293b;
+  --eh-text: #f1f5f9;
+  --eh-text-secondary: #94a3b8;
+  --eh-text-muted: #64748b;
+  --eh-card: #1e293b;
+  --eh-border: rgba(148, 163, 184, 0.16);
+  --eh-border-subtle: rgba(148, 163, 184, 0.12);
+  --eh-dark: #0f172a;
+  --eh-surface: #1e293b;
+  --eh-surface-muted: #334155;
+  --eh-surface-hover: #334155;
+  --eh-track: #475569;
+  --eh-on-primary: #ffffff;
+  --eh-primary-soft: rgba(37, 99, 235, 0.12);
+  --eh-accent-soft: rgba(13, 148, 136, 0.12);
+
+  --eh-role-student-soft: rgba(37, 99, 235, 0.18);
+  --eh-role-faculty-soft: rgba(16, 185, 129, 0.18);
+  --eh-role-admin-soft: rgba(245, 158, 11, 0.18);
+
+  --eh-sidebar-bg: #0f172a;
+  --eh-sidebar-border: rgba(148, 163, 184, 0.1);
+  --eh-sidebar-text: #cbd5e1;
+  --eh-sidebar-muted: #64748b;
+  --eh-sidebar-hover: rgba(255, 255, 255, 0.05);
+  --eh-sidebar-brand: #f8fafc;
+
+  --eh-faq-bg: #1e293b;
+  --eh-faq-title: #f1f5f9;
+  --eh-faq-trigger: #f1f5f9;
+  --eh-faq-body: #94a3b8;
+  --eh-faq-item-bg: rgba(255, 255, 255, 0.04);
+  --eh-faq-item-border: rgba(255, 255, 255, 0.08);
+
+  --st-glass: rgba(30, 41, 59, 0.94);
+  --st-border-soft: rgba(148, 163, 184, 0.16);
+  --st-footer-muted: #64748b;
+  --eh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --eh-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.28);
+  --eh-shadow-coral: 0 8px 24px rgba(37, 99, 235, 0.18);
+}
+
+.eduhive-app {
+  font-family: var(--eh-font);
+}

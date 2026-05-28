@@ -148,12 +148,72 @@ async function changePassword(req, res) {
   }
 }
 
+async function updateProfile(req, res) {
+  try {
+    const user = req.user;
+    const errors = require('../utils/validation').validateProfileUpdatePayload(req.body, user.role);
+
+    if (Object.keys(errors).length) {
+      return res.status(400).json({ message: 'Validation failed.', errors });
+    }
+
+    const nextEmail = String(req.body.email || '').toLowerCase().trim();
+    if (nextEmail !== user.email) {
+      const existing = await userStore.findByEmail(nextEmail);
+      if (existing && existing.id !== user.id) {
+        return res.status(409).json({ message: 'An account with this email already exists.' });
+      }
+    }
+
+    user.fullName = String(req.body.fullName || '').trim();
+    user.email = nextEmail;
+
+    if (req.body.profilePictureUrl !== undefined) {
+      user.profilePictureUrl = String(req.body.profilePictureUrl || '').trim();
+    }
+
+    if (user.role === 'student') {
+      if (req.body.academicTrack !== undefined) {
+        user.academicTrack = String(req.body.academicTrack).trim();
+      }
+      if (req.body.graduationYear !== undefined) {
+        user.graduationYear = String(req.body.graduationYear).trim();
+      }
+      if (user.dashboard?.featuredCourse && req.body.academicTrack) {
+        user.dashboard.featuredCourse.title = user.academicTrack;
+      }
+    }
+
+    if (user.role === 'faculty') {
+      if (req.body.department !== undefined) {
+        user.department = String(req.body.department).trim();
+      }
+      if (req.body.employeeId !== undefined) {
+        user.employeeId = String(req.body.employeeId).trim();
+      }
+    }
+
+    await user.save();
+
+    return res.json({
+      message: 'Profile updated successfully.',
+      user: user.toSafeJSON(),
+    });
+  } catch (error) {
+    if (error.code === 'ECONNREFUSED' || error.code === 'ER_ACCESS_DENIED_ERROR') {
+      return res.status(503).json({ message: 'User service is temporarily unavailable.' });
+    }
+    return res.status(500).json({ message: 'Unable to update profile. Please try again.' });
+  }
+}
+
 module.exports = {
   register,
   login,
   logout,
   getCurrentUser,
   changePassword,
+  updateProfile,
   signToken,
   setAuthCookie,
 };

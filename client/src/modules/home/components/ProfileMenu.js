@@ -2,18 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LucideIcon from './LucideIcon';
 import ChangePasswordModal from './ChangePasswordModal';
+import ProfileModal from './ProfileModal';
 import { useAuth } from '../../../shared/auth/AuthContext';
+import { getUserAvatarUrl } from '../../../shared/utils/userAvatar';
 
 function ProfileMenu({ user }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const menuRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
 
   const displayName = user?.fullName || 'User';
   const displayRole = user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '';
-  const avatarSeed = user?.email || 'LMSPortalLearner';
+  const avatarUrl = getUserAvatarUrl(user);
 
   useEffect(() => {
     if (!open) {
@@ -36,6 +39,11 @@ function ProfileMenu({ user }) {
     navigate('/');
   };
 
+  const handleViewProfile = () => {
+    setOpen(false);
+    setProfileOpen(true);
+  };
+
   const handleChangePassword = () => {
     setOpen(false);
     setPasswordOpen(true);
@@ -52,11 +60,7 @@ function ProfileMenu({ user }) {
           aria-label={`Account menu for ${displayName}`}
           onClick={() => setOpen((current) => !current)}
         >
-          <img
-            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(avatarSeed)}`}
-            alt=""
-            className="profile-menu__avatar"
-          />
+          <img src={avatarUrl} alt="" className="profile-menu__avatar" />
           <span className="profile-menu__text">
             <span className="profile-menu__name">{displayName}</span>
             <span className="profile-menu__role">{displayRole}</span>
@@ -70,6 +74,15 @@ function ProfileMenu({ user }) {
               <strong>{displayName}</strong>
               <span>{user?.email}</span>
             </div>
+            <button
+              type="button"
+              className="profile-menu__item"
+              role="menuitem"
+              onClick={handleViewProfile}
+            >
+              <LucideIcon name="user" size={18} />
+              My profile
+            </button>
             <button
               type="button"
               className="profile-menu__item"
@@ -92,6 +105,7 @@ function ProfileMenu({ user }) {
         )}
       </div>
 
+      <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} user={user} />
       <ChangePasswordModal open={passwordOpen} onClose={() => setPasswordOpen(false)} />
     </>
   );

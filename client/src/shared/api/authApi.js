@@ -28,3 +28,10 @@ export function changePassword(payload) {
     body: JSON.stringify(payload),
   });
 }
+
+export function updateProfile(payload) {
+  return apiRequest('/auth/profile', {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  });
+}

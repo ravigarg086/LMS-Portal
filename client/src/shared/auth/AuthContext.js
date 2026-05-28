@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { fetchCurrentUser, loginUser, logoutUserRequest, registerUser } from '../api/authApi';
+import { fetchCurrentUser, loginUser, logoutUserRequest, registerUser, updateProfile as updateProfileRequest } from '../api/authApi';
 import { ROLE_DASHBOARD_ROUTES, SESSION_USER_KEY } from '../constants/roles';
 
 const AuthContext = createContext(null);
@@ -75,6 +75,13 @@ export function AuthProvider({ children }) {
     cacheUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (payload) => {
+    const response = await updateProfileRequest(payload);
+    setUser(response.user);
+    cacheUser(response.user);
+    return response;
+  }, []);
+
   const getDashboardRoute = useCallback((role) => ROLE_DASHBOARD_ROUTES[role] || '/', []);
 
   const value = useMemo(
@@ -86,9 +93,10 @@ export function AuthProvider({ children }) {
       signUp,
       register: signUp,
       logout,
+      updateProfile,
       getDashboardRoute,
     }),
-    [user, initializing, login, signUp, logout, getDashboardRoute],
+    [user, initializing, login, signUp, logout, updateProfile, getDashboardRoute],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

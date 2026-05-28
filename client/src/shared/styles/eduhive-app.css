@@ -1,3 +1,5 @@
+@import './tokens.css';
+@import './role-badges.css';
 @import '../../modules/home/home.css';
 @import '../../modules/home/lms-theme.css';
 @import './light-theme.css';

@@ -28,6 +28,7 @@ const ICONS = {
   image: 'M4 5h16v14H4V5zm0 0l5 5 3-3 4 4 4-5v4H4V5z',
   mail: 'M4 6h16v12H4V6zm0 0 8 6 8-6',
   key: 'M21 2l-2 2m-7.6 7.6a3.5 3.5 0 105 5L21 7l-2-2M14.5 6.5l2 2',
+  user: 'M20 21a8 8 0 10-16 0M12 11a4 4 0 100-8 4 4 0 000 8z',
 };
 
 function LucideIcon({ name, size = 20, className = '' }) {

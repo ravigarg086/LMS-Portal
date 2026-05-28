@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS users (
+  id CHAR(36) NOT NULL,
+  full_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('student', 'faculty', 'admin') NOT NULL,
+  academic_track VARCHAR(255) NOT NULL DEFAULT '',
+  graduation_year VARCHAR(50) NOT NULL DEFAULT '',
+  department VARCHAR(255) NOT NULL DEFAULT '',
+  employee_id VARCHAR(100) NOT NULL DEFAULT '',
+  access_level VARCHAR(255) NOT NULL DEFAULT '',
+  profile_picture_url MEDIUMTEXT NULL,
+  dashboard_json JSON NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_users_email (email),
+  INDEX idx_users_role (role),
+  INDEX idx_users_employee_id (employee_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

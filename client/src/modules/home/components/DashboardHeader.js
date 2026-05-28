@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import LucideIcon from './LucideIcon';
 import ProfileMenu from './ProfileMenu';
 import { USER_HEADER_COPY, getUserHeaderMeta } from '../data/userHeaderMeta';
+import { getUserAvatarUrl } from '../../../shared/utils/userAvatar';
 import '../dashboard-user-header.css';
 import '../guest-action-bar.css';
 
@@ -12,7 +13,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
   const isAuthenticated = Boolean(user);
   const displayName = user?.fullName || 'Learner';
   const firstName = displayName.split(' ')[0];
-  const avatarSeed = user?.email || 'LMSPortalLearner';
+  const avatarUrl = getUserAvatarUrl(user);
   const roleCopy = user?.role ? USER_HEADER_COPY[user.role] : null;
   const metaItems = getUserHeaderMeta(user);
 
@@ -34,7 +35,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
 
             <div className="dashboard-user-panel__identity">
               <img
-                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(avatarSeed)}`}
+                src={avatarUrl}
                 alt=""
                 className="dashboard-user-panel__avatar"
               />

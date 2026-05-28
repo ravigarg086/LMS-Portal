@@ -49,32 +49,6 @@
   padding-left: 1rem;
 }
 
-.admin-contact-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.admin-contact-badge--student {
-  color: var(--eh-coral);
-  background: var(--eh-coral-light);
-}
-
-.admin-contact-badge--faculty {
-  color: #6366f1;
-  background: rgba(99, 102, 241, 0.12);
-}
-
-.admin-contact-badge--admin {
-  color: #0ea5e9;
-  background: rgba(14, 165, 233, 0.12);
-}
-
 .admin-contact-panel__table th {
   font-size: 0.72rem;
   font-weight: 800;
@@ -142,11 +116,11 @@
 }
 
 .admin-contact-card__details dt {
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--eh-text-muted);
+  color: var(--eh-accent);
   margin-bottom: 0.1rem;
 }
 
@@ -193,14 +167,6 @@
 
 .admin-contact-edit-form .invalid-feedback {
   display: block;
-}
-
-[data-theme='dark'] .admin-contact-badge--faculty {
-  background: rgba(99, 102, 241, 0.18);
-}
-
-[data-theme='dark'] .admin-contact-badge--admin {
-  background: rgba(14, 165, 233, 0.18);
 }
 
 [data-theme='dark'] .admin-contact-card {

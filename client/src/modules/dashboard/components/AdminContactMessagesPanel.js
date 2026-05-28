@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import LucideIcon from '../../home/components/LucideIcon';
+import DesignationBadge from '../../../shared/components/DesignationBadge';
+import { formatDateTime } from '../../../shared/utils/formatDateTime';
 import { useContactMessages } from '../hooks/useContactMessages';
 import {
   CONTACT_MESSAGE_COLUMNS,
@@ -12,33 +14,6 @@ import TableToolbar from '../../../shared/components/TableToolbar';
 import TablePagination from '../../../shared/components/TablePagination';
 import ContactMessageEditForm from './ContactMessageEditForm';
 import '../admin-contact-messages.css';
-
-const DESIGNATION_LABELS = {
-  student: 'Student',
-  faculty: 'Faculty',
-  admin: 'Admin',
-};
-
-function formatSubmittedAt(value) {
-  if (!value) {
-    return '—';
-  }
-
-  return new Intl.DateTimeFormat(undefined, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(new Date(value));
-}
-
-function DesignationBadge({ designation }) {
-  const label = DESIGNATION_LABELS[designation] || designation;
-
-  return (
-    <span className={`admin-contact-badge admin-contact-badge--${designation}`}>
-      {label}
-    </span>
-  );
-}
 
 function ContactMessageActions({ message, onEdit, onDelete, submitting, editingId }) {
   const isEditing = editingId === message.id;
@@ -72,7 +47,7 @@ function ContactMessageCard({ message, onEdit, onDelete, submitting, editingId }
       <div className="admin-contact-card__top">
         <div>
           <h4 className="admin-contact-card__name">{message.fullName}</h4>
-          <p className="admin-contact-card__date mb-0">{formatSubmittedAt(message.createdAt)}</p>
+          <p className="admin-contact-card__date mb-0">{formatDateTime(message.createdAt)}</p>
         </div>
         <DesignationBadge designation={message.designation} />
       </div>
@@ -311,7 +286,7 @@ function AdminContactMessagesPanel() {
                   <tbody>
                     {paginatedItems.map((message) => (
                       <tr key={message.id}>
-                        <td>{formatSubmittedAt(message.createdAt)}</td>
+                        <td>{formatDateTime(message.createdAt)}</td>
                         <td>{message.fullName}</td>
                         <td>{message.email}</td>
                         <td>

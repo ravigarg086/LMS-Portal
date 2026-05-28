@@ -14,7 +14,7 @@
   --bs-border-color: var(--eh-border);
   --bs-link-color: var(--eh-primary);
   --bs-link-hover-color: var(--eh-primary-dark);
-  --bs-primary: #2563eb;
+  --bs-primary: var(--eh-primary);
   --bs-primary-rgb: 37, 99, 235;
 
   --bs-table-color: var(--eh-text);
@@ -59,39 +59,37 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  /* Bootstrap core tokens aligned to Super Travel palette */
-  --bs-body-bg: #1a1a1a;
-  --bs-body-color: #fdf8f3;
-  --bs-emphasis-color: #fdf8f3;
-  --bs-secondary-color: rgba(253, 248, 243, 0.72);
-  --bs-secondary-bg: #2a2a2a;
-  --bs-tertiary-color: rgba(253, 248, 243, 0.45);
-  --bs-tertiary-bg: #222222;
-  --bs-border-color: rgba(253, 248, 243, 0.08);
+  --bs-body-bg: var(--eh-bg);
+  --bs-body-color: var(--eh-text);
+  --bs-emphasis-color: var(--eh-text);
+  --bs-secondary-color: var(--eh-text-secondary);
+  --bs-secondary-bg: var(--eh-surface-muted);
+  --bs-tertiary-color: var(--eh-text-muted);
+  --bs-tertiary-bg: var(--eh-surface-muted);
+  --bs-border-color: var(--eh-border);
   --bs-link-color: #60a5fa;
   --bs-link-hover-color: #93c5fd;
+  --bs-primary: var(--eh-primary);
 
-  /* Tables */
-  --bs-table-color: #fdf8f3;
+  --bs-table-color: var(--eh-text);
   --bs-table-bg: transparent;
-  --bs-table-border-color: rgba(253, 248, 243, 0.08);
-  --bs-table-striped-color: #fdf8f3;
-  --bs-table-striped-bg: rgba(253, 248, 243, 0.04);
-  --bs-table-active-color: #fdf8f3;
-  --bs-table-active-bg: rgba(37, 99, 235, 0.16);
-  --bs-table-hover-color: #fdf8f3;
-  --bs-table-hover-bg: rgba(37, 99, 235, 0.16);
+  --bs-table-border-color: var(--eh-border);
+  --bs-table-striped-color: var(--eh-text);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+  --bs-table-active-color: var(--eh-text);
+  --bs-table-active-bg: var(--eh-coral-light);
+  --bs-table-hover-color: var(--eh-text);
+  --bs-table-hover-bg: var(--eh-coral-light);
 
-  /* Forms */
-  --bs-form-control-bg: #222222;
-  --bs-form-control-color: #fdf8f3;
-  --bs-form-control-border-color: rgba(253, 248, 243, 0.08);
-  --bs-form-select-bg: #222222;
-  --bs-form-select-color: #fdf8f3;
-  --bs-form-select-border-color: rgba(253, 248, 243, 0.08);
-  --bs-input-group-addon-bg: #2a2a2a;
-  --bs-input-group-addon-color: rgba(253, 248, 243, 0.72);
-  --bs-input-group-addon-border-color: rgba(253, 248, 243, 0.08);
+  --bs-form-control-bg: var(--eh-surface);
+  --bs-form-control-color: var(--eh-text);
+  --bs-form-control-border-color: var(--eh-border);
+  --bs-form-select-bg: var(--eh-surface);
+  --bs-form-select-color: var(--eh-text);
+  --bs-form-select-border-color: var(--eh-border);
+  --bs-input-group-addon-bg: var(--eh-surface-muted);
+  --bs-input-group-addon-color: var(--eh-text-secondary);
+  --bs-input-group-addon-border-color: var(--eh-border);
 }
 
 [data-theme='dark'] .eduhive-app,

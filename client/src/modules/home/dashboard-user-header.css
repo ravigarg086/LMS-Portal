@@ -18,15 +18,15 @@
 }
 
 .dashboard-user-panel--student {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--eh-role-student);
 }
 
 .dashboard-user-panel--faculty {
-  border-left: 4px solid #10b981;
+  border-left: 4px solid var(--eh-role-faculty);
 }
 
 .dashboard-user-panel--admin {
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid var(--eh-role-admin);
 }
 
 .dashboard-user-panel__main {
@@ -73,21 +73,21 @@
 }
 
 .dashboard-user-panel__badge--student {
-  color: #2563eb;
-  background: rgba(59, 130, 246, 0.12);
-  border-color: rgba(59, 130, 246, 0.25);
+  color: var(--eh-role-student);
+  background: var(--eh-role-student-soft);
+  border-color: var(--eh-role-student-border);
 }
 
 .dashboard-user-panel__badge--faculty {
-  color: #059669;
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.25);
+  color: var(--eh-role-faculty);
+  background: var(--eh-role-faculty-soft);
+  border-color: var(--eh-role-faculty-border);
 }
 
 .dashboard-user-panel__badge--admin {
-  color: #d97706;
-  background: rgba(245, 158, 11, 0.12);
-  border-color: rgba(245, 158, 11, 0.25);
+  color: var(--eh-role-admin);
+  background: var(--eh-role-admin-soft);
+  border-color: var(--eh-role-admin-border);
 }
 
 .dashboard-user-panel__title {
@@ -300,6 +300,35 @@
   padding: 1.35rem;
   border-radius: 1.25rem;
   z-index: 1;
+}
+
+.account-modal__panel--wide {
+  width: min(640px, 100%);
+}
+
+.profile-modal__avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid var(--eh-border);
+}
+
+.profile-modal__avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 3px solid var(--eh-border);
+  background: var(--eh-surface-muted);
+  flex-shrink: 0;
+}
+
+.profile-modal__avatar-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .account-modal__header {
