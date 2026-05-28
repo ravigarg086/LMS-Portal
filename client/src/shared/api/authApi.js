@@ -21,3 +21,10 @@ export function logoutUserRequest() {
 export function fetchCurrentUser() {
   return apiRequest('/auth/me');
 }
+
+export function changePassword(payload) {
+  return apiRequest('/auth/change-password', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}

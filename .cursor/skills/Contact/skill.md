@@ -9,10 +9,20 @@ alwaysApply: false
 ## 1. Contact API (Client)
 ```js
 export async function submitContactMessage(payload) {
-  return apiRequest('/contact', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
+  return apiRequest('/contact', { method: 'POST', body: JSON.stringify(payload) });
+}
+
+export function fetchContactMessages(search = '') {
+  const query = search ? `?search=${encodeURIComponent(search)}` : '';
+  return apiRequest(`/contact${query}`);
+}
+
+export function updateContactMessage(id, payload) {
+  return apiRequest(`/contact/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+}
+
+export function deleteContactMessage(id) {
+  return apiRequest(`/contact/${id}`, { method: 'DELETE' });
 }
 ```
 
@@ -57,29 +67,25 @@ async function getPool() {
 
 ## 5. Server Store (`server/src/store/contactStore.js`)
 ```js
-async function saveContactMessage(payload) {
-  const { errors, fullName, email, designation, location, phone, subject, message } = validateContactPayload(payload);
-  if (Object.keys(errors).length) throw validationError(errors);
-
-  const pool = await getPool();
-  const id = crypto.randomUUID();
-  await pool.execute(
-    `INSERT INTO contact_messages (id, full_name, email, designation, location, phone, subject, message)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-    [id, fullName, email, designation, location, phone, subject, message],
-  );
-  return { id, fullName, email, designation, location, phone, subject, message, createdAt: new Date().toISOString() };
-}
+async function saveContactMessage(payload) { /* INSERT */ }
+async function listContactMessages({ search, limit }) { /* SELECT */ }
+async function getContactMessageById(id) { /* SELECT one */ }
+async function updateContactMessage(id, payload) { /* UPDATE after validate */ }
+async function deleteContactMessage(id) { /* DELETE */ }
 ```
 
-## 6. Server Route
+## 6. Server Routes
 - `POST /api/contact` → validate body → insert into MySQL → `{ message: 'Thank you — we received your inquiry.' }`
-- `GET /api/contact` → `authMiddleware` + `requireRole('admin')` → `{ messages: [...] }` from MySQL
+- `GET /api/contact` → `authMiddleware` + `requireRole('admin')` → `{ messages: [...] }`
+- `PUT /api/contact/:id` → `authMiddleware` + `requireRole('admin')` → validate → update MySQL → `{ message, contact }`
+- `DELETE /api/contact/:id` → `authMiddleware` + `requireRole('admin')` → delete from MySQL → `{ message }`
 
 ## 7. Admin Dashboard Inbox
 - Component: `client/src/modules/dashboard/components/AdminContactMessagesPanel.js`
-- Hook: `client/src/modules/dashboard/hooks/useContactMessages.js`
+- Edit form: `client/src/modules/dashboard/components/ContactMessageEditForm.js`
+- Hook: `client/src/modules/dashboard/hooks/useContactMessages.js` — `reload`, `updateMessage`, `deleteMessage`
 - Render on admin dashboard only; responsive table + mobile cards.
+- Each row/card: **Edit** opens inline editor; **Delete** confirms then removes from UI and MySQL.
 
 ## 8. Environment (`.env.example`)
 ```

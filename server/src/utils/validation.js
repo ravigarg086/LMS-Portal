@@ -76,9 +76,28 @@ function validateLoginPayload(body) {
   return errors;
 }
 
+function validateChangePasswordPayload(body) {
+  const errors = {};
+
+  if (!String(body.currentPassword || '').trim()) {
+    errors.currentPassword = 'Current password is required.';
+  }
+
+  if (!validatePassword(body.newPassword)) {
+    errors.newPassword = 'New password must be at least 8 characters.';
+  }
+
+  if (String(body.newPassword || '') !== String(body.confirmPassword || '')) {
+    errors.confirmPassword = 'Passwords do not match.';
+  }
+
+  return errors;
+}
+
 module.exports = {
   validateEmail,
   validatePassword,
   validateRegistrationPayload,
   validateLoginPayload,
+  validateChangePasswordPayload,
 };

@@ -8,7 +8,7 @@ import './contact.css';
 function ContactPage() {
   return (
     <DashboardShell activeId="contact" pageClassName="contact-page" mainClassName="contact-page__main">
-      <RevealUp>
+      <RevealUp className="contact-page__content">
         <div className="row g-4 contact-page__grid">
           <div className="col-12 col-lg-4">
             <ContactDetails />

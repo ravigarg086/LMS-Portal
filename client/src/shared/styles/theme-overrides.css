@@ -1,4 +1,60 @@
-/* Bootstrap + component sync for LMS dark mode (data-theme + data-bs-theme) */
+/* Bootstrap + component sync for LMS light & dark themes */
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bs-body-bg: var(--eh-bg);
+  --bs-body-color: var(--eh-text);
+  --bs-emphasis-color: var(--eh-text);
+  --bs-secondary-color: var(--eh-text-secondary);
+  --bs-secondary-bg: var(--eh-surface-muted);
+  --bs-tertiary-color: var(--eh-text-muted);
+  --bs-tertiary-bg: var(--eh-surface-muted);
+  --bs-border-color: var(--eh-border);
+  --bs-link-color: var(--eh-primary);
+  --bs-link-hover-color: var(--eh-primary-dark);
+  --bs-primary: #2563eb;
+  --bs-primary-rgb: 37, 99, 235;
+
+  --bs-table-color: var(--eh-text);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--eh-border);
+  --bs-table-striped-bg: rgba(37, 99, 235, 0.03);
+  --bs-table-hover-bg: var(--eh-coral-light);
+  --bs-table-active-bg: var(--eh-primary-light);
+
+  --bs-form-control-bg: var(--eh-surface);
+  --bs-form-control-color: var(--eh-text);
+  --bs-form-control-border-color: var(--eh-border);
+  --bs-form-select-bg: var(--eh-surface);
+  --bs-form-select-color: var(--eh-text);
+  --bs-form-select-border-color: var(--eh-border);
+}
+
+.eduhive-app .form-control:focus,
+.eduhive-app .form-select:focus,
+.auth-page .form-control:focus,
+.auth-page .form-select:focus {
+  border-color: var(--eh-primary);
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+}
+
+:root:not([data-theme='dark']) .eduhive-app a:not(.btn):not(.st-pill-btn):not(.btn-coral):not(.sidebar-nav__link):not(.sidebar-brand):not(.sidebar-logout):not(.dashboard-hero__cta):not(.guest-portal-card__link):not(.site-footer__link):not(.site-footer__legal-link):not(.site-footer__brand-link):not(.guest-action-bar__btn):not(.profile-menu__item),
+:root:not([data-theme='dark']) .auth-page a:not(.btn):not(.auth-card__brand),
+[data-theme='light'] .eduhive-app a:not(.btn):not(.st-pill-btn):not(.btn-coral):not(.sidebar-nav__link):not(.sidebar-brand):not(.sidebar-logout):not(.dashboard-hero__cta):not(.guest-portal-card__link):not(.site-footer__link):not(.site-footer__legal-link):not(.site-footer__brand-link):not(.guest-action-bar__btn):not(.profile-menu__item),
+[data-theme='light'] .auth-page a:not(.btn):not(.auth-card__brand) {
+  color: var(--eh-primary);
+}
+
+:root:not([data-theme='dark']) .eduhive-app .btn-link,
+:root:not([data-theme='dark']) .auth-page .btn-link,
+[data-theme='light'] .eduhive-app .btn-link,
+[data-theme='light'] .auth-page .btn-link {
+  --bs-btn-color: var(--eh-primary);
+  --bs-btn-hover-color: var(--eh-primary-dark);
+  color: var(--eh-primary);
+}
 
 [data-theme='dark'] {
   color-scheme: dark;
@@ -12,8 +68,8 @@
   --bs-tertiary-color: rgba(253, 248, 243, 0.45);
   --bs-tertiary-bg: #222222;
   --bs-border-color: rgba(253, 248, 243, 0.08);
-  --bs-link-color: #e4a4bd;
-  --bs-link-hover-color: #f0b8cc;
+  --bs-link-color: #60a5fa;
+  --bs-link-hover-color: #93c5fd;
 
   /* Tables */
   --bs-table-color: #fdf8f3;
@@ -22,9 +78,9 @@
   --bs-table-striped-color: #fdf8f3;
   --bs-table-striped-bg: rgba(253, 248, 243, 0.04);
   --bs-table-active-color: #fdf8f3;
-  --bs-table-active-bg: rgba(228, 164, 189, 0.14);
+  --bs-table-active-bg: rgba(37, 99, 235, 0.16);
   --bs-table-hover-color: #fdf8f3;
-  --bs-table-hover-bg: rgba(228, 164, 189, 0.14);
+  --bs-table-hover-bg: rgba(37, 99, 235, 0.16);
 
   /* Forms */
   --bs-form-control-bg: #222222;
@@ -99,7 +155,7 @@
   background-color: var(--eh-surface);
   border-color: var(--eh-coral);
   color: var(--eh-text);
-  box-shadow: 0 0 0 0.2rem rgba(228, 164, 189, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
 }
 
 [data-theme='dark'] .eduhive-app .form-select option,
@@ -135,9 +191,55 @@
   color: #f4a3a3 !important;
 }
 
-[data-theme='dark'] .eduhive-app a:not(.btn):not(.sidebar-nav__link):not(.sidebar-brand),
-[data-theme='dark'] .auth-page a:not(.btn) {
+[data-theme='dark'] .eduhive-app a:not(.btn):not(.st-pill-btn):not(.btn-coral):not(.sidebar-nav__link):not(.sidebar-brand):not(.sidebar-logout):not(.dashboard-hero__cta):not(.guest-portal-card__link):not(.site-footer__link):not(.site-footer__legal-link):not(.site-footer__brand-link):not(.guest-action-bar__btn):not(.profile-menu__item),
+[data-theme='dark'] .auth-page a:not(.btn):not(.auth-card__brand) {
   color: var(--eh-coral);
+}
+
+/* Filled CTAs: keep readable text on coral backgrounds (links were inheriting pink link color) */
+[data-theme='dark'] .eduhive-app :is(a.st-pill-btn, .st-pill-btn, a.btn-coral, .btn-coral, .auth-submit-btn),
+[data-theme='dark'] .auth-page :is(.auth-submit-btn) {
+  color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app :is(a.st-pill-btn, .st-pill-btn, a.btn-coral, .btn-coral):hover,
+[data-theme='dark'] .eduhive-app :is(a.st-pill-btn, .st-pill-btn, a.btn-coral, .btn-coral):focus-visible,
+[data-theme='dark'] .auth-page .auth-submit-btn:hover:not(:disabled),
+[data-theme='dark'] .auth-page .auth-submit-btn:focus-visible {
+  color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app .st-pill-btn--outline,
+[data-theme='dark'] .eduhive-app a.st-pill-btn--outline {
+  color: var(--eh-text);
+  background: transparent;
+}
+
+[data-theme='dark'] .eduhive-app .st-pill-btn--outline:hover,
+[data-theme='dark'] .eduhive-app a.st-pill-btn--outline:hover {
+  color: var(--eh-text);
+  background: var(--eh-surface-muted);
+}
+
+[data-theme='dark'] .eduhive-app .btn-link,
+[data-theme='dark'] .auth-page .btn-link {
+  --bs-btn-color: var(--eh-coral);
+  --bs-btn-hover-color: #93c5fd;
+  --bs-btn-active-color: #93c5fd;
+  color: var(--eh-coral);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .eduhive-app .btn-link:hover,
+[data-theme='dark'] .auth-page .btn-link:hover {
+  color: #93c5fd;
+}
+
+[data-theme='dark'] .eduhive-app .btn-link.text-danger,
+[data-theme='dark'] .auth-page .btn-link.text-danger {
+  --bs-btn-color: #f4a3a3;
+  --bs-btn-hover-color: #ffc9c9;
+  color: #f4a3a3 !important;
 }
 
 [data-theme='dark'] .eduhive-app .btn-outline-primary,
@@ -150,13 +252,26 @@
 }
 
 [data-theme='dark'] .eduhive-app .btn-primary,
-[data-theme='dark'] .auth-page .btn-primary {
+[data-theme='dark'] .auth-page .btn-primary,
+[data-theme='dark'] .eduhive-app a.btn-primary,
+[data-theme='dark'] .auth-page a.btn-primary {
   --bs-btn-bg: var(--eh-coral);
   --bs-btn-border-color: var(--eh-coral);
   --bs-btn-color: var(--eh-on-primary);
-  --bs-btn-hover-bg: #d994ad;
-  --bs-btn-hover-border-color: #d994ad;
+  --bs-btn-hover-bg: #1d4ed8;
+  --bs-btn-hover-border-color: #1d4ed8;
   --bs-btn-hover-color: var(--eh-on-primary);
+  --bs-btn-active-bg: #1d4ed8;
+  --bs-btn-active-border-color: #1d4ed8;
+  --bs-btn-active-color: var(--eh-on-primary);
+  color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app .btn-primary:hover,
+[data-theme='dark'] .auth-page .btn-primary:hover,
+[data-theme='dark'] .eduhive-app a.btn-primary:hover,
+[data-theme='dark'] .auth-page a.btn-primary:hover {
+  color: var(--eh-on-primary);
 }
 
 [data-theme='dark'] .eduhive-card,
@@ -196,11 +311,34 @@
 
 [data-theme='dark'] .highcharts-axis-labels text,
 [data-theme='dark'] .highcharts-legend-item text {
-  fill: rgba(253, 248, 243, 0.72) !important;
+  fill: rgba(241, 245, 249, 0.72) !important;
 }
 
 [data-theme='dark'] .highcharts-title,
 [data-theme='dark'] .highcharts-subtitle {
-  fill: #fdf8f3 !important;
+  fill: #f1f5f9 !important;
+}
+
+[data-theme='dark'] .eduhive-app .sidebar-nav__link--active {
+  color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app .compare-chart__filter--active {
+  color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app .auth-card__brand,
+[data-theme='dark'] .auth-page .auth-card__brand {
+  color: var(--eh-text);
+}
+
+[data-theme='dark'] .eduhive-app .auth-card__brand-icon,
+[data-theme='dark'] .auth-page .auth-card__brand-icon {
+  color: var(--eh-on-primary);
+}
+
+[data-theme='dark'] .eduhive-app .services-grid__item:hover .btn-coral,
+[data-theme='dark'] .eduhive-app .services-grid__item:hover a.btn-coral {
+  color: var(--eh-on-primary);
 }
 

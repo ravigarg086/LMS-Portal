@@ -44,8 +44,9 @@ function DashboardShell({
 
           <main id="main-content" className={mainClassName} tabIndex={-1}>
             {children}
-            {showFooter && <SiteFooter />}
           </main>
+
+          {showFooter && <SiteFooter />}
         </div>
       </div>
     </div>

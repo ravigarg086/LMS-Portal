@@ -1,19 +1,19 @@
 export const STATUS_COLORS = {
-  enrolled: { light: '#e4a4bd', dark: '#e4a4bd' },
-  inProgress: { light: '#c98aa6', dark: '#e4a4bd' },
-  completed: { light: '#262626', dark: '#fdf8f3' },
+  enrolled: { light: '#2563eb', dark: '#60a5fa' },
+  inProgress: { light: '#0d9488', dark: '#2dd4bf' },
+  completed: { light: '#475569', dark: '#94a3b8' },
 };
 
-export const TRACK_COLOR = { light: '#e4a4bd', dark: '#e4a4bd' };
+export const TRACK_COLOR = { light: '#4f46e5', dark: '#818cf8' };
 
 export function getChartTheme(isDark) {
   return {
-    textColor: isDark ? 'rgba(253, 248, 243, 0.72)' : 'rgba(38, 38, 38, 0.7)',
-    headingColor: isDark ? '#fdf8f3' : '#262626',
-    axisLineColor: isDark ? 'rgba(253, 248, 243, 0.12)' : 'rgba(38, 38, 38, 0.12)',
-    tooltipBg: isDark ? '#222222' : '#fdf8f3',
-    tooltipBorder: isDark ? 'rgba(253, 248, 243, 0.12)' : 'rgba(38, 38, 38, 0.08)',
-    fontFamily: "'League Spartan', system-ui, sans-serif",
+    textColor: isDark ? 'rgba(241, 245, 249, 0.72)' : 'rgba(71, 85, 105, 0.9)',
+    headingColor: isDark ? '#f1f5f9' : '#0f172a',
+    axisLineColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(148, 163, 184, 0.35)',
+    tooltipBg: isDark ? '#1e293b' : '#ffffff',
+    tooltipBorder: isDark ? 'rgba(148, 163, 184, 0.2)' : '#e2e8f0',
+    fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
   };
 }
 

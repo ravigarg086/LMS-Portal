@@ -10,23 +10,36 @@ alwaysApply: false
 The dashboard layout must dynamically adapt to the authenticated user's role. Components must be strictly isolated:
 
 *   **Student Dashboard View:**
+    *   **Section navigation:** Tabbed student shell (`StudentDashboard`) with separate views — Learning Overview, My Mentors, Explore Courses.
     *   Display a personalized welcome banner with current course enrollment stats.
-    *   **Assignment Tracker:** Displays upcoming deadlines and grade tracking (Strictly Read-Only).
-    *   **Student Progress Tracker:** Visual breakdown of course completion percentages and attendance stats.
+    *   **Assignment Tracker:** Displays upcoming deadlines and grade tracking (Strictly Read-Only) — Learning Overview tab.
+    *   **Student Progress Tracker:** Visual breakdown of course completion percentages and attendance stats — Learning Overview tab.
 *   **Faculty Dashboard View:**
+    *   **Section navigation:** Tabbed faculty shell (`FacultyDashboard`) with separate views — Progress Analytics, Student Management.
     *   **Student Management:** Add and edit student profiles.
     *   **Student Progress Analytics:** Interactive dashboards showing class performance distribution and student metrics.
 *   **Admin Dashboard View:**
+    *   **Section navigation:** Tabbed admin shell (`AdminDashboard`) with separate views — Platform Analytics, Contact Messages, User Management — instead of stacking all panels on one scrollable page.
     *   **User Management Panel:** Add and edit Students and Faculty; delete managed accounts when required.
-    *   **System Health Audit:** Overview of platform metrics, active courses, and global configurations.
-    *   **Contact Messages Inbox:** Fetch and display Contact Us submissions from MySQL (`contact_messages`). Admin-only; secured via authenticated `GET /api/contact`.
+    *   **System Health Audit:** Overview of platform metrics, active courses, and global configurations (Platform Analytics tab).
+    *   **Contact Messages Inbox:** Fetch, edit, and delete Contact Us submissions from MySQL (`contact_messages`). Admin-only; secured via authenticated `GET`, `PUT`, and `DELETE /api/contact`.
 
-## 2. Admin Contact Inbox UX
+## 2. Role Dashboard Section Navigation
+- Shared shell: `RoleDashboardShell` — accessible pill tabs, URL `?section=` deep links, responsive layout.
+- **Student** (`StudentDashboard`): default `overview`; `/dashboard/student?section=mentors`, `?section=courses`.
+- **Faculty** (`FacultyDashboard`): default `analytics`; `/dashboard/faculty?section=students`.
+- **Admin** (`AdminDashboard`): default `analytics`; `/dashboard/admin?section=contact`, `?section=users`.
+- Mount only the active panel per role to keep views focused and reduce simultaneous API load.
+
+## 3. Admin Contact Inbox UX
 - Render only when `user.role === 'admin'`.
 - Responsive Bootstrap layout: searchable table on desktop (`table-responsive`), stacked message cards on mobile.
+- Each message row/card includes **Edit** and **Delete** actions.
+- Edit opens an inline form (`ContactMessageEditForm`); save persists via `PUT /api/contact/:id`.
+- Delete confirms with the user, then calls `DELETE /api/contact/:id` and updates the inbox.
 - Show loading, empty, and error states without layout shift.
-- Match portal Super Travel styling (`eduhive-card`, `role-panel--admin`, designation badges).
+- Match portal Scholar LMS styling (`eduhive-card`, `role-panel--admin`, designation badges).
 
-## 3. Layout Stability & Performance
+## 4. Layout Stability & Performance
 - Ensure clean layout structures to completely eliminate Cumulative Layout Shift (CLS). Content must never pop or jump around during async API fetches.
 - Unauthorized roles must be securely blocked from rendering or injecting components meant for higher privilege levels.

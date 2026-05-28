@@ -1,41 +1,10 @@
 import { useExternalUsers } from '../hooks/useExternalUsers';
 import { useExternalUserFilters } from '../hooks/useExternalUserFilters';
 import { TABLE_COLUMNS } from '../data/tableColumns';
-
-function ColumnFilterControl({ column, value, onChange, options, idPrefix = 'external-filter' }) {
-  const inputId = `${idPrefix}-${column.key}`;
-
-  if (column.filterType === 'select') {
-    return (
-      <select
-        id={inputId}
-        className="form-select form-select-sm external-data-filter-control"
-        value={value}
-        onChange={(event) => onChange(column.key, event.target.value)}
-        aria-label={`Filter by ${column.label}`}
-      >
-        <option value="">All {column.label}</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    );
-  }
-
-  return (
-    <input
-      id={inputId}
-      type="search"
-      className="form-control form-control-sm external-data-filter-control"
-      value={value}
-      onChange={(event) => onChange(column.key, event.target.value)}
-      placeholder={`Filter ${column.label}`}
-      aria-label={`Filter by ${column.label}`}
-    />
-  );
-}
+import ColumnFilterControl from '../../../shared/components/ColumnFilterControl';
+import TableToolbar from '../../../shared/components/TableToolbar';
+import TablePagination from '../../../shared/components/TablePagination';
+import { useTablePagination } from '../../../shared/hooks/useTablePagination';
 
 function ExternalUsersTable() {
   const { users, loading, error, source } = useExternalUsers();
@@ -44,11 +13,24 @@ function ExternalUsersTable() {
     setGlobalSearch,
     columnFilters,
     setColumnFilter,
-    filteredUsers,
+    filteredItems: filteredUsers,
     uniqueColumnValues,
     clearFilters,
     hasActiveFilters,
   } = useExternalUserFilters(users);
+
+  const {
+    paginatedItems,
+    page,
+    setPage,
+    pageSize,
+    setPageSize,
+    pageSizes,
+    totalItems: filteredCount,
+    totalPages,
+    startIndex,
+    endIndex,
+  } = useTablePagination(filteredUsers);
 
   const showEmptySearchState = !loading && !error && users.length > 0 && filteredUsers.length === 0;
 
@@ -97,31 +79,19 @@ function ExternalUsersTable() {
 
       {!loading && !error && users.length > 0 && (
         <>
-          <div className="external-data-search">
-            <label htmlFor="external-global-search" className="form-label external-data-search__label">
-              Search users
-            </label>
-            <div className="external-data-search__row">
-              <input
-                id="external-global-search"
-                type="search"
-                className="form-control external-data-search__input"
-                value={globalSearch}
-                onChange={(event) => setGlobalSearch(event.target.value)}
-                placeholder="Search name, email, city, company, phone..."
-                aria-controls="external-users-table"
-              />
-              {hasActiveFilters && (
-                <button type="button" className="btn btn-outline-secondary btn-sm" onClick={clearFilters}>
-                  Clear filters
-                </button>
-              )}
-            </div>
-          </div>
+          <TableToolbar
+            searchId="external-global-search"
+            searchLabel="Search users"
+            searchValue={globalSearch}
+            onSearchChange={setGlobalSearch}
+            searchPlaceholder="Search name, email, city, company, phone..."
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={clearFilters}
+          />
 
-          <div className="external-data-column-filters external-data-column-filters--mobile">
+          <div className="portal-table-column-filters portal-table-column-filters--mobile">
             {TABLE_COLUMNS.map((column) => (
-              <div key={column.key} className="external-data-column-filters__item">
+              <div key={column.key} className="portal-table-column-filters__item">
                 <label htmlFor={`external-filter-mobile-${column.key}`} className="form-label">
                   {column.label}
                 </label>
@@ -137,15 +107,15 @@ function ExternalUsersTable() {
           </div>
 
           {showEmptySearchState && (
-            <div className="alert alert-light external-data-empty-state mb-3" role="status" aria-live="polite">
+            <div className="alert alert-light portal-table-empty" role="status" aria-live="polite">
               No users found matching your criteria.
             </div>
           )}
 
-          <div className="table-responsive external-data-table-wrap">
+          <div className="table-responsive external-data-table-wrap portal-table-wrap">
             <table
               id="external-users-table"
-              className="table table-sm table-striped align-middle mb-0 external-data-table"
+              className="table table-sm table-striped align-middle mb-0 external-data-table portal-table"
               aria-labelledby="external-users-heading"
             >
               <caption className="visually-hidden">
@@ -159,26 +129,27 @@ function ExternalUsersTable() {
                     </th>
                   ))}
                 </tr>
-                <tr className="external-data-table__filter-row">
+                <tr className="portal-table__filter-row external-data-table__filter-row">
                   {TABLE_COLUMNS.map((column) => (
-                    <th key={`${column.key}-filter`} scope="col" className="external-data-table__filter-cell">
+                    <th key={`${column.key}-filter`} scope="col" className="portal-table__filter-cell">
                       <ColumnFilterControl
                         column={column}
                         value={columnFilters[column.key]}
                         onChange={setColumnFilter}
                         options={uniqueColumnValues[column.key] || []}
+                        idPrefix="external-filter"
                       />
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody className="external-data-table__body">
-                {users.length === 0 && (
+                {filteredUsers.length === 0 && (
                   <tr>
                     <td colSpan={TABLE_COLUMNS.length}>No external users returned.</td>
                   </tr>
                 )}
-                {filteredUsers.map((user) => (
+                {paginatedItems.map((user) => (
                   <tr key={user.id}>
                     {TABLE_COLUMNS.map((column) => (
                       <td key={column.key} data-label={column.label}>
@@ -190,14 +161,23 @@ function ExternalUsersTable() {
               </tbody>
             </table>
           </div>
-        </>
-      )}
 
-      {!loading && !error && users.length > 0 && (
-        <p className="external-data-panel__meta mb-0">
-          Showing {filteredUsers.length} of {users.length} users
-          {source === 'jsonplaceholder' ? ' from JSONPlaceholder.' : ' from bundled demo data.'}
-        </p>
+          <TablePagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizes={pageSizes}
+            onPageSizeChange={setPageSize}
+            pageSizeId="external-page-size"
+            filteredCount={filteredUsers.length}
+            totalCount={users.length}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            entityLabel="users"
+            ariaLabel="External users pagination"
+          />
+        </>
       )}
     </article>
   );

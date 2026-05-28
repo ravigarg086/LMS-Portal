@@ -1,6 +1,18 @@
 .contact-page__main {
   position: relative;
-  z-index: 1;
+}
+
+/* Stacked cards must not inherit height:100% — it collapses the row and lets the footer overlap the map */
+.contact-page .eduhive-card {
+  height: auto;
+}
+
+.contact-page__grid {
+  margin-bottom: 0.5rem;
+}
+
+.contact-page__content {
+  margin-bottom: 2rem;
 }
 
 .contact-details__title,
@@ -62,14 +74,32 @@
   min-width: 10rem;
 }
 
+.contact-map {
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+}
+
 .contact-map__frame-wrap {
+  position: relative;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--eh-border);
+  background: var(--eh-surface-muted);
+  box-shadow: var(--eh-shadow-sm);
 }
 
 .contact-map__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
   border: 0;
+}
+
+.contact-page .site-footer {
+  position: relative;
+  z-index: 0;
+  clear: both;
+  margin-top: 2.5rem;
 }
 
 [data-theme='dark'] .contact-details__item a {

@@ -43,6 +43,7 @@ async function start() {
     await initContactDb();
     app.listen(PORT, () => {
       console.log(`LMS API running on http://localhost:${PORT}`);
+      console.log('Contact API: POST /api/contact, GET /api/contact (admin)');
     });
   } catch (error) {
     console.error('Failed to start server:', error.message);

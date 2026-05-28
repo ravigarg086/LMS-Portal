@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const userStore = require('../store/userStore');
 const { createStudentDashboard } = require('../utils/studentDashboard');
 
@@ -123,11 +124,36 @@ async function getCurrentUser(req, res) {
   return res.json({ user: req.user.toSafeJSON() });
 }
 
+async function changePassword(req, res) {
+  try {
+    const errors = require('../utils/validation').validateChangePasswordPayload(req.body);
+    if (Object.keys(errors).length) {
+      return res.status(400).json({ message: 'Validation failed.', errors });
+    }
+
+    const { currentPassword, newPassword } = req.body;
+    const user = req.user;
+    const isMatch = await user.comparePassword(currentPassword);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Current password is incorrect.' });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 12);
+    await user.save();
+
+    return res.json({ message: 'Password updated successfully.' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Unable to update password. Please try again.' });
+  }
+}
+
 module.exports = {
   register,
   login,
   logout,
   getCurrentUser,
+  changePassword,
   signToken,
   setAuthCookie,
 };

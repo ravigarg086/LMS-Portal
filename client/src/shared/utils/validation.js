@@ -69,3 +69,20 @@ export function validateRegistrationForm(form) {
 
   return errors;
 }
+
+export function validateChangePasswordForm({ currentPassword, newPassword, confirmPassword }) {
+  const errors = {};
+  const currentError = validateRequired(currentPassword, 'Current password');
+  const newError = validatePassword(newPassword);
+  const confirmError = validatePassword(confirmPassword);
+
+  if (currentError) errors.currentPassword = currentError;
+  if (newError) errors.newPassword = newError;
+  if (confirmError) errors.confirmPassword = confirmError;
+
+  if (!errors.confirmPassword && newPassword !== confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match.';
+  }
+
+  return errors;
+}

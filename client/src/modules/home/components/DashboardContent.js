@@ -2,20 +2,12 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import DashboardHeader from './DashboardHeader';
 import Sidebar from './Sidebar';
-import FeaturedCourseCard from './FeaturedCourseCard';
-import StatisticsCard from './StatisticsCard';
-import ProgressRing from './ProgressRing';
-import MentorList from './MentorList';
-import PopularCoursesGrid from './PopularCoursesGrid';
 import GuestDashboard from './GuestDashboard';
 import SiteFooter from './SiteFooter';
 import RevealUp from './RevealUp';
-import RoleDashboardBanner from '../../dashboard/components/RoleDashboardBanner';
-import FacultyControls from '../../dashboard/components/FacultyControls';
-import AdminUserPanel from '../../dashboard/components/AdminUserPanel';
-import AdminContactMessagesPanel from '../../dashboard/components/AdminContactMessagesPanel';
-import AdminAnalyticsSection from '../../dashboard/components/AdminAnalyticsSection';
-import { useStudentDashboard } from '../../dashboard/hooks/useStudentDashboard';
+import FacultyDashboard from '../../dashboard/components/FacultyDashboard';
+import StudentDashboard from '../../dashboard/components/StudentDashboard';
+import AdminDashboard from '../../dashboard/components/AdminDashboard';
 import { SECTION_IDS } from '../constants';
 import { USER_ROLES } from '../../../shared/constants/roles';
 import { GUEST_NAV_SECTION_MAP, NAV_SECTION_MAP, TRACKED_SECTION_IDS } from '../data/navSections';
@@ -30,8 +22,6 @@ function DashboardContent({ user = null }) {
   const role = user?.role;
   const isGuest = !role;
   const isStudent = role === USER_ROLES.STUDENT;
-  const showPersonalWidgets = isStudent;
-  const { dashboard, loading: dashboardLoading, error: dashboardError } = useStudentDashboard(isStudent);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const activeSectionId = useActiveSection(TRACKED_SECTION_IDS);
   const navSectionMap = isGuest ? GUEST_NAV_SECTION_MAP : NAV_SECTION_MAP;
@@ -79,88 +69,25 @@ function DashboardContent({ user = null }) {
         />
 
         <main id="main-content" tabIndex={-1}>
-          {role && (
-            <RevealUp>
-              <RoleDashboardBanner role={role} fullName={user.fullName} />
-            </RevealUp>
-          )}
-
           {role === USER_ROLES.FACULTY && (
             <RevealUp className="dashboard-role-panel mb-4">
-              <FacultyControls />
+              <FacultyDashboard />
             </RevealUp>
           )}
 
           {role === USER_ROLES.ADMIN && (
             <RevealUp className="dashboard-role-panel mb-4">
-              <AdminAnalyticsSection />
-              <AdminContactMessagesPanel />
-              <AdminUserPanel />
+              <AdminDashboard />
+            </RevealUp>
+          )}
+
+          {isStudent && (
+            <RevealUp className="dashboard-role-panel mb-4">
+              <StudentDashboard />
             </RevealUp>
           )}
 
           {isGuest && <GuestDashboard />}
-
-          {showPersonalWidgets && (
-            <>
-              {isStudent && dashboardLoading && (
-                <p className="auth-card__subtitle mb-4">Loading your learning data...</p>
-              )}
-              {isStudent && dashboardError && (
-                <p className="text-danger small mb-4" role="alert">
-                  {dashboardError}
-                </p>
-              )}
-
-              <section className="services-section">
-                <header className="services-section__header">
-                  <span className="st-label">Your Dashboard</span>
-                  <h2 className="services-section__title">Learning Services</h2>
-                </header>
-                <div className="services-grid">
-                  <RevealUp className="services-grid__item">
-                    <section
-                      id={SECTION_IDS.assignment}
-                      aria-labelledby="featured-course-title"
-                    >
-                      <FeaturedCourseCard course={dashboard?.featuredCourse} />
-                    </section>
-                  </RevealUp>
-
-                  <RevealUp className="services-grid__item">
-                    <section
-                      id={SECTION_IDS.calendar}
-                      aria-labelledby="learning-activity-title"
-                    >
-                      <StatisticsCard weeklyStats={dashboard?.weeklyStats} />
-                    </section>
-                  </RevealUp>
-
-                  <RevealUp className="services-grid__item">
-                    <section
-                      id={SECTION_IDS.progress}
-                      aria-labelledby="overall-progress-title"
-                    >
-                      <ProgressRing progress={dashboard?.overallProgress} />
-                    </section>
-                  </RevealUp>
-                </div>
-              </section>
-
-              <RevealUp className="dashboard-grid__mentors mb-4" aria-labelledby="mentors-title">
-                <MentorList />
-              </RevealUp>
-
-              <section
-                id={SECTION_IDS.popularCourses}
-                aria-labelledby="popular-courses-heading"
-              >
-                <PopularCoursesGrid />
-              </section>
-            </>
-          )}
-
-          <SiteFooter />
 
           {!isGuest && (
           <div className="portal-anchors" aria-hidden="true">
@@ -172,6 +99,8 @@ function DashboardContent({ user = null }) {
           </div>
           )}
         </main>
+
+        <SiteFooter />
       </div>
     </div>
   );

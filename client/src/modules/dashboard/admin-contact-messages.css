@@ -173,6 +173,28 @@
   color: var(--eh-text-secondary);
 }
 
+.admin-contact-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  white-space: nowrap;
+}
+
+.admin-contact-actions__btn {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-contact-card .admin-contact-actions {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--eh-border);
+}
+
+.admin-contact-edit-form .invalid-feedback {
+  display: block;
+}
+
 [data-theme='dark'] .admin-contact-badge--faculty {
   background: rgba(99, 102, 241, 0.18);
 }

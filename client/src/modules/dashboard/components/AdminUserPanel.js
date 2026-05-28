@@ -11,6 +11,13 @@ import {
 } from '../../../shared/constants/roles';
 import { useManagedUsers } from '../hooks/useManagedUsers';
 import StudentManageForm from './StudentManageForm';
+import ManagedUsersTable from './ManagedUsersTable';
+import {
+  FACULTY_USER_COLUMNS,
+  FACULTY_USER_SEARCH_FIELDS,
+  STUDENT_USER_COLUMNS,
+  STUDENT_USER_SEARCH_FIELDS,
+} from '../data/tableColumns';
 
 const EMPTY_CREATE_FORM = {
   role: USER_ROLES.STUDENT,
@@ -36,6 +43,24 @@ function AdminUserPanel() {
     () => (activeTab === USER_ROLES.STUDENT ? students : faculty),
     [activeTab, students, faculty],
   );
+
+  const tableConfig = useMemo(() => {
+    if (activeTab === USER_ROLES.STUDENT) {
+      return {
+        columns: STUDENT_USER_COLUMNS,
+        searchableFields: STUDENT_USER_SEARCH_FIELDS,
+        entityLabel: 'students',
+        emptyMessage: 'No students yet.',
+      };
+    }
+
+    return {
+      columns: FACULTY_USER_COLUMNS,
+      searchableFields: FACULTY_USER_SEARCH_FIELDS,
+      entityLabel: 'faculty',
+      emptyMessage: 'No faculty yet.',
+    };
+  }, [activeTab]);
 
   const updateCreateField = (field, value) => {
     setCreateForm((current) => ({ ...current, [field]: value }));
@@ -308,63 +333,53 @@ function AdminUserPanel() {
       )}
 
       {!loading && !error && (
-        <div className="table-responsive">
-          <table className="table table-sm align-middle mb-0">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">{activeTab === USER_ROLES.STUDENT ? 'Track' : 'Department'}</th>
-                <th scope="col">{activeTab === USER_ROLES.STUDENT ? 'Graduation' : 'Employee ID'}</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {visibleUsers.length === 0 && (
-                <tr>
-                  <td colSpan={5}>No {activeTab === USER_ROLES.STUDENT ? 'students' : 'faculty'} yet.</td>
-                </tr>
-              )}
-              {visibleUsers.map((managedUser) => (
-                <tr key={managedUser.id}>
-                  <td>{managedUser.fullName}</td>
-                  <td>{managedUser.email}</td>
-                  <td>
-                    {activeTab === USER_ROLES.STUDENT
-                      ? managedUser.academicTrack || '—'
-                      : managedUser.department || '—'}
-                  </td>
-                  <td>
-                    {activeTab === USER_ROLES.STUDENT
-                      ? managedUser.graduationYear || '—'
-                      : managedUser.employeeId || '—'}
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn-link btn-sm p-0 me-2"
-                      onClick={() => {
-                        setFormError('');
-                        setEditingUser(managedUser);
-                        setShowCreateForm(false);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-link btn-sm p-0 text-danger"
-                      onClick={() => handleDelete(managedUser)}
-                      disabled={submitting}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ManagedUsersTable
+          key={activeTab}
+          tableId={`admin-users-${activeTab}`}
+          users={visibleUsers}
+          columns={tableConfig.columns}
+          searchableFields={tableConfig.searchableFields}
+          entityLabel={tableConfig.entityLabel}
+          searchIdPrefix={`admin-${activeTab}`}
+          emptyMessage={tableConfig.emptyMessage}
+          renderRow={(managedUser) => (
+            <tr key={managedUser.id}>
+              <td>{managedUser.fullName}</td>
+              <td>{managedUser.email}</td>
+              <td>
+                {activeTab === USER_ROLES.STUDENT
+                  ? managedUser.academicTrack || '—'
+                  : managedUser.department || '—'}
+              </td>
+              <td>
+                {activeTab === USER_ROLES.STUDENT
+                  ? managedUser.graduationYear || '—'
+                  : managedUser.employeeId || '—'}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-link btn-sm p-0 me-2"
+                  onClick={() => {
+                    setFormError('');
+                    setEditingUser(managedUser);
+                    setShowCreateForm(false);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-link btn-sm p-0 text-danger"
+                  onClick={() => handleDelete(managedUser)}
+                  disabled={submitting}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          )}
+        />
       )}
 
       {editingUser && activeTab === USER_ROLES.STUDENT && (

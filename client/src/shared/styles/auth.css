@@ -28,8 +28,8 @@
 .auth-card__brand-icon {
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 50%;
-  background: var(--eh-coral);
+  border-radius: 0.75rem;
+  background: var(--eh-gradient);
   color: var(--eh-on-primary);
   display: inline-flex;
   align-items: center;
@@ -38,10 +38,10 @@
 
 .auth-card__title {
   margin: 0 0 0.35rem;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 900;
-  line-height: 0.85;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--eh-text);
 }
 
@@ -83,15 +83,15 @@
 }
 
 .auth-persona-tabs__btn--student.auth-persona-tabs__btn--active {
-  box-shadow: inset 0 0 0 2px rgba(228, 164, 189, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.35);
 }
 
 .auth-persona-tabs__btn--faculty.auth-persona-tabs__btn--active {
-  box-shadow: inset 0 0 0 2px rgba(228, 164, 189, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(13, 148, 136, 0.35);
 }
 
 .auth-persona-tabs__btn--admin.auth-persona-tabs__btn--active {
-  box-shadow: inset 0 0 0 2px rgba(228, 164, 189, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(245, 158, 11, 0.4);
 }
 
 .auth-role-banner {
@@ -105,7 +105,8 @@
 .auth-role-banner--student,
 .auth-role-banner--faculty,
 .auth-role-banner--admin {
-  background: rgba(228, 164, 189, 0.18);
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.16);
   color: var(--eh-text);
 }
 
@@ -140,8 +141,8 @@
 
 .auth-form .form-control:focus,
 .auth-form .form-select:focus {
-  border-color: var(--eh-coral);
-  box-shadow: 0 0 0 0.2rem rgba(255, 141, 113, 0.2);
+  border-color: var(--eh-primary);
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
 }
 
 .auth-submit-btn {

@@ -1,2 +1,4 @@
 @import '../../modules/home/home.css';
-@import '../../modules/home/super-travel.css';
+@import '../../modules/home/lms-theme.css';
+@import './light-theme.css';
+@import './portal-table.css';

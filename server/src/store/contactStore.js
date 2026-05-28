@@ -122,4 +122,62 @@ async function listContactMessages({ search = '', limit = 100 } = {}) {
   return rows.map(mapContactRow);
 }
 
-module.exports = { saveContactMessage, validateContactPayload, listContactMessages };
+async function getContactMessageById(id) {
+  const pool = await getPool();
+  const [rows] = await pool.execute(
+    `SELECT id, full_name, email, designation, location, phone, subject, message, created_at
+     FROM contact_messages
+     WHERE id = ?`,
+    [id],
+  );
+
+  return rows[0] ? mapContactRow(rows[0]) : null;
+}
+
+async function updateContactMessage(id, payload) {
+  const existing = await getContactMessageById(id);
+  if (!existing) {
+    const error = new Error('Contact message not found.');
+    error.status = 404;
+    throw error;
+  }
+
+  const { errors, fullName, email, designation, location, phone, subject, message } =
+    validateContactPayload(payload);
+
+  if (Object.keys(errors).length) {
+    throw createValidationError(errors);
+  }
+
+  const pool = await getPool();
+  await pool.execute(
+    `UPDATE contact_messages
+     SET full_name = ?, email = ?, designation = ?, location = ?, phone = ?, subject = ?, message = ?
+     WHERE id = ?`,
+    [fullName, email, designation, location, phone, subject, message, id],
+  );
+
+  return getContactMessageById(id);
+}
+
+async function deleteContactMessage(id) {
+  const pool = await getPool();
+  const [result] = await pool.execute('DELETE FROM contact_messages WHERE id = ?', [id]);
+
+  if (result.affectedRows === 0) {
+    const error = new Error('Contact message not found.');
+    error.status = 404;
+    throw error;
+  }
+
+  return { id };
+}
+
+module.exports = {
+  saveContactMessage,
+  validateContactPayload,
+  listContactMessages,
+  getContactMessageById,
+  updateContactMessage,
+  deleteContactMessage,
+};

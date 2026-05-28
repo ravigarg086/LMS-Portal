@@ -5,16 +5,24 @@ function getHttpErrorMessage(status, data) {
     return data.message;
   }
 
+  if (status === 401) {
+    return 'Please sign in again to continue.';
+  }
+
+  if (status === 403) {
+    return 'You do not have permission for this action.';
+  }
+
   if (status === 404) {
-    return 'Contact service is unavailable. Restart the LMS server and try again.';
+    return 'Service not found. Restart the LMS server to load the latest API routes.';
   }
 
   if (status === 503) {
-    return 'Contact service is temporarily unavailable. Check MySQL and try again.';
+    return 'Service is temporarily unavailable. Check MySQL and try again.';
   }
 
   if (status >= 500) {
-    return 'Server error while saving your message. Please try again.';
+    return 'Server error. Please try again.';
   }
 
   return 'Request failed.';

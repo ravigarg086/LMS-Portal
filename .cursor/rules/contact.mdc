@@ -22,6 +22,8 @@ alwaysApply: false
 ## 3. Server Integration (MySQL)
 - `POST /api/contact` validates the payload and inserts a row into MySQL table `contact_messages` in database `lms-portal-db`.
 - `GET /api/contact` (admin only, authenticated) returns contact submissions for the admin dashboard inbox.
+- `PUT /api/contact/:id` (admin only) validates and updates an existing row in MySQL.
+- `DELETE /api/contact/:id` (admin only) removes a row from MySQL.
 - Database credentials live in `server/.env` (`MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`). Never commit `.env`.
 - On server startup, ensure the database and `contact_messages` table exist (`initContactDb`).
 - Return `{ message: 'Thank you — we received your inquiry.' }` on success; return `400` with field errors on validation failure.
@@ -29,10 +31,17 @@ alwaysApply: false
 
 ## 4. Module Structure
 - **Client:** `client/src/modules/contact/` — `data/contactInfo.js`, `utils/validateContactForm.js`, `hooks/useContactForm.js`, `components/ContactDetails.js`, `components/ContactForm.js`, `components/ContactMap.js`, `ContactPage.js`.
-- **API client:** `client/src/shared/api/contactApi.js`.
+- **API client:** `client/src/shared/api/contactApi.js` — `submitContactMessage`, `fetchContactMessages`, `updateContactMessage`, `deleteContactMessage`.
+- **Admin inbox:** `client/src/modules/dashboard/components/AdminContactMessagesPanel.js`, `ContactMessageEditForm.js`, `hooks/useContactMessages.js`.
 - **Server:** `server/src/config/mysql.js`, `server/src/db/initContactDb.js`, `server/src/store/contactStore.js`, `server/src/controllers/contactController.js`, `server/src/routes/contactRoutes.js`.
 
-## 5. UX & Accessibility
+## 5. Admin Contact Inbox Actions
+- Each contact message row (table) and card (mobile) must expose **Edit** and **Delete** actions.
+- Edit opens an inline form below the inbox with the same field validation as the public contact form; save calls `PUT /api/contact/:id` and refreshes local state.
+- Delete requires browser confirmation, calls `DELETE /api/contact/:id`, and removes the row from the table and MySQL.
+- Show loading/disabled states while saving or deleting; surface API errors without layout shift.
+
+## 6. UX & Accessibility
 - Use semantic headings, labels linked to inputs, and `role="alert"` for errors.
 - Map iframe requires a descriptive `title` attribute.
-- Match Super Travel styling and dark-mode theme overrides.
+- Match Scholar LMS styling and light/dark theme overrides.
