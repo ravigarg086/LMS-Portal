@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './shared/auth/AuthContext';
 import { ThemeProvider } from './shared/theme/ThemeProvider';
 import AuthLoadingScreen from './shared/components/AuthLoadingScreen';
+import ScrollToTop from './shared/components/ScrollToTop';
 import HomePage from './modules/home';
 import SignInPage from './modules/signin';
 import RegistrationPage from './modules/registration';
@@ -29,6 +30,7 @@ function PublicHomeRoute() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ThemeProvider>
         <AuthProvider>
           <Routes>

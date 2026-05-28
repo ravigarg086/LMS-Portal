@@ -82,7 +82,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
   }
 
   return (
-    <header className="dashboard-header dashboard-hero dashboard-hero--guest">
+    <>
       <div className="guest-top-bar">
         <button
           type="button"
@@ -111,34 +111,36 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
         </div>
       </div>
 
-      <div className="dashboard-hero__layout">
-        <div className="dashboard-hero__left">
-          <div className="dashboard-hero__copy">
-            <span className="st-label">Learning Platform</span>
-            <h1 className="dashboard-hero__title">
-              Learn <em className="dashboard-hero__accent">smarter</em>. Grow faster.
-            </h1>
-            <p className="dashboard-hero__subtitle">
-              Explore courses, sign in, or create your account to get started.
-            </p>
-            <Link to="/register" className="dashboard-hero__cta">
-              Start Learning
-              <span aria-hidden="true">→</span>
-            </Link>
+      <header className="dashboard-header dashboard-hero dashboard-hero--guest">
+        <div className="dashboard-hero__layout">
+          <div className="dashboard-hero__left">
+            <div className="dashboard-hero__copy">
+              <span className="st-label">Learning Platform</span>
+              <h1 className="dashboard-hero__title">
+                Learn <em className="dashboard-hero__accent">smarter</em>. Grow faster.
+              </h1>
+              <p className="dashboard-hero__subtitle">
+                Explore courses, sign in, or create your account to get started.
+              </p>
+              <Link to="/register" className="dashboard-hero__cta">
+                Start Learning
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <div className="dashboard-hero__right">
-          <div className="dashboard-hero__card">
-            <img src={HERO_IMAGE} alt="" className="dashboard-hero__image" />
-            <div className="concierge-badge" aria-hidden="true">
-              <span className="concierge-badge__num">LMS</span>
-              <span className="concierge-badge__label">Portal</span>
+          <div className="dashboard-hero__right">
+            <div className="dashboard-hero__card">
+              <img src={HERO_IMAGE} alt="" className="dashboard-hero__image" />
+              <div className="concierge-badge" aria-hidden="true">
+                <span className="concierge-badge__num">LMS</span>
+                <span className="concierge-badge__label">Portal</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
 

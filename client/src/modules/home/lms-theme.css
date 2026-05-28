@@ -182,6 +182,7 @@ a.sidebar-nav__link {
 /* Hero */
 .dashboard-hero--guest {
   margin-bottom: 2rem;
+  display: block;
 }
 
 .dashboard-hero--guest .dashboard-hero__layout {
