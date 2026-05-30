@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './shared/auth/AuthContext';
 import { ThemeProvider } from './shared/theme/ThemeProvider';
+import { UserSettingsProvider } from './shared/settings/UserSettingsContext';
 import AuthLoadingScreen from './shared/components/AuthLoadingScreen';
 import ScrollToTop from './shared/components/ScrollToTop';
 import HomePage from './modules/home';
@@ -35,7 +36,8 @@ function App() {
       <ScrollToTop />
       <ThemeProvider>
         <AuthProvider>
-          <Routes>
+          <UserSettingsProvider>
+            <Routes>
             <Route path="/" element={<PublicHomeRoute />} />
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
@@ -50,6 +52,7 @@ function App() {
             <Route path="/dashboard/admin" element={<ProtectedDashboard role={USER_ROLES.ADMIN} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </UserSettingsProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

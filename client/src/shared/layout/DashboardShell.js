@@ -4,15 +4,17 @@ import DashboardHeader from '../../modules/home/components/DashboardHeader';
 import Sidebar from '../../modules/home/components/Sidebar';
 import SiteFooter from '../../modules/home/components/SiteFooter';
 import { useSidebarLayout } from '../hooks/useSidebarLayout';
+import { useUserSettings } from '../settings/UserSettingsContext';
 
 function DashboardShell({
   activeId,
   pageClassName = '',
-  mainClassName = '',
+  mainClassName: mainContentClassName = '',
   children,
   showFooter = true,
 }) {
   const { user, initializing } = useAuth();
+  const { userSettings } = useUserSettings();
   const { sidebarOpen, closeSidebar, toggleSidebar } = useSidebarLayout();
 
   if (initializing) {
@@ -20,6 +22,13 @@ function DashboardShell({
   }
 
   const pageClasses = ['home-page', 'eduhive-app', pageClassName].filter(Boolean).join(' ');
+  const isCompactLayout = Boolean(userSettings?.dashboard?.compactLayout);
+  const shellMainClassName = [
+    'eduhive-main',
+    isCompactLayout ? 'eduhive-main--compact' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={pageClasses}>
@@ -35,14 +44,14 @@ function DashboardShell({
           user={user}
         />
 
-        <div className="eduhive-main">
+        <div className={shellMainClassName}>
           <DashboardHeader
             sidebarOpen={sidebarOpen}
             onMenuToggle={toggleSidebar}
             user={user}
           />
 
-          <main id="main-content" className={mainClassName} tabIndex={-1}>
+          <main id="main-content" className={mainContentClassName} tabIndex={-1}>
             {children}
           </main>
 

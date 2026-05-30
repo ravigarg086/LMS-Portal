@@ -3,8 +3,8 @@ const { validatePlatformSettings } = require('../utils/defaultSettings');
 
 async function getMySettings(req, res) {
   try {
-    const settings = await settingsStore.getUserSettings(req.user.id);
-    return res.json({ settings });
+    const { settings, persisted } = await settingsStore.getUserSettingsWithMeta(req.user.id);
+    return res.json({ settings, persisted });
   } catch (error) {
     const status = error.status || 500;
     return res.status(status).json({ message: error.message || 'Unable to load settings.' });
@@ -14,7 +14,7 @@ async function getMySettings(req, res) {
 async function updateMySettings(req, res) {
   try {
     const settings = await settingsStore.updateUserSettings(req.user.id, req.body || {});
-    return res.json({ message: 'Settings saved.', settings });
+    return res.json({ message: 'Settings saved.', settings, persisted: true });
   } catch (error) {
     const status = error.status || 500;
     return res.status(status).json({ message: error.message || 'Unable to save settings.' });

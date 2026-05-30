@@ -1,62 +1,62 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  fetchPlatformSettings,
-  fetchUserSettings,
-  updatePlatformSettings,
-  updateUserSettings,
-} from '../../../shared/api/settingsApi';
+import { fetchPlatformSettings, updatePlatformSettings } from '../../../shared/api/settingsApi';
+import { useUserSettings } from '../../../shared/settings/UserSettingsContext';
 
 export function useSettings(isAdmin) {
-  const [userSettings, setUserSettings] = useState(null);
+  const {
+    userSettings,
+    loading: userSettingsLoading,
+    saving: userSaving,
+    saveUserSettings: saveUserSettingsContext,
+    patchUserSettings,
+  } = useUserSettings();
+
   const [platformSettings, setPlatformSettings] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [platformLoading, setPlatformLoading] = useState(false);
+  const [savingPlatform, setSavingPlatform] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  const loadPlatformSettings = useCallback(async () => {
+    if (!isAdmin) {
+      setPlatformSettings(null);
+      setPlatformLoading(false);
+      return;
+    }
+
+    setPlatformLoading(true);
     setError('');
 
     try {
-      const { settings } = await fetchUserSettings();
-      setUserSettings(settings);
-
-      if (isAdmin) {
-        const platformResponse = await fetchPlatformSettings();
-        setPlatformSettings(platformResponse.settings);
-      }
+      const platformResponse = await fetchPlatformSettings();
+      setPlatformSettings(platformResponse.settings);
     } catch (err) {
-      setError(err.message || 'Unable to load settings.');
+      setError(err.message || 'Unable to load platform settings.');
     } finally {
-      setLoading(false);
+      setPlatformLoading(false);
     }
   }, [isAdmin]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    loadPlatformSettings();
+  }, [loadPlatformSettings]);
 
   const saveUserSettings = async (nextSettings) => {
-    setSaving(true);
     setError('');
     setSuccess('');
 
     try {
-      const response = await updateUserSettings(nextSettings);
-      setUserSettings(response.settings);
+      await saveUserSettingsContext(nextSettings);
       setSuccess('Your settings were saved.');
-      return response.settings;
+      return nextSettings;
     } catch (err) {
       setError(err.message || 'Unable to save settings.');
       throw err;
-    } finally {
-      setSaving(false);
     }
   };
 
   const savePlatformSettings = async (nextSettings) => {
-    setSaving(true);
+    setSavingPlatform(true);
     setError('');
     setSuccess('');
 
@@ -72,28 +72,8 @@ export function useSettings(isAdmin) {
       }
       throw err;
     } finally {
-      setSaving(false);
+      setSavingPlatform(false);
     }
-  };
-
-  const patchUserSettings = (patch) => {
-    setUserSettings((current) => {
-      if (!current) {
-        return current;
-      }
-
-      const next = { ...current };
-
-      Object.keys(patch).forEach((key) => {
-        if (patch[key] && typeof patch[key] === 'object' && !Array.isArray(patch[key])) {
-          next[key] = { ...current[key], ...patch[key] };
-        } else {
-          next[key] = patch[key];
-        }
-      });
-
-      return next;
-    });
   };
 
   const patchPlatformSettings = (patch) => {
@@ -103,13 +83,13 @@ export function useSettings(isAdmin) {
   return {
     userSettings,
     platformSettings,
-    loading,
-    saving,
+    loading: userSettingsLoading || platformLoading,
+    saving: userSaving || savingPlatform,
     error,
     success,
     setError,
     setSuccess,
-    reload: load,
+    reload: loadPlatformSettings,
     saveUserSettings,
     savePlatformSettings,
     patchUserSettings,

@@ -16,9 +16,11 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { scrollToSection } from '../utils/scrollToSection';
 import { isHomeDashboardRoute } from '../utils/homeRoutes';
+import { useUserSettings } from '../../../shared/settings/UserSettingsContext';
 
 function DashboardContent({ user = null }) {
   const location = useLocation();
+  const { userSettings } = useUserSettings();
   const role = user?.role;
   const isGuest = !role;
   const isStudent = role === USER_ROLES.STUDENT;
@@ -56,6 +58,9 @@ function DashboardContent({ user = null }) {
   useBodyScrollLock(sidebarOpen);
   useEscapeKey(sidebarOpen, closeSidebar);
 
+  const isCompactLayout = Boolean(userSettings?.dashboard?.compactLayout);
+  const mainClassName = isCompactLayout ? 'eduhive-main eduhive-main--compact' : 'eduhive-main';
+
   return (
     <div className="eduhive-shell">
       <a href="#main-content" className="skip-link">
@@ -69,7 +74,7 @@ function DashboardContent({ user = null }) {
         user={user}
       />
 
-      <div className="eduhive-main">
+      <div className={mainClassName}>
         <span id={SECTION_IDS.home} className="dashboard-top-anchor" aria-hidden="true" />
         <div className="eduhive-main__glow" aria-hidden="true" />
 

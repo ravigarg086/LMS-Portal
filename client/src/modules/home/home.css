@@ -67,6 +67,25 @@ body {
   }
 }
 
+.eduhive-main--compact {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.eduhive-main--compact .dashboard-header--authenticated {
+  margin-bottom: 1rem;
+}
+
+.eduhive-main--compact .dashboard-role-panel {
+  margin-bottom: 1rem !important;
+}
+
+@media (min-width: 992px) {
+  .eduhive-main--compact {
+    padding: 1.75rem 2rem;
+  }
+}
+
 /* ========== SIDEBAR ========== */
 .eduhive-sidebar {
   position: fixed;

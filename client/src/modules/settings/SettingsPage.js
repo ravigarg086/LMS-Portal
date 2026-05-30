@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import RevealUp from '../home/components/RevealUp';
 import DashboardShell from '../../shared/layout/DashboardShell';
@@ -34,12 +34,6 @@ function SettingsPage() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [platformErrors, setPlatformErrors] = useState({});
-
-  useEffect(() => {
-    if (!loading && userSettings?.theme) {
-      setTheme(userSettings.theme);
-    }
-  }, [loading, userSettings?.theme, setTheme]);
 
   const handleSaveUser = async () => {
     if (!userSettings) {

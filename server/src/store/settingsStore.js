@@ -24,6 +24,11 @@ function parseJson(value, fallback) {
 }
 
 async function getUserSettings(userId) {
+  const { settings } = await getUserSettingsWithMeta(userId);
+  return settings;
+}
+
+async function getUserSettingsWithMeta(userId) {
   const pool = await getPool();
   const [rows] = await pool.execute('SELECT settings_json FROM users WHERE id = ?', [userId]);
 
@@ -33,8 +38,13 @@ async function getUserSettings(userId) {
     throw error;
   }
 
-  const stored = parseJson(rows[0].settings_json, {});
-  return sanitizeUserSettings(mergeDeep(DEFAULT_USER_SETTINGS, stored));
+  const raw = rows[0].settings_json;
+  const stored = parseJson(raw, {});
+
+  return {
+    settings: sanitizeUserSettings(mergeDeep(DEFAULT_USER_SETTINGS, stored)),
+    persisted: raw != null,
+  };
 }
 
 async function updateUserSettings(userId, patch) {
@@ -85,6 +95,7 @@ async function updatePlatformSettings(patch, adminUserId) {
 
 module.exports = {
   getUserSettings,
+  getUserSettingsWithMeta,
   updateUserSettings,
   getPlatformSettings,
   updatePlatformSettings,

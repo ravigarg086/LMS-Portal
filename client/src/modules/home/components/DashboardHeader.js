@@ -4,6 +4,7 @@ import ProfileMenu from './ProfileMenu';
 import CourseSearch from './CourseSearch';
 import { USER_HEADER_COPY, getUserHeaderMeta } from '../data/userHeaderMeta';
 import { getUserAvatarUrl } from '../../../shared/utils/userAvatar';
+import { useUserSettings } from '../../../shared/settings/UserSettingsContext';
 import '../dashboard-user-header.css';
 import '../guest-action-bar.css';
 
@@ -11,14 +12,55 @@ const HERO_IMAGE =
   'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80';
 
 function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
+  const { userSettings, loading: settingsLoading } = useUserSettings();
   const isAuthenticated = Boolean(user);
   const displayName = user?.fullName || 'Learner';
   const firstName = displayName.split(' ')[0];
   const avatarUrl = getUserAvatarUrl(user);
   const roleCopy = user?.role ? USER_HEADER_COPY[user.role] : null;
   const metaItems = getUserHeaderMeta(user);
+  const showWelcomeBanner = userSettings?.dashboard?.showWelcomeBanner ?? true;
+
+  const toolbar = (
+    <div className="dashboard-user-panel__toolbar">
+      <CourseSearch
+        wrapperClassName="dashboard-search dashboard-search--compact"
+        placeholder="Search courses..."
+        inputId="dashboard-course-search"
+      />
+      <button
+        type="button"
+        className="icon-btn icon-btn--compact"
+        aria-label="Notifications (coming soon)"
+        disabled
+      >
+        <LucideIcon name="bell" size={20} />
+      </button>
+      <ProfileMenu user={user} />
+    </div>
+  );
 
   if (isAuthenticated) {
+    if (!settingsLoading && !showWelcomeBanner) {
+      return (
+        <header className="dashboard-header dashboard-header--authenticated dashboard-header--compact">
+          <div className={`dashboard-user-panel dashboard-user-panel--compact dashboard-user-panel--${user.role}`}>
+            <button
+              type="button"
+              className="dashboard-header__menu-btn"
+              aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={sidebarOpen}
+              aria-controls="eduhiveSidebar"
+              onClick={onMenuToggle}
+            >
+              <LucideIcon name="menu" size={22} />
+            </button>
+            {toolbar}
+          </div>
+        </header>
+      );
+    }
+
     return (
       <header className="dashboard-header dashboard-header--authenticated">
         <div className={`dashboard-user-panel dashboard-user-panel--${user.role}`}>
@@ -62,22 +104,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
             </div>
           </div>
 
-          <div className="dashboard-user-panel__toolbar">
-            <CourseSearch
-              wrapperClassName="dashboard-search dashboard-search--compact"
-              placeholder="Search courses..."
-              inputId="dashboard-course-search"
-            />
-            <button
-              type="button"
-              className="icon-btn icon-btn--compact"
-              aria-label="Notifications (coming soon)"
-              disabled
-            >
-              <LucideIcon name="bell" size={20} />
-            </button>
-            <ProfileMenu user={user} />
-          </div>
+          {toolbar}
         </div>
       </header>
     );
