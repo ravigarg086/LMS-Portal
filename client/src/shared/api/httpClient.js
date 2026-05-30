@@ -1,5 +1,8 @@
 const API_BASE = process.env.REACT_APP_API_URL || '/api';
 
+const STALE_SERVER_HINT =
+  'Stop any old server on port 5000, then run `npm run dev` from the project root to load the latest API routes.';
+
 function getHttpErrorMessage(status, data, path = '') {
   if (data?.message) {
     return data.message;
@@ -15,18 +18,18 @@ function getHttpErrorMessage(status, data, path = '') {
 
   if (status === 404) {
     if (path.includes('/auth/profile')) {
-      return 'Profile update is unavailable. Restart the LMS server (cd server && npm run dev) to load the latest API routes.';
+      return `Profile update is unavailable. ${STALE_SERVER_HINT}`;
     }
 
     if (path.includes('/settings/')) {
-      return 'Settings API is unavailable. Restart the LMS server (cd server && npm run dev) to load the latest API routes.';
+      return `Settings API is unavailable. ${STALE_SERVER_HINT}`;
     }
 
     if (path.includes('/subscriptions/')) {
-      return 'Subscriptions API is unavailable. Restart the LMS server (cd server && npm run dev) to load the latest API routes.';
+      return `Subscriptions API is unavailable. ${STALE_SERVER_HINT}`;
     }
 
-    return 'Service not found. Restart the LMS server to load the latest API routes.';
+    return `Service not found. ${STALE_SERVER_HINT}`;
   }
 
   if (status === 503) {
