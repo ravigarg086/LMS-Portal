@@ -83,7 +83,9 @@ export async function apiRequest(path, options = {}) {
       ...options,
     });
   } catch {
-    throw new Error('Unable to reach the LMS server. Start the API on port 5000 and try again.');
+    throw new Error(
+      'Unable to reach the LMS server. From the project root run `npm run dev` (or `npm run server` in a second terminal on port 5000), then try again.',
+    );
   }
 
   return parseResponse(response, path);

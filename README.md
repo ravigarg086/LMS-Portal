@@ -32,22 +32,35 @@ LMS-Project-Cursor/
 
 ## Getting Started
 
-From the project root:
+Install dependencies once from the project root:
 
 ```powershell
-npm.cmd install --prefix client
-npm.cmd start
+npm.cmd run install:all
 ```
 
-Or from the `client` folder:
+Copy `server/.env.example` to `server/.env` and ensure MySQL is running (`lms-portal-db` on port 3306).
+
+Start **both** the API and the React app (required for login, course search, settings, and contact):
 
 ```powershell
-cd client
-npm.cmd install
+npm.cmd run dev
+```
+
+This runs the Express API on [http://localhost:5000](http://localhost:5000) and the client on [http://localhost:3000](http://localhost:3000).
+
+Alternatively, use two terminals:
+
+```powershell
+npm.cmd run server
+```
+
+```powershell
 npm.cmd start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+If course search shows *Unable to reach the LMS server*, the API is not running — start it with `npm.cmd run server` or use `npm.cmd run dev`.
 
 ### Windows PowerShell note
 

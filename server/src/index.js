@@ -18,9 +18,29 @@ const settingsRoutes = require('./routes/settingsRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const DEFAULT_CLIENT_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+
+function resolveClientOrigins() {
+  const configured = (process.env.CLIENT_URL || '')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  return [...new Set([...configured, ...DEFAULT_CLIENT_ORIGINS])];
+}
+
+const clientOrigins = resolveClientOrigins();
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin(origin, callback) {
+      if (!origin || clientOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`Origin ${origin} is not allowed by CORS`));
+    },
     credentials: true,
   }),
 );
