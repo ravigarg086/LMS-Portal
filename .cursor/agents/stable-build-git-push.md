@@ -115,7 +115,7 @@ Skip E2E if servers are not running and the parent did not request full integrat
 
 ## Git workflow (only after build is stable)
 
-Follow LMS Portal conventions from `.cursor/rules/global-rule.mdc`:
+Follow LMS Portal conventions from `AGENTS.md`:
 
 ### Safety rules
 

@@ -1,9 +1,3 @@
----
-description: Global development rules, git workflows, and architectural standards for the LMS Portal
-globs: **/*
-alwaysApply: true
----
-
 # LMS Portal - Global Development Rules
 
 ## 1. Git & Version Control Workflow
@@ -23,7 +17,7 @@ alwaysApply: true
 
 ## 3. CSS & Responsive Design
 - **Bootstrap First:** Always leverage Bootstrap utility classes or React-Bootstrap components for structural layout, spacing (padding/margins), and alignment before writing custom CSS.
-- **Mobile-First Approach:** Ensure all layout implementations look perfect on mobile screens ($<576\text{px}$) first, then scale up using Bootstrap's responsive breakpoints (`sm`, `md`, `lg`, `xl`).
+- **Mobile-First Approach:** Ensure all layout implementations look perfect on mobile screens (<576px) first, then scale up using Bootstrap's responsive breakpoints (`sm`, `md`, `lg`, `xl`).
 - **Consistent Theming:** Maintain color scheme consistency using Scholar LMS tokens (`--eh-primary`, `--eh-gradient`, role accent variables) and Bootstrap theme utilities.
 - Always make all the components and forms inside the web portal responsive.
 
