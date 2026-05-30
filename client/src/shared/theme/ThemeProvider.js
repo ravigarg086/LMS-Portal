@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { THEMES } from '../../modules/home/constants';
 import { applyTheme, getStoredTheme, persistTheme, normalizeTheme } from './themeStorage';
 
@@ -12,9 +12,9 @@ export function ThemeProvider({ children }) {
     persistTheme(theme);
   }, [theme]);
 
-  const setTheme = (nextTheme) => {
+  const setTheme = useCallback((nextTheme) => {
     setThemeState(normalizeTheme(nextTheme));
-  };
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -22,7 +22,7 @@ export function ThemeProvider({ children }) {
       setTheme,
       isDark: theme === THEMES.dark,
     }),
-    [theme],
+    [theme, setTheme],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

@@ -1,8 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { fetchUserSettings, updateUserSettings } from '../api/settingsApi';
 import { useAuth } from '../auth/AuthContext';
 import { useTheme } from '../theme/ThemeProvider';
-import { getStoredTheme } from '../theme/themeStorage';
+import { getStoredTheme, normalizeTheme } from '../theme/themeStorage';
 
 const UserSettingsContext = createContext(null);
 
@@ -23,6 +23,8 @@ function mergeSettingsPatch(current, patch) {
 export function UserSettingsProvider({ children }) {
   const { user, isAuthenticated } = useAuth();
   const { setTheme } = useTheme();
+  const setThemeRef = useRef(setTheme);
+  setThemeRef.current = setTheme;
   const [userSettings, setUserSettings] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -43,7 +45,7 @@ export function UserSettingsProvider({ children }) {
       const nextSettings = { ...settings };
 
       if (hasSavedSettings && nextSettings.theme) {
-        setTheme(nextSettings.theme);
+        setThemeRef.current(nextSettings.theme);
       } else {
         nextSettings.theme = getStoredTheme();
       }
@@ -56,7 +58,7 @@ export function UserSettingsProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, setTheme]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     loadSettings();
@@ -71,6 +73,24 @@ export function UserSettingsProvider({ children }) {
       return mergeSettingsPatch(current, patch);
     });
   }, []);
+
+  const updateThemePreference = useCallback(async (nextTheme) => {
+    const normalized = normalizeTheme(nextTheme);
+    setTheme(normalized);
+    patchUserSettings({ theme: normalized });
+
+    if (!isAuthenticated) {
+      return;
+    }
+
+    try {
+      const response = await updateUserSettings({ theme: normalized });
+      setUserSettings(response.settings);
+      setPersisted(true);
+    } catch {
+      // Keep the locally applied theme; user can retry via Save personal settings.
+    }
+  }, [isAuthenticated, patchUserSettings, setTheme]);
 
   const saveUserSettings = useCallback(
     async (nextSettings) => {
@@ -101,9 +121,10 @@ export function UserSettingsProvider({ children }) {
       persisted,
       reload: loadSettings,
       patchUserSettings,
+      updateThemePreference,
       saveUserSettings,
     }),
-    [userSettings, loading, saving, persisted, loadSettings, patchUserSettings, saveUserSettings],
+    [userSettings, loading, saving, persisted, loadSettings, patchUserSettings, updateThemePreference, saveUserSettings],
   );
 
   return <UserSettingsContext.Provider value={value}>{children}</UserSettingsContext.Provider>;

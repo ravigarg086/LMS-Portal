@@ -15,6 +15,7 @@ import {
 } from '../utils/dashboardNav';
 import { useTheme } from '../../../shared/theme/ThemeProvider';
 import { useAuth } from '../../../shared/auth/AuthContext';
+import { useUserSettings } from '../../../shared/settings/UserSettingsContext';
 
 function SidebarNavItem({
   item,
@@ -164,7 +165,8 @@ function SidebarNavItem({
 }
 
 function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user = null }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
+  const { updateThemePreference } = useUserSettings();
   const { logout, getDashboardRoute } = useAuth();
   const navigate = useNavigate();
   const [openSubmenus, setOpenSubmenus] = useState(() => new Set());
@@ -299,7 +301,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
               type="button"
               className={`theme-toggle__btn${theme === THEMES.light ? ' theme-toggle__btn--active' : ''}`}
               aria-pressed={theme === THEMES.light}
-              onClick={() => setTheme(THEMES.light)}
+              onClick={() => updateThemePreference(THEMES.light)}
             >
               <LucideIcon name="sun" size={16} />
               Light
@@ -308,7 +310,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
               type="button"
               className={`theme-toggle__btn${theme === THEMES.dark ? ' theme-toggle__btn--active' : ''}`}
               aria-pressed={theme === THEMES.dark}
-              onClick={() => setTheme(THEMES.dark)}
+              onClick={() => updateThemePreference(THEMES.dark)}
             >
               <LucideIcon name="moon" size={16} />
               Dark

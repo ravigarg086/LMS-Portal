@@ -7,6 +7,7 @@ import ProfileModal from '../home/components/ProfileModal';
 import ChangePasswordModal from '../home/components/ChangePasswordModal';
 import { useAuth } from '../../shared/auth/AuthContext';
 import { useTheme } from '../../shared/theme/ThemeProvider';
+import { useUserSettings } from '../../shared/settings/UserSettingsContext';
 import { THEMES } from '../home/constants';
 import { USER_ROLES } from '../../shared/constants/roles';
 import SettingsCard from './components/SettingsCard';
@@ -16,7 +17,8 @@ import './settings.css';
 
 function SettingsPage() {
   const { user } = useAuth();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
+  const { updateThemePreference } = useUserSettings();
   const isAdmin = user?.role === USER_ROLES.ADMIN;
   const {
     userSettings,
@@ -64,11 +66,6 @@ function SettingsPage() {
     await savePlatformSettings(platformSettings);
   };
 
-  const handleThemeChange = (nextTheme) => {
-    setTheme(nextTheme);
-    patchUserSettings({ theme: nextTheme });
-  };
-
   return (
     <DashboardShell activeId="settings" pageClassName="settings-page" mainClassName="settings-page__main">
       <RevealUp className="settings-page__content">
@@ -113,7 +110,7 @@ function SettingsPage() {
                   type="button"
                   className={`settings-theme-toggle__btn${theme === THEMES.light ? ' settings-theme-toggle__btn--active' : ''}`}
                   aria-pressed={theme === THEMES.light}
-                  onClick={() => handleThemeChange(THEMES.light)}
+                  onClick={() => updateThemePreference(THEMES.light)}
                 >
                   <LucideIcon name="sun" size={18} />
                   Light
@@ -122,7 +119,7 @@ function SettingsPage() {
                   type="button"
                   className={`settings-theme-toggle__btn${theme === THEMES.dark ? ' settings-theme-toggle__btn--active' : ''}`}
                   aria-pressed={theme === THEMES.dark}
-                  onClick={() => handleThemeChange(THEMES.dark)}
+                  onClick={() => updateThemePreference(THEMES.dark)}
                 >
                   <LucideIcon name="moon" size={18} />
                   Dark
