@@ -3,7 +3,11 @@ import LucideIcon from './LucideIcon';
 import { useAuth } from '../../../shared/auth/AuthContext';
 import { SITE_NAME, SITE_TAGLINE } from '../constants';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
-import { GUEST_SIDEBAR_HREFS, filterSecondarySidebarNav } from '../utils/dashboardNav';
+import {
+  GUEST_SIDEBAR_HREFS,
+  filterMainSidebarNav,
+  filterSecondarySidebarNav,
+} from '../utils/dashboardNav';
 import { handleSectionNavClick } from '../utils/scrollToSection';
 import '../site-footer.css';
 
@@ -41,6 +45,8 @@ function FooterNavLink({ item }) {
 function SiteFooter() {
   const { user } = useAuth();
   const isAuthenticated = Boolean(user);
+  const navigateLinks = filterMainSidebarNav(mainSidebarNav, { isAuthenticated });
+  const footerNavigateLinks = isAuthenticated ? navigateLinks.slice(0, 4) : navigateLinks;
   const portalLinks = filterSecondarySidebarNav(secondarySidebarNav, {
     isAuthenticated,
     routeLinksOnly: true,
@@ -70,7 +76,7 @@ function SiteFooter() {
             <div className="site-footer__col">
               <h3 className="site-footer__heading">Navigate</h3>
               <ul className="site-footer__list list-unstyled">
-                {mainSidebarNav.slice(0, 4).map((item) => (
+                {footerNavigateLinks.map((item) => (
                   <li key={item.id}>
                     <FooterNavLink item={item} />
                   </li>

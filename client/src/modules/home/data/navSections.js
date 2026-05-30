@@ -13,12 +13,11 @@ export const NAV_SECTION_MAP = {
 };
 
 export const GUEST_NAV_SECTION_MAP = {
-  ...NAV_SECTION_MAP,
   dashboard: 'guest-overview',
   courses: SECTION_IDS.popularCourses,
-  assignment: 'guest-roles',
-  progress: 'guest-portal',
-  calendar: 'guest-overview',
+  registration: NAV_SECTION_MAP.registration,
+  'external-data': NAV_SECTION_MAP['external-data'],
+  subscription: NAV_SECTION_MAP.subscription,
 };
 
 export const TRACKED_SECTION_IDS = [

@@ -8,6 +8,7 @@ import { handleSectionNavClick } from '../utils/scrollToSection';
 import { getDashboardRootPath, isHomeDashboardRoute } from '../utils/homeRoutes';
 import {
   buildDashboardNavUrl,
+  filterMainSidebarNav,
   filterSecondarySidebarNav,
   getRoleNavIntent,
   GUEST_SIDEBAR_HREFS,
@@ -201,14 +202,16 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
   const dashboardRootPath = getDashboardRootPath(isAuthenticated, user?.role, getDashboardRoute);
 
   const mainNavItems = useMemo(() => {
+    const filteredMainNav = filterMainSidebarNav(mainSidebarNav, { isAuthenticated });
+
     if (!isAuthenticated) {
-      return mainSidebarNav.map((item) => ({
+      return filteredMainNav.map((item) => ({
         ...item,
         href: GUEST_SIDEBAR_HREFS[item.id] ?? item.href,
       }));
     }
 
-    return mainSidebarNav.map((item) => {
+    return filteredMainNav.map((item) => {
       if (item.id === 'dashboard') {
         return {
           ...item,

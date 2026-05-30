@@ -1,12 +1,12 @@
 import { SECTION_IDS } from '../constants';
 
+/** Main nav items hidden for unauthenticated visitors. */
+export const GUEST_HIDDEN_MAIN_NAV_IDS = new Set(['assignment', 'progress', 'calendar']);
+
 /** Guest dashboard sidebar targets — real section ids, not bottom placeholders. */
 export const GUEST_SIDEBAR_HREFS = {
   dashboard: '#guest-overview',
   courses: `#${SECTION_IDS.popularCourses}`,
-  assignment: '#guest-roles',
-  progress: '#guest-portal',
-  calendar: '#guest-overview',
 };
 
 /** Role dashboard tab + hash targets for authenticated main-menu items. */
@@ -55,6 +55,17 @@ export function buildDashboardNavUrl(dashboardRootPath, intent) {
   const search = params.toString();
   const hash = intent.hash || '';
   return `${dashboardRootPath}${search ? `?${search}` : ''}${hash}`;
+}
+
+/** Shared main nav rules for sidebar, footer, and other portal menus. */
+export function filterMainSidebarNav(items, { isAuthenticated } = {}) {
+  return items.filter((item) => {
+    if (!isAuthenticated && GUEST_HIDDEN_MAIN_NAV_IDS.has(item.id)) {
+      return false;
+    }
+
+    return true;
+  });
 }
 
 /** Shared secondary nav rules for sidebar, footer, and other portal menus. */
