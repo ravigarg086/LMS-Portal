@@ -23,9 +23,9 @@ function PopularCoursesGrid({ featuredOnly = false, limit }) {
         </h2>
         <p className="portfolio-section__desc">{description}</p>
       </header>
-      <div className="portfolio-stagger-grid">
-        {courses.map((course, index) => (
-          <CourseCardPlaceholder key={course.id} course={course} staggered={index % 2 === 1} />
+      <div className="portfolio-grid">
+        {courses.map((course) => (
+          <CourseCardPlaceholder key={course.id} course={course} />
         ))}
       </div>
     </RevealUp>

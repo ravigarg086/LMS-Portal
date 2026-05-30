@@ -177,25 +177,21 @@
   max-width: 40rem;
 }
 
-.portfolio-stagger-grid {
+.portfolio-grid {
   display: grid;
   gap: 1.25rem;
   grid-template-columns: 1fr;
 }
 
 @media (min-width: 768px) {
-  .portfolio-stagger-grid {
+  .portfolio-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1200px) {
-  .portfolio-stagger-grid {
+  .portfolio-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .portfolio-item--offset {
-    margin-top: 1.5rem;
   }
 }
 

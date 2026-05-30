@@ -1,12 +1,12 @@
 import LucideIcon from './LucideIcon';
 
-function CourseCardPlaceholder({ course, staggered = false }) {
+function CourseCardPlaceholder({ course }) {
   const titleId = `course-title-${course.id}`;
 
   return (
     <article
       id={`course-card-${course.id}`}
-      className={`portfolio-item${staggered ? ' portfolio-item--offset' : ''}`}
+      className="portfolio-item"
       data-track={course.id}
       aria-labelledby={titleId}
     >
