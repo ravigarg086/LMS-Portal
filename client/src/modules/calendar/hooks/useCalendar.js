@@ -23,8 +23,10 @@ export function useCalendar(monthDate) {
     };
   }, [monthDate]);
 
-  const loadEvents = useCallback(async () => {
-    setLoading(true);
+  const loadEvents = useCallback(async ({ silent = false } = {}) => {
+    if (!silent) {
+      setLoading(true);
+    }
     setError('');
 
     try {
@@ -33,7 +35,9 @@ export function useCalendar(monthDate) {
     } catch (err) {
       setError(err.message || 'Unable to load calendar events.');
     } finally {
-      setLoading(false);
+      if (!silent) {
+        setLoading(false);
+      }
     }
   }, [range]);
 
@@ -49,7 +53,7 @@ export function useCalendar(monthDate) {
     try {
       const result = await createCalendarEvent(payload);
       setSuccess(result.message || 'Event created successfully.');
-      await loadEvents();
+      await loadEvents({ silent: true });
       return result.event;
     } catch (err) {
       setError(err.message || 'Unable to create event.');
@@ -67,7 +71,7 @@ export function useCalendar(monthDate) {
     try {
       const result = await updateCalendarEvent(eventId, payload);
       setSuccess(result.message || 'Event updated successfully.');
-      await loadEvents();
+      await loadEvents({ silent: true });
       return result.event;
     } catch (err) {
       setError(err.message || 'Unable to update event.');
@@ -85,7 +89,7 @@ export function useCalendar(monthDate) {
     try {
       const result = await deleteCalendarEvent(eventId);
       setSuccess(result.message || 'Event deleted successfully.');
-      await loadEvents();
+      await loadEvents({ silent: true });
     } catch (err) {
       setError(err.message || 'Unable to delete event.');
       throw err;
@@ -94,10 +98,10 @@ export function useCalendar(monthDate) {
     }
   };
 
-  const clearFeedback = () => {
+  const clearFeedback = useCallback(() => {
     setError('');
     setSuccess('');
-  };
+  }, []);
 
   return {
     events,

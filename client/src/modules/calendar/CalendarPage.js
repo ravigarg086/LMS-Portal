@@ -9,7 +9,10 @@ import CalendarEventModal from './components/CalendarEventModal';
 import {
   addMonths,
   eventToFormValues,
+  getCreateDefaultDate,
+  getDayFromIso,
   getDefaultFormValues,
+  getMonthDateFromIso,
 } from './utils/calendarFormatters';
 import './calendar.css';
 
@@ -24,6 +27,8 @@ function CalendarPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('create');
   const [editingEvent, setEditingEvent] = useState(null);
+  const [createFormDate, setCreateFormDate] = useState(() => new Date());
+  const [formSessionKey, setFormSessionKey] = useState(0);
 
   const {
     events,
@@ -42,8 +47,8 @@ function CalendarPage() {
       return eventToFormValues(editingEvent);
     }
 
-    return getDefaultFormValues(selectedDate || new Date());
-  }, [modalMode, editingEvent, selectedDate]);
+    return getDefaultFormValues(createFormDate);
+  }, [modalMode, editingEvent, createFormDate]);
 
   useEffect(() => {
     if (!success) {
@@ -54,10 +59,13 @@ function CalendarPage() {
     return () => window.clearTimeout(timer);
   }, [success, clearFeedback]);
 
-  const openCreateModal = (date = selectedDate || new Date()) => {
-    setSelectedDate(date);
+  const openCreateModal = (date) => {
+    const targetDate = date || getCreateDefaultDate(selectedDate, monthDate);
+    setSelectedDate(targetDate);
+    setCreateFormDate(targetDate);
     setEditingEvent(null);
     setModalMode('create');
+    setFormSessionKey((key) => key + 1);
     setModalOpen(true);
     clearFeedback();
   };
@@ -65,6 +73,7 @@ function CalendarPage() {
   const openEditModal = (event) => {
     setEditingEvent(event);
     setModalMode('edit');
+    setFormSessionKey((key) => key + 1);
     setModalOpen(true);
     clearFeedback();
   };
@@ -72,15 +81,24 @@ function CalendarPage() {
   const closeModal = () => {
     setModalOpen(false);
     setEditingEvent(null);
+    setModalMode('create');
   };
 
   const handleSubmit = async (payload) => {
     try {
+      let savedEvent;
       if (modalMode === 'edit' && editingEvent) {
-        await updateEvent(editingEvent.id, payload);
+        savedEvent = await updateEvent(editingEvent.id, payload);
       } else {
-        await createEvent(payload);
+        savedEvent = await createEvent(payload);
       }
+
+      if (savedEvent?.startAt) {
+        const eventDay = getDayFromIso(savedEvent.startAt);
+        setSelectedDate(eventDay);
+        setMonthDate(getMonthDateFromIso(savedEvent.startAt));
+      }
+
       closeModal();
     } catch {
       // Error feedback is handled in useCalendar; keep the modal open for correction.
@@ -162,6 +180,7 @@ function CalendarPage() {
         )}
 
         <CalendarEventModal
+          key={formSessionKey}
           open={modalOpen}
           mode={modalMode}
           initialValues={modalInitialValues}

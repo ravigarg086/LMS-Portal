@@ -72,10 +72,45 @@ export function formatEventTimeRange(event) {
 
 export function toDateInputValue(isoString) {
   const date = new Date(isoString);
+  return toDateInputValueFromDate(date);
+}
+
+export function toDateInputValueFromDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+/** Default date when opening the create-event form for the current calendar view. */
+export function getCreateDefaultDate(selectedDate, monthDate) {
+  const today = new Date();
+
+  if (
+    today.getFullYear() === monthDate.getFullYear()
+    && today.getMonth() === monthDate.getMonth()
+  ) {
+    return today;
+  }
+
+  if (
+    selectedDate.getFullYear() === monthDate.getFullYear()
+    && selectedDate.getMonth() === monthDate.getMonth()
+  ) {
+    return selectedDate;
+  }
+
+  return getMonthStart(monthDate);
+}
+
+export function getMonthDateFromIso(isoString) {
+  const date = new Date(isoString);
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+export function getDayFromIso(isoString) {
+  const date = new Date(isoString);
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
 export function toTimeInputValue(isoString) {
@@ -124,7 +159,7 @@ export function getEventsForDay(events, day) {
 }
 
 export function getDefaultFormValues(selectedDate = new Date()) {
-  const dateValue = toDateInputValue(selectedDate.toISOString());
+  const dateValue = toDateInputValueFromDate(selectedDate);
   return {
     title: '',
     description: '',
