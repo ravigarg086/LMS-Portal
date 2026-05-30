@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 import LucideIcon from './LucideIcon';
+import { useAuth } from '../../../shared/auth/AuthContext';
 import { SITE_NAME, SITE_TAGLINE } from '../constants';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
-import { GUEST_SIDEBAR_HREFS } from '../utils/dashboardNav';
+import { GUEST_SIDEBAR_HREFS, filterSecondarySidebarNav } from '../utils/dashboardNav';
 import { handleSectionNavClick } from '../utils/scrollToSection';
 import '../site-footer.css';
 
@@ -38,7 +39,12 @@ function FooterNavLink({ item }) {
 }
 
 function SiteFooter() {
-  const portalLinks = secondarySidebarNav.filter((item) => item.href.startsWith('/'));
+  const { user } = useAuth();
+  const isAuthenticated = Boolean(user);
+  const portalLinks = filterSecondarySidebarNav(secondarySidebarNav, {
+    isAuthenticated,
+    routeLinksOnly: true,
+  });
 
   return (
     <footer className="site-footer">
@@ -80,11 +86,13 @@ function SiteFooter() {
                     <FooterNavLink item={item} />
                   </li>
                 ))}
-                <li>
-                  <Link to="/signin" className="site-footer__link">
-                    Sign In
-                  </Link>
-                </li>
+                {!isAuthenticated && (
+                  <li>
+                    <Link to="/signin" className="site-footer__link">
+                      Sign In
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
 

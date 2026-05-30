@@ -56,3 +56,22 @@ export function buildDashboardNavUrl(dashboardRootPath, intent) {
   const hash = intent.hash || '';
   return `${dashboardRootPath}${search ? `?${search}` : ''}${hash}`;
 }
+
+/** Shared secondary nav rules for sidebar, footer, and other portal menus. */
+export function filterSecondarySidebarNav(items, { isAuthenticated, routeLinksOnly = false } = {}) {
+  return items.filter((item) => {
+    if (routeLinksOnly && !item.href.startsWith('/')) {
+      return false;
+    }
+
+    if (isAuthenticated && item.id === 'registration') {
+      return false;
+    }
+
+    if (!isAuthenticated && item.id === 'settings') {
+      return false;
+    }
+
+    return true;
+  });
+}

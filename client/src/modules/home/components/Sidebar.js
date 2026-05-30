@@ -8,6 +8,7 @@ import { handleSectionNavClick } from '../utils/scrollToSection';
 import { getDashboardRootPath, isHomeDashboardRoute } from '../utils/homeRoutes';
 import {
   buildDashboardNavUrl,
+  filterSecondarySidebarNav,
   getRoleNavIntent,
   GUEST_SIDEBAR_HREFS,
 } from '../utils/dashboardNav';
@@ -195,15 +196,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
   const isAuthenticated = Boolean(user);
   const userRole = user?.role ?? null;
 
-  const portalNavItems = secondarySidebarNav.filter((item) => {
-    if (isAuthenticated && item.id === 'registration') {
-      return false;
-    }
-    if (!isAuthenticated && item.id === 'settings') {
-      return false;
-    }
-    return true;
-  });
+  const portalNavItems = filterSecondarySidebarNav(secondarySidebarNav, { isAuthenticated });
 
   const dashboardRootPath = getDashboardRootPath(isAuthenticated, user?.role, getDashboardRoute);
 
