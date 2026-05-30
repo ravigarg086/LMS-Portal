@@ -158,3 +158,105 @@
 .guest-role-card--admin {
   border-top: 3px solid var(--eh-role-admin);
 }
+
+.guest-dashboard__courses {
+  margin-bottom: 0;
+}
+
+.portfolio-section {
+  margin-bottom: 0;
+}
+
+.portfolio-section__header {
+  margin-bottom: 1.5rem;
+}
+
+.portfolio-section__desc {
+  margin: 0.5rem 0 0;
+  color: var(--eh-text-secondary);
+  max-width: 40rem;
+}
+
+.portfolio-stagger-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .portfolio-stagger-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .portfolio-stagger-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .portfolio-item--offset {
+    margin-top: 1.5rem;
+  }
+}
+
+.portfolio-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--eh-card);
+  border: 1px solid var(--eh-border);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: var(--eh-shadow-sm);
+  height: 100%;
+}
+
+.portfolio-item__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.portfolio-item__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.portfolio-item__overlay {
+  display: none;
+}
+
+.portfolio-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.portfolio-item__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--eh-text);
+}
+
+.portfolio-item__tags,
+.portfolio-item__desc {
+  margin: 0;
+  color: var(--eh-text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.portfolio-item__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--eh-text-muted);
+}

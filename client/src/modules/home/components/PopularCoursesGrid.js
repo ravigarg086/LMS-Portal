@@ -2,8 +2,11 @@ import { useCourseCatalog } from '../hooks/useCourseCatalog';
 import CourseCardPlaceholder from './CourseCardPlaceholder';
 import RevealUp from './RevealUp';
 
-function PopularCoursesGrid() {
-  const { courses, loading, usingFallback } = useCourseCatalog();
+function PopularCoursesGrid({ featuredOnly = false, limit }) {
+  const { courses, loading, usingFallback } = useCourseCatalog({
+    featured: featuredOnly,
+    limit: limit ?? (featuredOnly ? 3 : undefined),
+  });
 
   const description = loading
     ? 'Loading courses from the LMS catalog...'

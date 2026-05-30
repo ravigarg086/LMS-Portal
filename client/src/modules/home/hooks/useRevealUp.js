@@ -31,7 +31,7 @@ export function useRevealUp(threshold = 0.15) {
           observer.disconnect();
         }
       },
-      { threshold },
+      { threshold, rootMargin: '0px 0px -5% 0px' },
     );
 
     observer.observe(node);

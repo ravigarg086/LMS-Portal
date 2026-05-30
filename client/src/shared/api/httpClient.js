@@ -18,6 +18,10 @@ function getHttpErrorMessage(status, data, path = '') {
       return 'Profile update is unavailable. Restart the LMS server (cd server && npm run dev) to load the latest API routes.';
     }
 
+    if (path.includes('/settings/')) {
+      return 'Settings API is unavailable. Restart the LMS server (cd server && npm run dev) to load the latest API routes.';
+    }
+
     return 'Service not found. Restart the LMS server to load the latest API routes.';
   }
 

@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import LucideIcon from './LucideIcon';
 import { SITE_NAME, SITE_TAGLINE } from '../constants';
 import { mainSidebarNav, secondarySidebarNav } from '../data/sidebarNav';
-import RevealUp from './RevealUp';
+import { GUEST_SIDEBAR_HREFS } from '../utils/dashboardNav';
+import { handleSectionNavClick } from '../utils/scrollToSection';
 import '../site-footer.css';
 
 const CAMPUS_LOCATIONS = [
@@ -12,18 +13,25 @@ const CAMPUS_LOCATIONS = [
 ];
 
 function FooterNavLink({ item }) {
+  const location = useLocation();
   const className = 'site-footer__link';
+  const isGuestHome = location.pathname === '/';
+  const href = isGuestHome && GUEST_SIDEBAR_HREFS[item.id] ? GUEST_SIDEBAR_HREFS[item.id] : item.href;
 
-  if (item.href.startsWith('/')) {
+  if (href.startsWith('/')) {
     return (
-      <Link to={item.href} className={className}>
+      <Link to={href} className={className}>
         {item.label}
       </Link>
     );
   }
 
   return (
-    <a href={item.href} className={className}>
+    <a
+      href={href}
+      className={className}
+      onClick={(event) => handleSectionNavClick(event, href)}
+    >
       {item.label}
     </a>
   );
@@ -33,7 +41,7 @@ function SiteFooter() {
   const portalLinks = secondarySidebarNav.filter((item) => item.href.startsWith('/'));
 
   return (
-    <RevealUp as="footer" className="site-footer">
+    <footer className="site-footer">
       <div className="site-footer__inner">
         <div className="site-footer__grid">
           <div className="site-footer__brand">
@@ -116,7 +124,7 @@ function SiteFooter() {
           </span>
         </div>
       </div>
-    </RevealUp>
+    </footer>
   );
 }
 

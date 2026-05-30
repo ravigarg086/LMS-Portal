@@ -112,7 +112,7 @@ function GuestDashboard() {
         className="guest-dashboard__courses"
         aria-labelledby="popular-courses-heading"
       >
-        <PopularCoursesGrid />
+        <PopularCoursesGrid featuredOnly />
       </section>
     </>
   );
