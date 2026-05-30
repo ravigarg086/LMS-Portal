@@ -3,6 +3,11 @@
   "hooks": {
     "stop": [
       {
+        "command": "node .cursor/hooks/trigger-code-refactor-reviewer.js",
+        "loop_limit": 1,
+        "timeout": 20
+      },
+      {
         "command": "node .cursor/hooks/trigger-stable-build-git-push.js",
         "loop_limit": 2,
         "timeout": 20

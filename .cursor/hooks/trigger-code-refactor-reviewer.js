@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * stop hook — if application code changed, ask the agent to run stable-build-git-push.
+ * stop hook — if application code changed, ask the agent to run code-refactor-reviewer.
  * Reads JSON from stdin; prints { followup_message } or {} to stdout.
  */
 const {
@@ -34,7 +34,7 @@ async function main() {
     process.stdout.write(
       JSON.stringify({
         followup_message:
-          'Run the stable-build-git-push subagent now (@.cursor/agents/stable-build-git-push.md or Task subagent stable-build-git-push). Verify the build, then stage, commit, and push all application changes to the current branch. Do not end until push succeeds or you report a concrete blocker.',
+          'Run the code-refactor-reviewer subagent now (@.cursor/agents/code-refactor-reviewer.md or Task subagent code-refactor-reviewer). Review all changed application files (use git status and git diff), apply safe refactors, and write the review report to `.cursor/reviews/code-refactor-review-YYYY-MM-DD-HHmmss.md`. Do not end until the report file exists on disk.',
       }),
     );
   } catch {

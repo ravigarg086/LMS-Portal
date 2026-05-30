@@ -35,3 +35,6 @@ test-results/
 blob-report/
 playwright/.cache/
 .playwright-mcp/
+
+# Local Cursor review artifacts (folder tracked via .gitkeep)
+.cursor/reviews/*.md
