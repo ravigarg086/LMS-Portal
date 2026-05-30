@@ -42,6 +42,11 @@
   box-shadow: var(--eh-shadow-md);
 }
 
+.guest-action-bar .course-search {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .guest-action-bar__search {
   display: flex;
   align-items: center;

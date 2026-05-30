@@ -1,11 +1,36 @@
 ---
-description: Course catalog module requirements
-globs: client/src/modules/courses/**/*
+description: Course catalog module requirements — MySQL persistence, API, search, and UI
+globs: client/src/modules/home/**/*,client/src/shared/api/coursesApi.js,server/src/**/course*
 alwaysApply: false
 ---
 
-# Course Page Requirements
+# Course Catalog Requirements
 
-- Dynamic course data must look for and consume a central **course API** resource.
-- Always render a prominent **Popular Courses** container tracking options C1, C2, and C3.
-- Enforce debouncing logic on dynamic text search fields to throttle live backend API requests.
+## 1. Data Source
+- Course catalog is persisted in MySQL table **`courses`** (`server/src/db/schema/courses.sql`).
+- Runtime access via `server/src/store/courseStore.js` — **not** MongoDB or client-only static arrays for production flows.
+- Seed catalog (`server/src/data/courseCatalog.js`) inserts on first startup when the table is empty.
+
+## 2. Course API
+- **`GET /api/courses`** — list/search courses.
+- Query params: `search`, `limit`, `featured=true`.
+- Response: `{ courses: [...], total }` where each course has `id`, `title`, `description`, `category`, `stack`, `duration`, `tags`, `skills`, `image`, `featured`.
+
+## 3. Client Consumers
+- **Header search:** `client/src/modules/home/components/CourseSearch.js` — debounced (300ms) calls to `fetchCourses`.
+- **Catalog grid:** `client/src/modules/home/components/PopularCoursesGrid.js` — loads from `GET /api/courses`.
+- Client API helper: `client/src/shared/api/coursesApi.js`.
+- Static `popularCourses.js` is fallback UI data only when the API is unavailable.
+
+## 4. Search UX
+- Search input lives in the top-right header (guest action bar and authenticated toolbar).
+- Minimum 2 characters before querying.
+- Results dropdown with keyboard navigation; selecting a result scrolls to `#course-card-{id}`.
+- Debounce all live search requests (300ms) — do not hit the API on every keystroke.
+
+## 5. Featured Courses
+- Always surface featured programs **C1**, **C2**, and **C3** in the Popular Courses section (`featured = 1` in MySQL).
+
+## 6. Schema Bootstrap
+- Table created on server startup via `initCoursesDb()` in `server/src/index.js`.
+- For inspection: MySQL MCP — see `.cursor/rules/mcp-servers.mdc`.

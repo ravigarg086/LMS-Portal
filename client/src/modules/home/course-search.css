@@ -1,0 +1,97 @@
+.course-search {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.course-search__panel {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  left: 0;
+  z-index: 30;
+  padding: 0.45rem;
+  background: var(--eh-card);
+  border: 1px solid var(--eh-border);
+  border-radius: 1rem;
+  box-shadow: var(--eh-shadow-lg);
+  max-height: min(22rem, 60vh);
+  overflow: auto;
+}
+
+.course-search__status {
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--eh-text-secondary);
+}
+
+.course-search__status--error {
+  color: #b42318;
+}
+
+.course-search__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.course-search__option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--eh-transition);
+}
+
+.course-search__option:hover,
+.course-search__option--active {
+  background: var(--eh-surface-muted);
+}
+
+.course-search__option-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--eh-text);
+}
+
+.course-search__option-meta {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--eh-text-muted);
+}
+
+.course-search__option-tags {
+  font-size: 0.75rem;
+  color: var(--eh-text-secondary);
+}
+
+.portfolio-item--highlight {
+  outline: 2px solid var(--eh-primary, #2563eb);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.14);
+  transition: outline-color var(--eh-transition), box-shadow var(--eh-transition);
+}
+
+@media (max-width: 575.98px) {
+  .course-search__panel {
+    min-width: min(100vw - 2rem, 20rem);
+  }
+}
+
+[data-theme='dark'] .course-search__panel {
+  background: var(--eh-card);
+  border-color: var(--eh-border);
+}
+
+[data-theme='dark'] .course-search__option:hover,
+[data-theme='dark'] .course-search__option--active {
+  background: rgba(255, 255, 255, 0.06);
+}

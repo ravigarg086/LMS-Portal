@@ -1,0 +1,64 @@
+---
+description: MCP server usage for MySQL database operations and Playwright browser automation
+globs: **/*
+alwaysApply: true
+---
+
+# MCP Servers — MySQL & Playwright
+
+Use configured MCP servers for database inspection and browser automation. Do **not** add standalone `node -e` MySQL test scripts, `db:init` CLI helpers, or one-off Puppeteer scripts.
+
+## 1. When to Use MCP
+
+| Task | Use MCP | Do not use |
+|------|---------|------------|
+| Verify MySQL connection | `user-mysql` → `get_database_info` | Shell `node -e` against stores |
+| Ad-hoc SQL / row counts | `user-mysql` → `sql_query` | `npm run db:init` or deleted init scripts |
+| E2E UI checks | `user-playwright` → `browser_*` tools | Manual-only verification when MCP is available |
+| App runtime DB access | `server/src/config/mysql.js` + stores | MCP (inspection/automation only) |
+
+Schema bootstrap remains on **Express server startup** via `initUsersDb()`, `initContactDb()`, and `initCoursesDb()` — restarting the server creates/migrates tables; MCP is for inspection and agent-driven queries.
+
+## 2. MySQL MCP (`user-mysql`)
+
+**Database:** `lms-portal-db` on `localhost:3306`
+
+**Tables:** `users`, `contact_messages`, `password_reset_tokens`, `courses`
+
+**Tools:**
+- `get_database_info` — connection check, database list, table list, MCP config (readonly/DDL flags).
+- `sql_query` — execute **one** SQL statement per call (SELECT, INSERT, UPDATE, DDL as permitted).
+
+**Example verification queries:**
+```sql
+SELECT COUNT(*) AS user_count FROM users;
+SELECT COUNT(*) AS contact_count FROM contact_messages;
+SELECT COUNT(*) AS course_count FROM courses;
+SELECT course_id, title, featured FROM courses LIMIT 5;
+```
+
+**Schema reference:** `server/src/db/schema/*.sql`
+
+## 3. Playwright MCP (`user-playwright`)
+
+Use for end-to-end portal verification and UI debugging.
+
+**Prerequisites:**
+- Client: `npm start` in `client/` → `http://localhost:3000`
+- Server: `npm run dev` in `server/` → `http://localhost:5000`
+
+**Common tools:**
+- `browser_navigate` — open a URL (e.g. `/api/health`, sign-in page, contact form).
+- `browser_snapshot` — read page structure and element refs for interactions.
+- `browser_click`, `browser_type`, `browser_fill_form` — form and navigation flows.
+- `browser_take_screenshot` — capture layout evidence.
+
+## 4. Prohibited Patterns
+
+- Do not reintroduce `server/src/db/runInitContactDb.js` or `npm run db:init`.
+- Do not use inline shell `node -e "require('./store/...')"` for routine DB verification when MySQL MCP is available.
+- Do not duplicate MCP connection config in new scripts — MCP reads from Cursor MCP settings.
+
+## 5. Related Skill
+
+Implementation details and tool examples: `.cursor/skills/MCPAutomation/skill.md`

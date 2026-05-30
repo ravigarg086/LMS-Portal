@@ -1,6 +1,6 @@
 /**
- * Phase A placeholders for Popular Courses carousel (C1, C2, C3).
- * Dynamic course API integration deferred to the Course catalog module.
+ * Fallback placeholders for Popular Courses when the course API is unavailable.
+ * Live catalog is served from MySQL via GET /api/courses.
  */
 export const popularCoursePlaceholders = [
   {

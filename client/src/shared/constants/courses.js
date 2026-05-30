@@ -1,0 +1,4 @@
+export const COURSE_SEARCH_DEBOUNCE_MS = 300;
+export const COURSE_MIN_SEARCH_LENGTH = 2;
+export const COURSE_SEARCH_RESULT_LIMIT = 8;
+export const COURSE_CATALOG_LIMIT = 50;

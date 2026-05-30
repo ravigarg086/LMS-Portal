@@ -57,13 +57,10 @@ async function getPool() {
 }
 ```
 
-## 4. Database Init (`server/src/db/initContactDb.js`)
-- Create database `lms-portal-db` if missing.
-- Create table `contact_messages`:
-  - `id` CHAR(36) PK
-  - `full_name`, `email`, `designation` ENUM, `location`, `phone`, `subject`, `message`
-  - `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-- Run on server startup via `initContactDb()` before accepting requests.
+## 4. Database Init
+- Tables are created automatically on **server startup** via `initContactDb()` in `server/src/index.js` (not a standalone CLI script).
+- Schema files: `server/src/db/schema/contact_messages.sql`, `users.sql`, `password_reset_tokens.sql`.
+- For manual DB inspection or test queries, use the **MySQL MCP** server — see `.cursor/rules/mcp-servers.mdc` and `.cursor/skills/MCPAutomation/skill.md`.
 
 ## 5. Server Store (`server/src/store/contactStore.js`)
 ```js

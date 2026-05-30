@@ -30,3 +30,8 @@ client/node_modules/.cache/
 
 # Testing
 coverage/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+.playwright-mcp/

@@ -33,6 +33,8 @@ alwaysApply: true
 ## 5. Data Persistence
 - **Users:** MySQL `users` table via `userStore.js` (passwords bcrypt-hashed); legacy `users.json` migrated on first startup.
 - **Contact:** MySQL `contact_messages` table via `contactStore.js`.
+- **Courses:** MySQL `courses` table via `courseStore.js`; catalog grid and header search consume `GET /api/courses`.
+- **Schema bootstrap:** Tables are created automatically when the Express server starts (`initUsersDb`, `initContactDb`, `initCoursesDb`) — no separate `db:init` script.
 
 ## 6. Error Handling & Security
 - **Defensive Coding:** Always implement error boundaries or try/catch blocks when dealing with async operations, API fetches, or local storage parsing.

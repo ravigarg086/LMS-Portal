@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import LucideIcon from './LucideIcon';
 import ProfileMenu from './ProfileMenu';
+import CourseSearch from './CourseSearch';
 import { USER_HEADER_COPY, getUserHeaderMeta } from '../data/userHeaderMeta';
 import { getUserAvatarUrl } from '../../../shared/utils/userAvatar';
 import '../dashboard-user-header.css';
@@ -62,10 +63,11 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
           </div>
 
           <div className="dashboard-user-panel__toolbar">
-            <label className="dashboard-search dashboard-search--compact">
-              <LucideIcon name="search" size={18} />
-              <input type="search" placeholder="Search courses..." aria-label="Search courses" />
-            </label>
+            <CourseSearch
+              wrapperClassName="dashboard-search dashboard-search--compact"
+              placeholder="Search courses..."
+              inputId="dashboard-course-search"
+            />
             <button
               type="button"
               className="icon-btn icon-btn--compact"
@@ -96,10 +98,11 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
         </button>
 
         <div className="guest-action-bar" role="region" aria-label="Search and account actions">
-          <label className="guest-action-bar__search">
-            <LucideIcon name="search" size={18} />
-            <input type="search" placeholder="Search courses, topics, or skills..." aria-label="Search courses" />
-          </label>
+          <CourseSearch
+            wrapperClassName="guest-action-bar__search"
+            placeholder="Search courses, topics, or skills..."
+            inputId="guest-course-search"
+          />
           <div className="guest-action-bar__actions">
             <Link to="/signin" className="guest-action-bar__btn guest-action-bar__btn--ghost">
               Sign In
