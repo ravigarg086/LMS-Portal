@@ -18,6 +18,7 @@ import ProtectedDashboard from './modules/dashboard/ProtectedDashboard';
 import { USER_ROLES } from './shared/constants/roles';
 
 const ProtectedStudentSubscription = lazy(() => import('./modules/subscription/ProtectedStudentSubscription'));
+const ProtectedCalendar = lazy(() => import('./modules/calendar/ProtectedCalendar'));
 
 function PublicHomeRoute() {
   const { user, initializing, getDashboardRoute } = useAuth();
@@ -50,6 +51,14 @@ function App() {
               <Route path="/external-data" element={<ExternalDataPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route
+                path="/calendar"
+                element={
+                  <Suspense fallback={<AuthLoadingScreen message="Loading calendar..." />}>
+                    <ProtectedCalendar />
+                  </Suspense>
+                }
+              />
               <Route
                 path="/subscription"
                 element={

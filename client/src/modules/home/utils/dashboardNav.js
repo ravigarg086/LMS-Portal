@@ -16,7 +16,6 @@ export function getRoleNavIntent(navId, role) {
     const map = {
       assignment: { section: 'overview', hash: `#${SECTION_IDS.assignment}` },
       progress: { section: 'overview', hash: `#${SECTION_IDS.progress}` },
-      calendar: { section: 'overview', hash: `#${SECTION_IDS.calendar}` },
       courses: { section: 'courses', hash: `#${SECTION_IDS.popularCourses}` },
     };
     return map[navId] || null;
@@ -26,7 +25,6 @@ export function getRoleNavIntent(navId, role) {
     const map = {
       assignment: { section: 'students' },
       progress: { section: 'analytics' },
-      calendar: { section: 'analytics' },
     };
     return map[navId] || null;
   }
@@ -35,7 +33,6 @@ export function getRoleNavIntent(navId, role) {
     const map = {
       assignment: { section: 'users' },
       progress: { section: 'analytics' },
-      calendar: { section: 'analytics' },
     };
     return map[navId] || null;
   }

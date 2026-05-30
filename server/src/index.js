@@ -9,6 +9,7 @@ const { initUsersDb } = require('./db/initUsersDb');
 const { initCoursesDb } = require('./db/initCoursesDb');
 const { initSettingsDb } = require('./db/initSettingsDb');
 const { initSubscriptionsDb } = require('./db/initSubscriptionsDb');
+const { initCalendarDb } = require('./db/initCalendarDb');
 const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const externalDataRoutes = require('./routes/externalDataRoutes');
@@ -16,16 +17,26 @@ const contactRoutes = require('./routes/contactRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
+const calendarRoutes = require('./routes/calendarRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const DEFAULT_CLIENT_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+const DEFAULT_CLIENT_ORIGINS = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5000',
+  'http://127.0.0.1:5000',
+];
+
+function normalizeOrigin(origin) {
+  return String(origin || '').replace(/\/$/, '');
+}
 
 function resolveClientOrigins() {
   const configured = (process.env.CLIENT_URL || '')
     .split(',')
-    .map((value) => value.trim())
+    .map((value) => normalizeOrigin(value.trim()))
     .filter(Boolean);
 
   return [...new Set([...configured, ...DEFAULT_CLIENT_ORIGINS])];
@@ -36,12 +47,12 @@ const clientOrigins = resolveClientOrigins();
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || clientOrigins.includes(origin)) {
+      if (!origin || clientOrigins.includes(normalizeOrigin(origin))) {
         callback(null, true);
         return;
       }
 
-      callback(new Error(`Origin ${origin} is not allowed by CORS`));
+      callback(null, false);
     },
     credentials: true,
   }),
@@ -58,6 +69,7 @@ app.get('/api/health', (req, res) => {
       courses: 'mysql',
       settings: 'mysql',
       subscriptions: 'mysql',
+      calendar: 'mysql',
     },
     features: {
       profileUpdate: true,
@@ -73,6 +85,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/calendar', calendarRoutes);
 
 async function start() {
   try {
@@ -82,6 +95,7 @@ async function start() {
     await initCoursesDb();
     await initSettingsDb();
     await initSubscriptionsDb();
+    await initCalendarDb();
     app.listen(PORT, () => {
       console.log(`LMS API running on http://localhost:${PORT}`);
       console.log('Auth API: POST /api/auth/login, POST /api/auth/forgot-password, POST /api/auth/reset-password');
@@ -89,6 +103,7 @@ async function start() {
       console.log('Courses API: GET /api/courses?search=');
       console.log('Settings API: GET/PUT /api/settings/me, GET/PUT /api/settings/platform (admin)');
       console.log('Subscriptions API: GET /api/subscriptions/plans, GET/POST /api/subscriptions/me (student)');
+      console.log('Calendar API: GET/POST/PUT/DELETE /api/calendar/events (authenticated)');
     });
   } catch (error) {
     console.error('Failed to start server:', error.message);

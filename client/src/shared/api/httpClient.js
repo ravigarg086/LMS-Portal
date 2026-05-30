@@ -29,6 +29,10 @@ function getHttpErrorMessage(status, data, path = '') {
       return `Subscriptions API is unavailable. ${STALE_SERVER_HINT}`;
     }
 
+    if (path.includes('/calendar/')) {
+      return `Calendar API is unavailable. ${STALE_SERVER_HINT}`;
+    }
+
     return `Service not found. ${STALE_SERVER_HINT}`;
   }
 

@@ -5,7 +5,7 @@ export const mainSidebarNav = [
   { id: 'courses', label: 'Courses', href: `#${SECTION_IDS.popularCourses}`, icon: 'book-open', hasSubmenu: true },
   { id: 'assignment', label: 'Assignment', href: `#${SECTION_IDS.assignment}`, icon: 'file-text' },
   { id: 'progress', label: 'Progress', href: `#${SECTION_IDS.progress}`, icon: 'bar-chart-2' },
-  { id: 'calendar', label: 'Calendar', href: `#${SECTION_IDS.calendar}`, icon: 'calendar' },
+  { id: 'calendar', label: 'Calendar', href: '/calendar', icon: 'calendar' },
 ];
 
 export const secondarySidebarNav = [

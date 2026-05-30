@@ -45,6 +45,7 @@ body {
   padding: 2.5rem;
   position: relative;
   min-width: 0;
+  overflow-x: clip;
 }
 
 .eduhive-main__glow {
@@ -1125,7 +1126,7 @@ button.sidebar-nav__link {
 
 [id='assignment'],
 [id='progress'],
-[id='calendar'],
+[id='learning-activity'],
 [id='popular-courses'],
 [id='guest-overview'],
 [id='guest-portal'],

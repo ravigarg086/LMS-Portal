@@ -19,5 +19,5 @@ export const SECTION_IDS = {
   signIn: 'sign-in',
   assignment: 'assignment',
   progress: 'progress',
-  calendar: 'calendar',
+  learningActivity: 'learning-activity',
 };

@@ -31,7 +31,7 @@ function StudentLearningOverview({ dashboard, loading, error }) {
         </RevealUp>
 
         <RevealUp className="services-grid__item">
-          <section id={SECTION_IDS.calendar} aria-labelledby="learning-activity-title">
+          <section id={SECTION_IDS.learningActivity} aria-labelledby="learning-activity-title">
             <StatisticsCard weeklyStats={dashboard?.weeklyStats} />
           </section>
         </RevealUp>
