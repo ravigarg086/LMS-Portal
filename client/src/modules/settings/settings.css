@@ -1,0 +1,212 @@
+.settings-page__main {
+  position: relative;
+}
+
+.settings-page__content {
+  margin-bottom: 2rem;
+}
+
+.settings-page__hero {
+  margin-bottom: 1.75rem;
+}
+
+.settings-page__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eh-accent);
+}
+
+.settings-page__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--eh-text);
+}
+
+.settings-page__subtitle {
+  margin: 0;
+  max-width: 42rem;
+  color: var(--eh-muted);
+  line-height: 1.6;
+}
+
+.settings-page__loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--eh-muted);
+}
+
+.settings-page__grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.settings-page .eduhive-card {
+  height: auto;
+}
+
+.settings-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.settings-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.85rem;
+  background: var(--eh-gradient);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.settings-card__title {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--eh-text);
+}
+
+.settings-card__description {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--eh-muted);
+  line-height: 1.5;
+}
+
+.settings-card__body {
+  display: grid;
+  gap: 1rem;
+}
+
+.settings-theme-toggle {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: var(--eh-bg);
+  border: 1px solid var(--eh-border);
+}
+
+.settings-theme-toggle__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  background: transparent;
+  color: var(--eh-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--eh-transition), color var(--eh-transition);
+}
+
+.settings-theme-toggle__btn--active {
+  background: var(--eh-card);
+  color: var(--eh-text);
+  box-shadow: var(--eh-shadow-sm);
+}
+
+.settings-toggle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: start;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--eh-border);
+}
+
+.settings-toggle:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.settings-toggle__control {
+  margin: 0;
+  padding-left: 2.5em;
+  min-height: 1.5rem;
+}
+
+.settings-toggle__label {
+  display: grid;
+  gap: 0.2rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.settings-toggle__name {
+  font-weight: 600;
+  color: var(--eh-text);
+}
+
+.settings-toggle__hint {
+  font-size: 0.86rem;
+  color: var(--eh-muted);
+  line-height: 1.45;
+}
+
+.settings-field__select,
+.settings-page .form-control,
+.settings-page .form-select {
+  background: var(--eh-bg);
+  border-color: var(--eh-border);
+  color: var(--eh-text);
+}
+
+.settings-account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.settings-account-actions__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.settings-account-actions__link {
+  text-decoration: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.settings-page__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.25rem;
+}
+
+.settings-page__actions--inline {
+  justify-content: flex-start;
+  padding-top: 0.5rem;
+}
+
+.settings-page__save-btn {
+  min-width: 12rem;
+  font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+  .settings-page__save-btn {
+    width: 100%;
+  }
+
+  .settings-account-actions__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

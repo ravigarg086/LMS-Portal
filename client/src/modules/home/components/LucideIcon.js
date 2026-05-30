@@ -29,6 +29,9 @@ const ICONS = {
   mail: 'M4 6h16v12H4V6zm0 0 8 6 8-6',
   key: 'M21 2l-2 2m-7.6 7.6a3.5 3.5 0 105 5L21 7l-2-2M14.5 6.5l2 2',
   user: 'M20 21a8 8 0 10-16 0M12 11a4 4 0 100-8 4 4 0 000 8z',
+  shield: 'M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z',
+  lock: 'M7 11V8a5 5 0 0110 0v3M6 11h12v10H6V11z',
+  users: 'M17 21a4 4 0 10-8 0M12 11a4 4 0 100-8 4 4 0 000 8zM22 21a3 3 0 00-6 0M16 7a3 3 0 110-6',
 };
 
 function LucideIcon({ name, size = 20, className = '' }) {

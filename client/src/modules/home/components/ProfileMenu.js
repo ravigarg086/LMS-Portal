@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LucideIcon from './LucideIcon';
 import ChangePasswordModal from './ChangePasswordModal';
 import ProfileModal from './ProfileModal';
@@ -89,9 +89,18 @@ function ProfileMenu({ user }) {
               role="menuitem"
               onClick={handleChangePassword}
             >
-              <LucideIcon name="settings" size={18} />
+              <LucideIcon name="lock" size={18} />
               Change password
             </button>
+            <Link
+              to="/settings"
+              className="profile-menu__item profile-menu__item--link"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+            >
+              <LucideIcon name="settings" size={18} />
+              Settings
+            </Link>
             <button
               type="button"
               className="profile-menu__item profile-menu__item--danger"

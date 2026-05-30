@@ -11,6 +11,7 @@ import FaqPage from './modules/faq/FaqPage';
 import ExternalDataPage from './modules/external-data';
 import PhotoGalleryPage from './modules/photo-gallery';
 import ContactPage from './modules/contact';
+import SettingsPage from './modules/settings';
 import ProtectedDashboard from './modules/dashboard/ProtectedDashboard';
 import { USER_ROLES } from './shared/constants/roles';
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/photo-gallery" element={<PhotoGalleryPage />} />
             <Route path="/external-data" element={<ExternalDataPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/dashboard/student" element={<ProtectedDashboard role={USER_ROLES.STUDENT} />} />
             <Route path="/dashboard/faculty" element={<ProtectedDashboard role={USER_ROLES.FACULTY} />} />
             <Route path="/dashboard/admin" element={<ProtectedDashboard role={USER_ROLES.ADMIN} />} />
