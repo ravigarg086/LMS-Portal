@@ -14,6 +14,6 @@ export const secondarySidebarNav = [
   { id: 'faq', label: 'FAQ', href: '/faq', icon: 'help-circle' },
   { id: 'external-data', label: 'External Data', href: '/external-data', icon: 'trending-up' },
   { id: 'contact', label: 'Contact Us', href: '/contact', icon: 'mail' },
-  { id: 'subscription', label: 'Subscription', href: `#${SECTION_IDS.subscription}`, icon: 'plus' },
+  { id: 'subscription', label: 'Subscription', href: '/subscription', icon: 'plus' },
   { id: 'settings', label: 'Settings', href: '/settings', icon: 'settings' },
 ];

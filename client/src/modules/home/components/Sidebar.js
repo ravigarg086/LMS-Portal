@@ -16,8 +16,6 @@ import {
 import { useTheme } from '../../../shared/theme/ThemeProvider';
 import { useAuth } from '../../../shared/auth/AuthContext';
 
-const COMING_SOON_NAV_IDS = new Set(['subscription']);
-
 function SidebarNavItem({
   item,
   activeId,
@@ -33,17 +31,10 @@ function SidebarNavItem({
   const isRouteLink = item.href.startsWith('/');
   const isActive = isRouteLink ? location.pathname === item.href : activeId === item.id;
   const isOnHomeDashboard = isHomeDashboardRoute(location.pathname);
-  const isComingSoon = COMING_SOON_NAV_IDS.has(item.id);
 
-  const linkClassName = `sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}${isComingSoon ? ' sidebar-nav__link--disabled' : ''}`;
+  const linkClassName = `sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`;
 
   const handleHashNav = (event, href = item.href) => {
-    if (isComingSoon) {
-      event.preventDefault();
-      onNavigate?.();
-      return;
-    }
-
     if (isAuthenticated && userRole) {
       const intent = getRoleNavIntent(item.id, userRole);
       if (intent) {
@@ -57,23 +48,6 @@ function SidebarNavItem({
     handleSectionNavClick(event, href);
     onNavigate?.();
   };
-
-  if (isComingSoon) {
-    return (
-      <li>
-        <button
-          type="button"
-          className={linkClassName}
-          title="Coming soon"
-          aria-disabled="true"
-          onClick={() => onNavigate?.()}
-        >
-          <LucideIcon name={item.icon} size={20} />
-          <span>{item.label}</span>
-        </button>
-      </li>
-    );
-  }
 
   if (item.hasSubmenu) {
     const submenuId = `submenu-${item.id}`;
@@ -197,7 +171,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
   const isAuthenticated = Boolean(user);
   const userRole = user?.role ?? null;
 
-  const portalNavItems = filterSecondarySidebarNav(secondarySidebarNav, { isAuthenticated });
+  const portalNavItems = filterSecondarySidebarNav(secondarySidebarNav, { isAuthenticated, userRole });
 
   const dashboardRootPath = getDashboardRootPath(isAuthenticated, user?.role, getDashboardRoute);
 

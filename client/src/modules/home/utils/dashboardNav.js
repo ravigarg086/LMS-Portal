@@ -1,4 +1,5 @@
 import { SECTION_IDS } from '../constants';
+import { USER_ROLES } from '../../../shared/constants/roles';
 
 /** Main nav items hidden for unauthenticated visitors. */
 export const GUEST_HIDDEN_MAIN_NAV_IDS = new Set(['assignment', 'progress', 'calendar']);
@@ -69,9 +70,13 @@ export function filterMainSidebarNav(items, { isAuthenticated } = {}) {
 }
 
 /** Shared secondary nav rules for sidebar, footer, and other portal menus. */
-export function filterSecondarySidebarNav(items, { isAuthenticated, routeLinksOnly = false } = {}) {
+export function filterSecondarySidebarNav(items, { isAuthenticated, routeLinksOnly = false, userRole = null } = {}) {
   return items.filter((item) => {
     if (routeLinksOnly && !item.href.startsWith('/')) {
+      return false;
+    }
+
+    if (item.id === 'subscription' && userRole !== USER_ROLES.STUDENT) {
       return false;
     }
 

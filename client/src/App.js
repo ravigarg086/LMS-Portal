@@ -13,6 +13,7 @@ import ExternalDataPage from './modules/external-data';
 import PhotoGalleryPage from './modules/photo-gallery';
 import ContactPage from './modules/contact';
 import SettingsPage from './modules/settings';
+import ProtectedStudentSubscription from './modules/subscription/ProtectedStudentSubscription';
 import ProtectedDashboard from './modules/dashboard/ProtectedDashboard';
 import { USER_ROLES } from './shared/constants/roles';
 
@@ -47,6 +48,7 @@ function App() {
             <Route path="/external-data" element={<ExternalDataPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/subscription" element={<ProtectedStudentSubscription />} />
             <Route path="/dashboard/student" element={<ProtectedDashboard role={USER_ROLES.STUDENT} />} />
             <Route path="/dashboard/faculty" element={<ProtectedDashboard role={USER_ROLES.FACULTY} />} />
             <Route path="/dashboard/admin" element={<ProtectedDashboard role={USER_ROLES.ADMIN} />} />

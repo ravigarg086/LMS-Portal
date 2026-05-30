@@ -50,6 +50,7 @@ function SiteFooter() {
   const portalLinks = filterSecondarySidebarNav(secondarySidebarNav, {
     isAuthenticated,
     routeLinksOnly: true,
+    userRole: user?.role ?? null,
   });
 
   return (
