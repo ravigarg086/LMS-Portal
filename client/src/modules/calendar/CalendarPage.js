@@ -13,6 +13,7 @@ import {
   getDayFromIso,
   getDefaultFormValues,
   getMonthDateFromIso,
+  isSameMonth,
 } from './utils/calendarFormatters';
 import './calendar.css';
 
@@ -29,6 +30,7 @@ function CalendarPage() {
   const [editingEvent, setEditingEvent] = useState(null);
   const [createFormDate, setCreateFormDate] = useState(() => new Date());
   const [formSessionKey, setFormSessionKey] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const {
     events,
@@ -39,6 +41,7 @@ function CalendarPage() {
     createEvent,
     updateEvent,
     removeEvent,
+    reload,
     clearFeedback,
   } = useCalendar(monthDate);
 
@@ -58,6 +61,16 @@ function CalendarPage() {
     const timer = window.setTimeout(() => clearFeedback(), 4000);
     return () => window.clearTimeout(timer);
   }, [success, clearFeedback]);
+
+  useEffect(() => {
+    if (refreshKey === 0) {
+      return;
+    }
+
+    reload({ silent: true });
+  }, [refreshKey, reload]);
+
+  const bumpRefresh = () => setRefreshKey((key) => key + 1);
 
   const openCreateModal = (date) => {
     const targetDate = date || getCreateDefaultDate(selectedDate, monthDate);
@@ -95,10 +108,17 @@ function CalendarPage() {
 
       if (savedEvent?.startAt) {
         const eventDay = getDayFromIso(savedEvent.startAt);
+        const eventMonth = getMonthDateFromIso(savedEvent.startAt);
         setSelectedDate(eventDay);
-        setMonthDate(getMonthDateFromIso(savedEvent.startAt));
-      }
 
+        if (isSameMonth(eventMonth, monthDate)) {
+          bumpRefresh();
+        } else {
+          setMonthDate(eventMonth);
+        }
+      } else {
+        bumpRefresh();
+      }
       closeModal();
     } catch {
       // Error feedback is handled in useCalendar; keep the modal open for correction.
@@ -112,6 +132,7 @@ function CalendarPage() {
 
     try {
       await removeEvent(editingEvent.id);
+      bumpRefresh();
       closeModal();
     } catch {
       // Error feedback is handled in useCalendar.
@@ -173,7 +194,8 @@ function CalendarPage() {
 
             <CalendarAgendaList
               events={events}
-              selectedDate={view === 'month' ? selectedDate : null}
+              monthDate={monthDate}
+              selectedDate={selectedDate}
               onSelectEvent={openEditModal}
             />
           </div>

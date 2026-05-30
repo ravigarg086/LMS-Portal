@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   createCalendarEvent,
   deleteCalendarEvent,
   fetchCalendarEvents,
   updateCalendarEvent,
 } from '../../../shared/api/calendarApi';
-import { getMonthEnd, getMonthStart } from '../utils/calendarFormatters';
+import { getMonthEnd, getMonthStart, toLocalRangeEnd, toLocalRangeStart } from '../utils/calendarFormatters';
 
 export function useCalendar(monthDate) {
   const [events, setEvents] = useState([]);
@@ -13,17 +13,20 @@ export function useCalendar(monthDate) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const loadRequestRef = useRef(0);
 
   const range = useMemo(() => {
     const start = getMonthStart(monthDate);
     const end = getMonthEnd(monthDate);
     return {
-      start: start.toISOString(),
-      end: end.toISOString(),
+      start: toLocalRangeStart(start),
+      end: toLocalRangeEnd(end),
     };
   }, [monthDate]);
 
   const loadEvents = useCallback(async ({ silent = false } = {}) => {
+    const requestId = ++loadRequestRef.current;
+
     if (!silent) {
       setLoading(true);
     }
@@ -31,8 +34,14 @@ export function useCalendar(monthDate) {
 
     try {
       const data = await fetchCalendarEvents(range);
+      if (requestId !== loadRequestRef.current) {
+        return;
+      }
       setEvents(data.events ?? []);
     } catch (err) {
+      if (requestId !== loadRequestRef.current) {
+        return;
+      }
       setError(err.message || 'Unable to load calendar events.');
     } finally {
       if (!silent) {
@@ -53,7 +62,6 @@ export function useCalendar(monthDate) {
     try {
       const result = await createCalendarEvent(payload);
       setSuccess(result.message || 'Event created successfully.');
-      await loadEvents({ silent: true });
       return result.event;
     } catch (err) {
       setError(err.message || 'Unable to create event.');
@@ -71,7 +79,6 @@ export function useCalendar(monthDate) {
     try {
       const result = await updateCalendarEvent(eventId, payload);
       setSuccess(result.message || 'Event updated successfully.');
-      await loadEvents({ silent: true });
       return result.event;
     } catch (err) {
       setError(err.message || 'Unable to update event.');
@@ -89,7 +96,6 @@ export function useCalendar(monthDate) {
     try {
       const result = await deleteCalendarEvent(eventId);
       setSuccess(result.message || 'Event deleted successfully.');
-      await loadEvents({ silent: true });
     } catch (err) {
       setError(err.message || 'Unable to delete event.');
       throw err;

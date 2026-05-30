@@ -157,7 +157,7 @@ async function listUserEvents(userId, { start, end } = {}) {
   const endDate = end ? parseDate(end, 'end') : null;
 
   if (startDate) {
-    rangeClause += ' AND start_at >= ?';
+    rangeClause += ' AND (end_at IS NULL OR end_at >= ?)';
     params.push(startDate);
   }
 

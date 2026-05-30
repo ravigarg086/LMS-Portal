@@ -203,6 +203,12 @@
   color: var(--eh-text);
 }
 
+.calendar-agenda__subtitle {
+  margin: -0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--eh-text-secondary);
+}
+
 .calendar-agenda__empty {
   color: var(--eh-text-secondary);
 }
@@ -242,6 +248,11 @@
 
 .calendar-agenda__event--other {
   border-left-color: var(--eh-text-muted);
+}
+
+.calendar-agenda__event--selected-day {
+  box-shadow: var(--eh-shadow-sm);
+  border-color: color-mix(in srgb, var(--eh-primary) 35%, var(--eh-border, rgba(15, 23, 42, 0.08)));
 }
 
 .calendar-agenda__event-title {

@@ -30,6 +30,10 @@ export function isSameDay(a, b) {
   );
 }
 
+export function isSameMonth(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth();
+}
+
 export function formatMonthYear(date) {
   return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
 }
@@ -68,6 +72,14 @@ export function formatEventTimeRange(event) {
 
   const endTime = end.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
   return `${startTime} – ${endTime}`;
+}
+
+export function toLocalRangeStart(date) {
+  return `${toDateInputValueFromDate(date)}T00:00:00.000`;
+}
+
+export function toLocalRangeEnd(date) {
+  return `${toDateInputValueFromDate(date)}T23:59:59.999`;
 }
 
 export function toDateInputValue(isoString) {
