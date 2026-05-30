@@ -24,7 +24,7 @@ You **must** run the full workflow end-to-end: **verify build → stage → comm
 
 The parent agent should launch you via **Task** (`subagent_type: stable-build-git-push`) or by referencing `@.cursor/agents/stable-build-git-push.md`.
 
-The project **`stop` hook** (`.cursor/hooks/trigger-stable-build-git-push.js`) also auto-submits a follow-up prompt when application code is dirty after a task — treat that prompt as an invocation.
+The project **`stop` hook** (`.cursor/hooks/trigger-post-task-workflow.js`) auto-submits a follow-up prompt when application code is dirty **and** a review manifest already exists for the current change set — treat that prompt as an invocation. Do not push before review is recorded.
 
 ## Windows Git setup
 

@@ -38,3 +38,4 @@ playwright/.cache/
 
 # Local Cursor review artifacts (folder tracked via .gitkeep)
 .cursor/reviews/*.md
+.cursor/reviews/.last-reviewed.json

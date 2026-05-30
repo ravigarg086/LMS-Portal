@@ -1,8 +1,11 @@
+const crypto = require('crypto');
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
 const APP_CHANGE = /^(?:\?\?\s+|\S+\s+)(client\/|server\/|package\.json|playwright)/;
+const REVIEWS_DIR = '.cursor/reviews';
+const REVIEW_MANIFEST = '.last-reviewed.json';
 
 function resolveGit() {
   const candidates = [
@@ -61,10 +64,81 @@ function getPorcelainStatus(repoRoot, git) {
   });
 }
 
-function hasApplicationChanges(statusText) {
+function getApplicationChangeLines(statusText) {
   return statusText
     .split(/\r?\n/)
-    .some((line) => line.trim() && APP_CHANGE.test(line.trim()));
+    .map((line) => line.trim())
+    .filter((line) => line && APP_CHANGE.test(line))
+    .sort();
+}
+
+function hasApplicationChanges(statusText) {
+  return getApplicationChangeLines(statusText).length > 0;
+}
+
+function getApplicationChangeFingerprint(repoRoot, git) {
+  const status = getPorcelainStatus(repoRoot, git);
+  const lines = getApplicationChangeLines(status);
+
+  if (!lines.length) {
+    return '';
+  }
+
+  return crypto.createHash('sha256').update(lines.join('\n')).digest('hex');
+}
+
+function getReviewsDir(repoRoot) {
+  return path.join(repoRoot, REVIEWS_DIR);
+}
+
+function getReviewManifestPath(repoRoot) {
+  return path.join(getReviewsDir(repoRoot), REVIEW_MANIFEST);
+}
+
+function readReviewManifest(repoRoot) {
+  const manifestPath = getReviewManifestPath(repoRoot);
+
+  if (!fs.existsSync(manifestPath)) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function writeReviewManifest(repoRoot, { reportPath, statusHash }) {
+  const reviewsDir = getReviewsDir(repoRoot);
+  fs.mkdirSync(reviewsDir, { recursive: true });
+
+  const manifest = {
+    reviewedAt: new Date().toISOString(),
+    reportPath: reportPath.replace(/\\/g, '/'),
+    statusHash,
+  };
+
+  fs.writeFileSync(getReviewManifestPath(repoRoot), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+  return manifest;
+}
+
+function isReviewCompleteForFingerprint(repoRoot, fingerprint) {
+  if (!fingerprint) {
+    return false;
+  }
+
+  const manifest = readReviewManifest(repoRoot);
+  if (!manifest?.statusHash || manifest.statusHash !== fingerprint) {
+    return false;
+  }
+
+  if (!manifest.reportPath) {
+    return false;
+  }
+
+  const reportAbsolutePath = path.join(repoRoot, manifest.reportPath);
+  return fs.existsSync(reportAbsolutePath);
 }
 
 function parseStopPayload(raw) {
@@ -107,11 +181,20 @@ function resolveRepoContext(payload) {
 
 module.exports = {
   APP_CHANGE,
+  REVIEWS_DIR,
+  REVIEW_MANIFEST,
   resolveGit,
   findRepoRoot,
   readStdin,
   getPorcelainStatus,
+  getApplicationChangeLines,
   hasApplicationChanges,
+  getApplicationChangeFingerprint,
+  getReviewsDir,
+  getReviewManifestPath,
+  readReviewManifest,
+  writeReviewManifest,
+  isReviewCompleteForFingerprint,
   parseStopPayload,
   resolveRepoContext,
 };
