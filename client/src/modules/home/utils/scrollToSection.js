@@ -15,8 +15,11 @@ export function scrollToSection(href) {
   const target = document.getElementById(targetId);
   if (target) {
     target.scrollIntoView({ behavior: 'auto', block: 'start' });
-    window.history.replaceState(null, '', `#${targetId}`);
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${targetId}`);
+    return;
   }
+
+  window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 export function handleSectionNavClick(event, href) {

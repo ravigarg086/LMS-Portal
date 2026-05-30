@@ -278,6 +278,14 @@
   color: #dc2626;
 }
 
+.profile-menu__item--link {
+  text-decoration: none;
+}
+
+.profile-menu__item--link:hover {
+  color: var(--eh-text);
+}
+
 .profile-modal__avatar-row {
   display: flex;
   align-items: center;

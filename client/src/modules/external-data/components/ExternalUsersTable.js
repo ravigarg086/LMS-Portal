@@ -26,7 +26,6 @@ function ExternalUsersTable() {
     pageSize,
     setPageSize,
     pageSizes,
-    totalItems: filteredCount,
     totalPages,
     startIndex,
     endIndex,

@@ -8,7 +8,6 @@ import {
   portalQuickLinks,
   roleHighlights,
 } from '../data/guestDashboardData';
-import { SECTION_IDS } from '../constants';
 import '../guest-dashboard.css';
 
 function GuestDashboard() {
@@ -115,17 +114,6 @@ function GuestDashboard() {
       >
         <PopularCoursesGrid />
       </section>
-
-      <div className="portal-anchors" aria-hidden="true">
-        <span id={SECTION_IDS.registration} className="portal-anchor" />
-        <span id={SECTION_IDS.externalData} className="portal-anchor" />
-        <span id={SECTION_IDS.subscription} className="portal-anchor" />
-        <span id={SECTION_IDS.signIn} className="portal-anchor" />
-        <span id="settings" className="portal-anchor" />
-        <span id={SECTION_IDS.assignment} className="portal-anchor" />
-        <span id={SECTION_IDS.progress} className="portal-anchor" />
-        <span id={SECTION_IDS.calendar} className="portal-anchor" />
-      </div>
     </>
   );
 }

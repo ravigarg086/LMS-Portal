@@ -224,6 +224,14 @@ button.sidebar-nav__link {
   box-shadow: var(--eh-shadow-coral);
 }
 
+.sidebar-nav__link--disabled,
+.sidebar-nav__link--disabled:hover {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: transparent;
+  color: var(--eh-text-muted);
+}
+
 .sidebar-nav__submenu {
   margin: 0.35rem 0 0.5rem 2.5rem;
   padding-left: 0.75rem;
@@ -1091,28 +1099,20 @@ button.sidebar-nav__link {
   background: var(--eh-coral-light);
 }
 
-.portal-anchors {
-  height: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.portal-anchor {
+.dashboard-top-anchor {
   display: block;
-  scroll-margin-top: 6rem;
+  height: 0;
 }
 
 [id='assignment'],
 [id='progress'],
 [id='calendar'],
 [id='popular-courses'],
+[id='guest-overview'],
+[id='guest-portal'],
+[id='guest-roles'],
 [id='faq'] {
   scroll-margin-top: 6rem;
-}
-
-.dashboard-top-anchor {
-  display: block;
-  height: 0;
 }
 
 a.btn-coral {

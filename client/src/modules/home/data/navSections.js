@@ -14,7 +14,7 @@ export const NAV_SECTION_MAP = {
 
 export const GUEST_NAV_SECTION_MAP = {
   ...NAV_SECTION_MAP,
-  dashboard: 'guest-portal',
+  dashboard: 'guest-overview',
   courses: SECTION_IDS.popularCourses,
   assignment: 'guest-roles',
   progress: 'guest-portal',

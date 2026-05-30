@@ -32,12 +32,23 @@ function DashboardContent({ user = null }) {
   }, [activeSectionId, navSectionMap]);
 
   useEffect(() => {
-    if (!location.hash || !isHomeDashboardRoute(location.pathname)) {
-      return;
+    if (!isHomeDashboardRoute(location.pathname)) {
+      return undefined;
     }
 
-    scrollToSection(location.hash);
-  }, [location.pathname, location.hash]);
+    if (location.hash) {
+      const timer = window.setTimeout(() => {
+        scrollToSection(location.hash);
+      }, 50);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (location.search) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    return undefined;
+  }, [location.pathname, location.hash, location.search]);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const openSidebar = useCallback(() => setSidebarOpen(true), []);
@@ -88,16 +99,6 @@ function DashboardContent({ user = null }) {
           )}
 
           {isGuest && <GuestDashboard />}
-
-          {!isGuest && (
-          <div className="portal-anchors" aria-hidden="true">
-            <span id={SECTION_IDS.registration} className="portal-anchor" />
-            <span id={SECTION_IDS.externalData} className="portal-anchor" />
-            <span id={SECTION_IDS.subscription} className="portal-anchor" />
-            <span id={SECTION_IDS.signIn} className="portal-anchor" />
-            <span id="settings" className="portal-anchor" />
-          </div>
-          )}
         </main>
 
         <SiteFooter />

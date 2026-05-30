@@ -6,31 +6,75 @@ import { SIDEBAR_ID, SITE_NAME, SITE_TAGLINE, THEMES } from '../constants';
 import LucideIcon from './LucideIcon';
 import { handleSectionNavClick } from '../utils/scrollToSection';
 import { getDashboardRootPath, isHomeDashboardRoute } from '../utils/homeRoutes';
+import {
+  buildDashboardNavUrl,
+  getRoleNavIntent,
+  GUEST_SIDEBAR_HREFS,
+} from '../utils/dashboardNav';
 import { useTheme } from '../../../shared/theme/ThemeProvider';
 import { useAuth } from '../../../shared/auth/AuthContext';
 
-const COMING_SOON_NAV_IDS = new Set(['subscription', 'settings']);
+const COMING_SOON_NAV_IDS = new Set(['subscription']);
 
-function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuToggle, dashboardRootPath }) {
+function SidebarNavItem({
+  item,
+  activeId,
+  onNavigate,
+  isSubmenuOpen,
+  onSubmenuToggle,
+  dashboardRootPath,
+  userRole,
+  isAuthenticated,
+}) {
   const location = useLocation();
+  const navigate = useNavigate();
   const isRouteLink = item.href.startsWith('/');
   const isActive = isRouteLink ? location.pathname === item.href : activeId === item.id;
   const isOnHomeDashboard = isHomeDashboardRoute(location.pathname);
-  const comingSoonTitle = COMING_SOON_NAV_IDS.has(item.id) ? 'Coming soon' : undefined;
+  const isComingSoon = COMING_SOON_NAV_IDS.has(item.id);
 
-  const handleClick = (event, href = item.href) => {
+  const linkClassName = `sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}${isComingSoon ? ' sidebar-nav__link--disabled' : ''}`;
+
+  const handleHashNav = (event, href = item.href) => {
+    if (isComingSoon) {
+      event.preventDefault();
+      onNavigate?.();
+      return;
+    }
+
+    if (isAuthenticated && userRole) {
+      const intent = getRoleNavIntent(item.id, userRole);
+      if (intent) {
+        event.preventDefault();
+        navigate(buildDashboardNavUrl(dashboardRootPath, intent));
+        onNavigate?.();
+        return;
+      }
+    }
+
     handleSectionNavClick(event, href);
     onNavigate?.();
   };
 
-  const linkClassName = `sidebar-nav__link${isActive ? ' sidebar-nav__link--active' : ''}`;
+  if (isComingSoon) {
+    return (
+      <li>
+        <button
+          type="button"
+          className={linkClassName}
+          title="Coming soon"
+          aria-disabled="true"
+          onClick={() => onNavigate?.()}
+        >
+          <LucideIcon name={item.icon} size={20} />
+          <span>{item.label}</span>
+        </button>
+      </li>
+    );
+  }
 
   if (item.hasSubmenu) {
     const submenuId = `submenu-${item.id}`;
-
-    const handleToggle = () => {
-      onSubmenuToggle(item.id);
-    };
 
     return (
       <li className={`sidebar-nav__group${isSubmenuOpen ? ' sidebar-nav__group--open' : ''}`}>
@@ -39,7 +83,7 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
           className={`sidebar-nav__link sidebar-nav__link--toggle${isActive ? ' sidebar-nav__link--active' : ''}`}
           aria-expanded={isSubmenuOpen}
           aria-controls={submenuId}
-          onClick={handleToggle}
+          onClick={() => onSubmenuToggle(item.id)}
         >
           <LucideIcon name={item.icon} size={20} />
           <span>{item.label}</span>
@@ -61,14 +105,19 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
                       <a
                         href={course.href}
                         className="sidebar-nav__course-link"
-                        onClick={(event) => handleClick(event, course.href)}
+                        onClick={(event) => handleHashNav(event, course.href)}
                         title={course.title}
                       >
                         {course.label}
                       </a>
                     ) : (
                       <Link
-                        to={{ pathname: dashboardRootPath, hash: course.href }}
+                        to={buildDashboardNavUrl(
+                          dashboardRootPath,
+                          isAuthenticated && userRole === 'student'
+                            ? { section: 'courses', hash: course.href }
+                            : { hash: course.href },
+                        )}
                         className="sidebar-nav__course-link"
                         onClick={() => onNavigate?.()}
                         title={course.title}
@@ -103,14 +152,18 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
   }
 
   if (!isOnHomeDashboard) {
+    const intent = isAuthenticated && userRole ? getRoleNavIntent(item.id, userRole) : null;
+    const destination = intent
+      ? buildDashboardNavUrl(dashboardRootPath, intent)
+      : { pathname: isAuthenticated ? dashboardRootPath : '/', hash: item.href };
+
     return (
       <li>
         <Link
-          to={{ pathname: dashboardRootPath, hash: item.href }}
+          to={destination}
           className={linkClassName}
           onClick={() => onNavigate?.()}
           aria-current={isActive ? 'page' : undefined}
-          title={comingSoonTitle}
         >
           <LucideIcon name={item.icon} size={20} />
           <span>{item.label}</span>
@@ -124,9 +177,8 @@ function SidebarNavItem({ item, activeId, onNavigate, isSubmenuOpen, onSubmenuTo
       <a
         href={item.href}
         className={linkClassName}
-        onClick={handleClick}
+        onClick={handleHashNav}
         aria-current={isActive ? 'page' : undefined}
-        title={comingSoonTitle}
       >
         <LucideIcon name={item.icon} size={20} />
         <span>{item.label}</span>
@@ -141,9 +193,13 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
   const navigate = useNavigate();
   const [openSubmenus, setOpenSubmenus] = useState(() => new Set());
   const isAuthenticated = Boolean(user);
+  const userRole = user?.role ?? null;
 
   const portalNavItems = secondarySidebarNav.filter((item) => {
     if (isAuthenticated && item.id === 'registration') {
+      return false;
+    }
+    if (!isAuthenticated && item.id === 'settings') {
       return false;
     }
     return true;
@@ -153,7 +209,10 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
 
   const mainNavItems = useMemo(() => {
     if (!isAuthenticated) {
-      return mainSidebarNav;
+      return mainSidebarNav.map((item) => ({
+        ...item,
+        href: GUEST_SIDEBAR_HREFS[item.id] ?? item.href,
+      }));
     }
 
     return mainSidebarNav.map((item) => {
@@ -185,10 +244,7 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
     });
   };
 
-  const handleNav = (event, href) => {
-    if (event && href) {
-      handleSectionNavClick(event, href);
-    }
+  const handleNav = () => {
     onNavigate?.();
     onClose?.();
   };
@@ -197,6 +253,15 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
     await logout();
     onClose?.();
     navigate('/signin');
+  };
+
+  const navItemProps = {
+    activeId,
+    onNavigate: handleNav,
+    onSubmenuToggle: toggleSubmenu,
+    dashboardRootPath,
+    userRole,
+    isAuthenticated,
   };
 
   return (
@@ -239,11 +304,8 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
               <SidebarNavItem
                 key={item.id}
                 item={item}
-                activeId={activeId}
-                onNavigate={handleNav}
                 isSubmenuOpen={openSubmenus.has(item.id)}
-                onSubmenuToggle={toggleSubmenu}
-                dashboardRootPath={dashboardRootPath}
+                {...navItemProps}
               />
             ))}
           </ul>
@@ -254,11 +316,8 @@ function Sidebar({ activeId = 'dashboard', onNavigate, mobileOpen, onClose, user
               <SidebarNavItem
                 key={item.id}
                 item={item}
-                activeId={activeId}
-                onNavigate={handleNav}
                 isSubmenuOpen={openSubmenus.has(item.id)}
-                onSubmenuToggle={toggleSubmenu}
-                dashboardRootPath={dashboardRootPath}
+                {...navItemProps}
               />
             ))}
           </ul>
