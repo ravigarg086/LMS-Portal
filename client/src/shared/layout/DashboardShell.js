@@ -5,6 +5,7 @@ import Sidebar from '../../modules/home/components/Sidebar';
 import SiteFooter from '../../modules/home/components/SiteFooter';
 import { useSidebarLayout } from '../hooks/useSidebarLayout';
 import { useUserSettings } from '../settings/UserSettingsContext';
+import { buildEduhiveMainClassName } from '../settings/dashboardLayout';
 
 function DashboardShell({
   activeId,
@@ -16,19 +17,15 @@ function DashboardShell({
   const { user, initializing } = useAuth();
   const { userSettings } = useUserSettings();
   const { sidebarOpen, closeSidebar, toggleSidebar } = useSidebarLayout();
+  const shellMainClassName = buildEduhiveMainClassName(
+    Boolean(userSettings?.dashboard?.compactLayout),
+  );
 
   if (initializing) {
     return <AuthLoadingScreen />;
   }
 
   const pageClasses = ['home-page', 'eduhive-app', pageClassName].filter(Boolean).join(' ');
-  const isCompactLayout = Boolean(userSettings?.dashboard?.compactLayout);
-  const shellMainClassName = [
-    'eduhive-main',
-    isCompactLayout ? 'eduhive-main--compact' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
 
   return (
     <div className={pageClasses}>

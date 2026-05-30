@@ -17,6 +17,7 @@ import { useActiveSection } from '../hooks/useActiveSection';
 import { scrollToSection } from '../utils/scrollToSection';
 import { isHomeDashboardRoute } from '../utils/homeRoutes';
 import { useUserSettings } from '../../../shared/settings/UserSettingsContext';
+import { buildEduhiveMainClassName } from '../../../shared/settings/dashboardLayout';
 
 function DashboardContent({ user = null }) {
   const location = useLocation();
@@ -59,7 +60,7 @@ function DashboardContent({ user = null }) {
   useEscapeKey(sidebarOpen, closeSidebar);
 
   const isCompactLayout = Boolean(userSettings?.dashboard?.compactLayout);
-  const mainClassName = isCompactLayout ? 'eduhive-main eduhive-main--compact' : 'eduhive-main';
+  const mainClassName = buildEduhiveMainClassName(isCompactLayout);
 
   return (
     <div className="eduhive-shell">

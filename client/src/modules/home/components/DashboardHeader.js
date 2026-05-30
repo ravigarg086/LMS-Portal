@@ -21,6 +21,19 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
   const metaItems = getUserHeaderMeta(user);
   const showWelcomeBanner = userSettings?.dashboard?.showWelcomeBanner ?? true;
 
+  const menuButton = (
+    <button
+      type="button"
+      className="dashboard-header__menu-btn"
+      aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+      aria-expanded={sidebarOpen}
+      aria-controls="eduhiveSidebar"
+      onClick={onMenuToggle}
+    >
+      <LucideIcon name="menu" size={22} />
+    </button>
+  );
+
   const toolbar = (
     <div className="dashboard-user-panel__toolbar">
       <CourseSearch
@@ -45,16 +58,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
       return (
         <header className="dashboard-header dashboard-header--authenticated dashboard-header--compact">
           <div className={`dashboard-user-panel dashboard-user-panel--compact dashboard-user-panel--${user.role}`}>
-            <button
-              type="button"
-              className="dashboard-header__menu-btn"
-              aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={sidebarOpen}
-              aria-controls="eduhiveSidebar"
-              onClick={onMenuToggle}
-            >
-              <LucideIcon name="menu" size={22} />
-            </button>
+            {menuButton}
             {toolbar}
           </div>
         </header>
@@ -65,16 +69,7 @@ function DashboardHeader({ sidebarOpen, onMenuToggle, user = null }) {
       <header className="dashboard-header dashboard-header--authenticated">
         <div className={`dashboard-user-panel dashboard-user-panel--${user.role}`}>
           <div className="dashboard-user-panel__main">
-            <button
-              type="button"
-              className="dashboard-header__menu-btn"
-              aria-label={sidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={sidebarOpen}
-              aria-controls="eduhiveSidebar"
-              onClick={onMenuToggle}
-            >
-              <LucideIcon name="menu" size={22} />
-            </button>
+            {menuButton}
 
             <div className="dashboard-user-panel__identity">
               <img
