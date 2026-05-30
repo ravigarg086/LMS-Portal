@@ -9,7 +9,7 @@ alwaysApply: true
 ## 1. Git & Version Control Workflow
 - **Atomic Commits:** Break changes down into small, logical units. Do not bundle unrelated features into a single commit. and always refactor the code before pushing changes to GIT.
 - **Commit Messages:** Follow the Conventional Commits specification (e.g., `feat(auth): add login form`, `fix(nav): repair responsive hamburger menu`).
-- **Post-Task Push:** After successfully completing a discrete task, implementing a feature, or fixing a bug, verify the build and automatically stage, commit, and prompt to push changes to the current Git branch.
+- **Post-Task Push:** After successfully completing a discrete task, implementing a feature, or fixing a bug on application code, invoke the **`stable-build-git-push`** subagent (`.cursor/agents/stable-build-git-push.md`) to verify the build, then stage, commit, and push to the current Git branch. Do not push if the build or syntax checks fail.
 - **Branch Protection:** Never attempt to force-push (`git push -f`) unless explicitly instructed by the user.
 
 ## 2. Code Quality & Architecture
